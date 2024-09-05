@@ -1,0 +1,2773 @@
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.MX_GPIO_Init,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	MX_GPIO_Init:
+  26              	.LFB138:
+  27              		.file 1 "../../CM4/Core/Src/main.c"
+   1:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN Header */
+   2:../../CM4/Core/Src/main.c **** /**
+   3:../../CM4/Core/Src/main.c ****   ******************************************************************************
+   4:../../CM4/Core/Src/main.c ****   * @file           : main.c
+   5:../../CM4/Core/Src/main.c ****   * @brief          : Main program body
+   6:../../CM4/Core/Src/main.c ****   ******************************************************************************
+   7:../../CM4/Core/Src/main.c ****   * @attention
+   8:../../CM4/Core/Src/main.c ****   *
+   9:../../CM4/Core/Src/main.c ****   * Copyright (c) 2024 STMicroelectronics.
+  10:../../CM4/Core/Src/main.c ****   * All rights reserved.
+  11:../../CM4/Core/Src/main.c ****   *
+  12:../../CM4/Core/Src/main.c ****   * This software is licensed under terms that can be found in the LICENSE file
+  13:../../CM4/Core/Src/main.c ****   * in the root directory of this software component.
+  14:../../CM4/Core/Src/main.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
+  15:../../CM4/Core/Src/main.c ****   *
+  16:../../CM4/Core/Src/main.c ****   ******************************************************************************
+  17:../../CM4/Core/Src/main.c ****   */
+  18:../../CM4/Core/Src/main.c **** /* USER CODE END Header */
+  19:../../CM4/Core/Src/main.c **** /* Includes ------------------------------------------------------------------*/
+  20:../../CM4/Core/Src/main.c **** #include "main.h"
+  21:../../CM4/Core/Src/main.c **** #include "string.h"
+  22:../../CM4/Core/Src/main.c **** 
+  23:../../CM4/Core/Src/main.c **** /* Private includes ----------------------------------------------------------*/
+  24:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN Includes */
+  25:../../CM4/Core/Src/main.c **** 
+  26:../../CM4/Core/Src/main.c **** /* USER CODE END Includes */
+  27:../../CM4/Core/Src/main.c **** 
+  28:../../CM4/Core/Src/main.c **** /* Private typedef -----------------------------------------------------------*/
+  29:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN PTD */
+  30:../../CM4/Core/Src/main.c **** 
+  31:../../CM4/Core/Src/main.c **** /* USER CODE END PTD */
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 2
+
+
+  32:../../CM4/Core/Src/main.c **** 
+  33:../../CM4/Core/Src/main.c **** /* Private define ------------------------------------------------------------*/
+  34:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN PD */
+  35:../../CM4/Core/Src/main.c **** 
+  36:../../CM4/Core/Src/main.c **** #ifndef HSEM_ID_0
+  37:../../CM4/Core/Src/main.c **** #define HSEM_ID_0 (0U) /* HW semaphore 0*/
+  38:../../CM4/Core/Src/main.c **** #endif
+  39:../../CM4/Core/Src/main.c **** 
+  40:../../CM4/Core/Src/main.c **** /* USER CODE END PD */
+  41:../../CM4/Core/Src/main.c **** 
+  42:../../CM4/Core/Src/main.c **** /* Private macro -------------------------------------------------------------*/
+  43:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN PM */
+  44:../../CM4/Core/Src/main.c **** 
+  45:../../CM4/Core/Src/main.c **** /* USER CODE END PM */
+  46:../../CM4/Core/Src/main.c **** 
+  47:../../CM4/Core/Src/main.c **** /* Private variables ---------------------------------------------------------*/
+  48:../../CM4/Core/Src/main.c **** #if defined ( __ICCARM__ ) /*!< IAR Compiler */
+  49:../../CM4/Core/Src/main.c **** #pragma location=0x30000000
+  50:../../CM4/Core/Src/main.c **** ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
+  51:../../CM4/Core/Src/main.c **** #pragma location=0x30000080
+  52:../../CM4/Core/Src/main.c **** ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
+  53:../../CM4/Core/Src/main.c **** 
+  54:../../CM4/Core/Src/main.c **** #elif defined ( __CC_ARM )  /* MDK ARM Compiler */
+  55:../../CM4/Core/Src/main.c **** 
+  56:../../CM4/Core/Src/main.c **** __attribute__((at(0x30000000))) ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx D
+  57:../../CM4/Core/Src/main.c **** __attribute__((at(0x30000080))) ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx D
+  58:../../CM4/Core/Src/main.c **** 
+  59:../../CM4/Core/Src/main.c **** #elif defined ( __GNUC__ ) /* GNU Compiler */
+  60:../../CM4/Core/Src/main.c **** 
+  61:../../CM4/Core/Src/main.c **** ETH_DMADescTypeDef DMARxDscrTab[ETH_RX_DESC_CNT] __attribute__((section(".RxDecripSection"))); /* E
+  62:../../CM4/Core/Src/main.c **** ETH_DMADescTypeDef DMATxDscrTab[ETH_TX_DESC_CNT] __attribute__((section(".TxDecripSection")));   /*
+  63:../../CM4/Core/Src/main.c **** #endif
+  64:../../CM4/Core/Src/main.c **** 
+  65:../../CM4/Core/Src/main.c **** ETH_TxPacketConfig TxConfig;
+  66:../../CM4/Core/Src/main.c **** 
+  67:../../CM4/Core/Src/main.c **** ETH_HandleTypeDef heth;
+  68:../../CM4/Core/Src/main.c **** 
+  69:../../CM4/Core/Src/main.c **** LTDC_HandleTypeDef hltdc;
+  70:../../CM4/Core/Src/main.c **** 
+  71:../../CM4/Core/Src/main.c **** SAI_HandleTypeDef hsai_BlockA2;
+  72:../../CM4/Core/Src/main.c **** SAI_HandleTypeDef hsai_BlockB2;
+  73:../../CM4/Core/Src/main.c **** 
+  74:../../CM4/Core/Src/main.c **** MMC_HandleTypeDef hmmc1;
+  75:../../CM4/Core/Src/main.c **** 
+  76:../../CM4/Core/Src/main.c **** PCD_HandleTypeDef hpcd_USB_OTG_FS;
+  77:../../CM4/Core/Src/main.c **** 
+  78:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN PV */
+  79:../../CM4/Core/Src/main.c **** 
+  80:../../CM4/Core/Src/main.c **** /* USER CODE END PV */
+  81:../../CM4/Core/Src/main.c **** 
+  82:../../CM4/Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
+  83:../../CM4/Core/Src/main.c **** static void MX_GPIO_Init(void);
+  84:../../CM4/Core/Src/main.c **** static void MX_ETH_Init(void);
+  85:../../CM4/Core/Src/main.c **** static void MX_LTDC_Init(void);
+  86:../../CM4/Core/Src/main.c **** static void MX_SAI2_Init(void);
+  87:../../CM4/Core/Src/main.c **** static void MX_SDMMC1_MMC_Init(void);
+  88:../../CM4/Core/Src/main.c **** static void MX_USB_OTG_FS_PCD_Init(void);
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 3
+
+
+  89:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN PFP */
+  90:../../CM4/Core/Src/main.c **** 
+  91:../../CM4/Core/Src/main.c **** /* USER CODE END PFP */
+  92:../../CM4/Core/Src/main.c **** 
+  93:../../CM4/Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
+  94:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN 0 */
+  95:../../CM4/Core/Src/main.c **** 
+  96:../../CM4/Core/Src/main.c **** /* USER CODE END 0 */
+  97:../../CM4/Core/Src/main.c **** 
+  98:../../CM4/Core/Src/main.c **** /**
+  99:../../CM4/Core/Src/main.c ****   * @brief  The application entry point.
+ 100:../../CM4/Core/Src/main.c ****   * @retval int
+ 101:../../CM4/Core/Src/main.c ****   */
+ 102:../../CM4/Core/Src/main.c **** int main(void)
+ 103:../../CM4/Core/Src/main.c **** {
+ 104:../../CM4/Core/Src/main.c **** 
+ 105:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN 1 */
+ 106:../../CM4/Core/Src/main.c **** 
+ 107:../../CM4/Core/Src/main.c ****   /* USER CODE END 1 */
+ 108:../../CM4/Core/Src/main.c **** 
+ 109:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN Boot_Mode_Sequence_1 */
+ 110:../../CM4/Core/Src/main.c ****   /*HW semaphore Clock enable*/
+ 111:../../CM4/Core/Src/main.c ****   __HAL_RCC_HSEM_CLK_ENABLE();
+ 112:../../CM4/Core/Src/main.c ****   /* Activate HSEM notification for Cortex-M4*/
+ 113:../../CM4/Core/Src/main.c ****   HAL_HSEM_ActivateNotification(__HAL_HSEM_SEMID_TO_MASK(HSEM_ID_0));
+ 114:../../CM4/Core/Src/main.c ****   /*
+ 115:../../CM4/Core/Src/main.c ****   Domain D2 goes to STOP mode (Cortex-M4 in deep-sleep) waiting for Cortex-M7 to
+ 116:../../CM4/Core/Src/main.c ****   perform system initialization (system clock config, external memory configuration.. )
+ 117:../../CM4/Core/Src/main.c ****   */
+ 118:../../CM4/Core/Src/main.c ****   HAL_PWREx_ClearPendingEvent();
+ 119:../../CM4/Core/Src/main.c ****   HAL_PWREx_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFE, PWR_D2_DOMAIN);
+ 120:../../CM4/Core/Src/main.c ****   /* Clear HSEM flag */
+ 121:../../CM4/Core/Src/main.c ****   __HAL_HSEM_CLEAR_FLAG(__HAL_HSEM_SEMID_TO_MASK(HSEM_ID_0));
+ 122:../../CM4/Core/Src/main.c **** 
+ 123:../../CM4/Core/Src/main.c **** /* USER CODE END Boot_Mode_Sequence_1 */
+ 124:../../CM4/Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
+ 125:../../CM4/Core/Src/main.c **** 
+ 126:../../CM4/Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+ 127:../../CM4/Core/Src/main.c ****   HAL_Init();
+ 128:../../CM4/Core/Src/main.c **** 
+ 129:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN Init */
+ 130:../../CM4/Core/Src/main.c **** 
+ 131:../../CM4/Core/Src/main.c ****   /* USER CODE END Init */
+ 132:../../CM4/Core/Src/main.c **** 
+ 133:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
+ 134:../../CM4/Core/Src/main.c **** 
+ 135:../../CM4/Core/Src/main.c ****   /* USER CODE END SysInit */
+ 136:../../CM4/Core/Src/main.c **** 
+ 137:../../CM4/Core/Src/main.c ****   /* Initialize all configured peripherals */
+ 138:../../CM4/Core/Src/main.c ****   MX_GPIO_Init();
+ 139:../../CM4/Core/Src/main.c ****   MX_ETH_Init();
+ 140:../../CM4/Core/Src/main.c ****   MX_LTDC_Init();
+ 141:../../CM4/Core/Src/main.c ****   MX_SAI2_Init();
+ 142:../../CM4/Core/Src/main.c ****   MX_SDMMC1_MMC_Init();
+ 143:../../CM4/Core/Src/main.c ****   MX_USB_OTG_FS_PCD_Init();
+ 144:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 145:../../CM4/Core/Src/main.c **** 
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 4
+
+
+ 146:../../CM4/Core/Src/main.c ****   /* USER CODE END 2 */
+ 147:../../CM4/Core/Src/main.c **** 
+ 148:../../CM4/Core/Src/main.c ****   /* Infinite loop */
+ 149:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
+ 150:../../CM4/Core/Src/main.c ****   while (1)
+ 151:../../CM4/Core/Src/main.c ****   {
+ 152:../../CM4/Core/Src/main.c ****     /* USER CODE END WHILE */
+ 153:../../CM4/Core/Src/main.c **** 
+ 154:../../CM4/Core/Src/main.c ****     /* USER CODE BEGIN 3 */
+ 155:../../CM4/Core/Src/main.c ****   }
+ 156:../../CM4/Core/Src/main.c ****   /* USER CODE END 3 */
+ 157:../../CM4/Core/Src/main.c **** }
+ 158:../../CM4/Core/Src/main.c **** 
+ 159:../../CM4/Core/Src/main.c **** /**
+ 160:../../CM4/Core/Src/main.c ****   * @brief ETH Initialization Function
+ 161:../../CM4/Core/Src/main.c ****   * @param None
+ 162:../../CM4/Core/Src/main.c ****   * @retval None
+ 163:../../CM4/Core/Src/main.c ****   */
+ 164:../../CM4/Core/Src/main.c **** static void MX_ETH_Init(void)
+ 165:../../CM4/Core/Src/main.c **** {
+ 166:../../CM4/Core/Src/main.c **** 
+ 167:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN ETH_Init 0 */
+ 168:../../CM4/Core/Src/main.c **** 
+ 169:../../CM4/Core/Src/main.c ****   /* USER CODE END ETH_Init 0 */
+ 170:../../CM4/Core/Src/main.c **** 
+ 171:../../CM4/Core/Src/main.c ****    static uint8_t MACAddr[6];
+ 172:../../CM4/Core/Src/main.c **** 
+ 173:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN ETH_Init 1 */
+ 174:../../CM4/Core/Src/main.c **** 
+ 175:../../CM4/Core/Src/main.c ****   /* USER CODE END ETH_Init 1 */
+ 176:../../CM4/Core/Src/main.c ****   heth.Instance = ETH;
+ 177:../../CM4/Core/Src/main.c ****   MACAddr[0] = 0x00;
+ 178:../../CM4/Core/Src/main.c ****   MACAddr[1] = 0x80;
+ 179:../../CM4/Core/Src/main.c ****   MACAddr[2] = 0xE1;
+ 180:../../CM4/Core/Src/main.c ****   MACAddr[3] = 0x00;
+ 181:../../CM4/Core/Src/main.c ****   MACAddr[4] = 0x00;
+ 182:../../CM4/Core/Src/main.c ****   MACAddr[5] = 0x00;
+ 183:../../CM4/Core/Src/main.c ****   heth.Init.MACAddr = &MACAddr[0];
+ 184:../../CM4/Core/Src/main.c ****   heth.Init.MediaInterface = HAL_ETH_MII_MODE;
+ 185:../../CM4/Core/Src/main.c ****   heth.Init.TxDesc = DMATxDscrTab;
+ 186:../../CM4/Core/Src/main.c ****   heth.Init.RxDesc = DMARxDscrTab;
+ 187:../../CM4/Core/Src/main.c ****   heth.Init.RxBuffLen = 1524;
+ 188:../../CM4/Core/Src/main.c **** 
+ 189:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN MACADDRESS */
+ 190:../../CM4/Core/Src/main.c **** 
+ 191:../../CM4/Core/Src/main.c ****   /* USER CODE END MACADDRESS */
+ 192:../../CM4/Core/Src/main.c **** 
+ 193:../../CM4/Core/Src/main.c ****   if (HAL_ETH_Init(&heth) != HAL_OK)
+ 194:../../CM4/Core/Src/main.c ****   {
+ 195:../../CM4/Core/Src/main.c ****     Error_Handler();
+ 196:../../CM4/Core/Src/main.c ****   }
+ 197:../../CM4/Core/Src/main.c **** 
+ 198:../../CM4/Core/Src/main.c ****   memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
+ 199:../../CM4/Core/Src/main.c ****   TxConfig.Attributes = ETH_TX_PACKETS_FEATURES_CSUM | ETH_TX_PACKETS_FEATURES_CRCPAD;
+ 200:../../CM4/Core/Src/main.c ****   TxConfig.ChecksumCtrl = ETH_CHECKSUM_IPHDR_PAYLOAD_INSERT_PHDR_CALC;
+ 201:../../CM4/Core/Src/main.c ****   TxConfig.CRCPadCtrl = ETH_CRC_PAD_INSERT;
+ 202:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN ETH_Init 2 */
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 5
+
+
+ 203:../../CM4/Core/Src/main.c **** 
+ 204:../../CM4/Core/Src/main.c ****   /* USER CODE END ETH_Init 2 */
+ 205:../../CM4/Core/Src/main.c **** 
+ 206:../../CM4/Core/Src/main.c **** }
+ 207:../../CM4/Core/Src/main.c **** 
+ 208:../../CM4/Core/Src/main.c **** /**
+ 209:../../CM4/Core/Src/main.c ****   * @brief LTDC Initialization Function
+ 210:../../CM4/Core/Src/main.c ****   * @param None
+ 211:../../CM4/Core/Src/main.c ****   * @retval None
+ 212:../../CM4/Core/Src/main.c ****   */
+ 213:../../CM4/Core/Src/main.c **** static void MX_LTDC_Init(void)
+ 214:../../CM4/Core/Src/main.c **** {
+ 215:../../CM4/Core/Src/main.c **** 
+ 216:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN LTDC_Init 0 */
+ 217:../../CM4/Core/Src/main.c **** 
+ 218:../../CM4/Core/Src/main.c ****   /* USER CODE END LTDC_Init 0 */
+ 219:../../CM4/Core/Src/main.c **** 
+ 220:../../CM4/Core/Src/main.c ****   LTDC_LayerCfgTypeDef pLayerCfg = {0};
+ 221:../../CM4/Core/Src/main.c ****   LTDC_LayerCfgTypeDef pLayerCfg1 = {0};
+ 222:../../CM4/Core/Src/main.c **** 
+ 223:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN LTDC_Init 1 */
+ 224:../../CM4/Core/Src/main.c **** 
+ 225:../../CM4/Core/Src/main.c ****   /* USER CODE END LTDC_Init 1 */
+ 226:../../CM4/Core/Src/main.c ****   hltdc.Instance = LTDC;
+ 227:../../CM4/Core/Src/main.c ****   hltdc.Init.HSPolarity = LTDC_HSPOLARITY_AL;
+ 228:../../CM4/Core/Src/main.c ****   hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AL;
+ 229:../../CM4/Core/Src/main.c ****   hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
+ 230:../../CM4/Core/Src/main.c ****   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
+ 231:../../CM4/Core/Src/main.c ****   hltdc.Init.HorizontalSync = 7;
+ 232:../../CM4/Core/Src/main.c ****   hltdc.Init.VerticalSync = 3;
+ 233:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedHBP = 14;
+ 234:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedVBP = 5;
+ 235:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedActiveW = 654;
+ 236:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedActiveH = 485;
+ 237:../../CM4/Core/Src/main.c ****   hltdc.Init.TotalWidth = 660;
+ 238:../../CM4/Core/Src/main.c ****   hltdc.Init.TotalHeigh = 487;
+ 239:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Blue = 0;
+ 240:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Green = 0;
+ 241:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Red = 0;
+ 242:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_Init(&hltdc) != HAL_OK)
+ 243:../../CM4/Core/Src/main.c ****   {
+ 244:../../CM4/Core/Src/main.c ****     Error_Handler();
+ 245:../../CM4/Core/Src/main.c ****   }
+ 246:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowX0 = 0;
+ 247:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowX1 = 0;
+ 248:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowY0 = 0;
+ 249:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowY1 = 0;
+ 250:../../CM4/Core/Src/main.c ****   pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+ 251:../../CM4/Core/Src/main.c ****   pLayerCfg.Alpha = 0;
+ 252:../../CM4/Core/Src/main.c ****   pLayerCfg.Alpha0 = 0;
+ 253:../../CM4/Core/Src/main.c ****   pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
+ 254:../../CM4/Core/Src/main.c ****   pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
+ 255:../../CM4/Core/Src/main.c ****   pLayerCfg.FBStartAdress = 0;
+ 256:../../CM4/Core/Src/main.c ****   pLayerCfg.ImageWidth = 0;
+ 257:../../CM4/Core/Src/main.c ****   pLayerCfg.ImageHeight = 0;
+ 258:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Blue = 0;
+ 259:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Green = 0;
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 6
+
+
+ 260:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Red = 0;
+ 261:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
+ 262:../../CM4/Core/Src/main.c ****   {
+ 263:../../CM4/Core/Src/main.c ****     Error_Handler();
+ 264:../../CM4/Core/Src/main.c ****   }
+ 265:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowX0 = 0;
+ 266:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowX1 = 0;
+ 267:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowY0 = 0;
+ 268:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowY1 = 0;
+ 269:../../CM4/Core/Src/main.c ****   pLayerCfg1.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+ 270:../../CM4/Core/Src/main.c ****   pLayerCfg1.Alpha = 0;
+ 271:../../CM4/Core/Src/main.c ****   pLayerCfg1.Alpha0 = 0;
+ 272:../../CM4/Core/Src/main.c ****   pLayerCfg1.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
+ 273:../../CM4/Core/Src/main.c ****   pLayerCfg1.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
+ 274:../../CM4/Core/Src/main.c ****   pLayerCfg1.FBStartAdress = 0;
+ 275:../../CM4/Core/Src/main.c ****   pLayerCfg1.ImageWidth = 0;
+ 276:../../CM4/Core/Src/main.c ****   pLayerCfg1.ImageHeight = 0;
+ 277:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Blue = 0;
+ 278:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Green = 0;
+ 279:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Red = 0;
+ 280:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg1, 1) != HAL_OK)
+ 281:../../CM4/Core/Src/main.c ****   {
+ 282:../../CM4/Core/Src/main.c ****     Error_Handler();
+ 283:../../CM4/Core/Src/main.c ****   }
+ 284:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN LTDC_Init 2 */
+ 285:../../CM4/Core/Src/main.c **** 
+ 286:../../CM4/Core/Src/main.c ****   /* USER CODE END LTDC_Init 2 */
+ 287:../../CM4/Core/Src/main.c **** 
+ 288:../../CM4/Core/Src/main.c **** }
+ 289:../../CM4/Core/Src/main.c **** 
+ 290:../../CM4/Core/Src/main.c **** /**
+ 291:../../CM4/Core/Src/main.c ****   * @brief SAI2 Initialization Function
+ 292:../../CM4/Core/Src/main.c ****   * @param None
+ 293:../../CM4/Core/Src/main.c ****   * @retval None
+ 294:../../CM4/Core/Src/main.c ****   */
+ 295:../../CM4/Core/Src/main.c **** static void MX_SAI2_Init(void)
+ 296:../../CM4/Core/Src/main.c **** {
+ 297:../../CM4/Core/Src/main.c **** 
+ 298:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN SAI2_Init 0 */
+ 299:../../CM4/Core/Src/main.c **** 
+ 300:../../CM4/Core/Src/main.c ****   /* USER CODE END SAI2_Init 0 */
+ 301:../../CM4/Core/Src/main.c **** 
+ 302:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN SAI2_Init 1 */
+ 303:../../CM4/Core/Src/main.c **** 
+ 304:../../CM4/Core/Src/main.c ****   /* USER CODE END SAI2_Init 1 */
+ 305:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Instance = SAI2_Block_A;
+ 306:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.Protocol = SAI_FREE_PROTOCOL;
+ 307:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.AudioMode = SAI_MODEMASTER_TX;
+ 308:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.DataSize = SAI_DATASIZE_8;
+ 309:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.FirstBit = SAI_FIRSTBIT_MSB;
+ 310:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.ClockStrobing = SAI_CLOCKSTROBING_FALLINGEDGE;
+ 311:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.Synchro = SAI_ASYNCHRONOUS;
+ 312:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+ 313:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+ 314:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+ 315:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_192K;
+ 316:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 7
+
+
+ 317:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.MonoStereoMode = SAI_STEREOMODE;
+ 318:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.CompandingMode = SAI_NOCOMPANDING;
+ 319:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+ 320:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.Activation = DISABLE;
+ 321:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.MicPairsNbr = 1;
+ 322:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.ClockEnable = SAI_PDM_CLOCK1_ENABLE;
+ 323:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FrameLength = 8;
+ 324:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.ActiveFrameLength = 1;
+ 325:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSDefinition = SAI_FS_STARTFRAME;
+ 326:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSPolarity = SAI_FS_ACTIVE_LOW;
+ 327:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSOffset = SAI_FS_FIRSTBIT;
+ 328:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.FirstBitOffset = 0;
+ 329:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotSize = SAI_SLOTSIZE_DATASIZE;
+ 330:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotNumber = 1;
+ 331:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotActive = 0x00000000;
+ 332:../../CM4/Core/Src/main.c ****   if (HAL_SAI_Init(&hsai_BlockA2) != HAL_OK)
+ 333:../../CM4/Core/Src/main.c ****   {
+ 334:../../CM4/Core/Src/main.c ****     Error_Handler();
+ 335:../../CM4/Core/Src/main.c ****   }
+ 336:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Instance = SAI2_Block_B;
+ 337:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.Protocol = SAI_FREE_PROTOCOL;
+ 338:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.AudioMode = SAI_MODESLAVE_RX;
+ 339:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.DataSize = SAI_DATASIZE_8;
+ 340:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.FirstBit = SAI_FIRSTBIT_MSB;
+ 341:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.ClockStrobing = SAI_CLOCKSTROBING_FALLINGEDGE;
+ 342:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.Synchro = SAI_SYNCHRONOUS;
+ 343:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+ 344:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+ 345:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+ 346:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.MonoStereoMode = SAI_STEREOMODE;
+ 347:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.CompandingMode = SAI_NOCOMPANDING;
+ 348:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+ 349:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.Activation = DISABLE;
+ 350:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.MicPairsNbr = 1;
+ 351:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.ClockEnable = SAI_PDM_CLOCK1_ENABLE;
+ 352:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FrameLength = 8;
+ 353:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.ActiveFrameLength = 1;
+ 354:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSDefinition = SAI_FS_STARTFRAME;
+ 355:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSPolarity = SAI_FS_ACTIVE_LOW;
+ 356:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSOffset = SAI_FS_FIRSTBIT;
+ 357:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.FirstBitOffset = 0;
+ 358:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotSize = SAI_SLOTSIZE_DATASIZE;
+ 359:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotNumber = 1;
+ 360:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotActive = 0x00000000;
+ 361:../../CM4/Core/Src/main.c ****   if (HAL_SAI_Init(&hsai_BlockB2) != HAL_OK)
+ 362:../../CM4/Core/Src/main.c ****   {
+ 363:../../CM4/Core/Src/main.c ****     Error_Handler();
+ 364:../../CM4/Core/Src/main.c ****   }
+ 365:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN SAI2_Init 2 */
+ 366:../../CM4/Core/Src/main.c **** 
+ 367:../../CM4/Core/Src/main.c ****   /* USER CODE END SAI2_Init 2 */
+ 368:../../CM4/Core/Src/main.c **** 
+ 369:../../CM4/Core/Src/main.c **** }
+ 370:../../CM4/Core/Src/main.c **** 
+ 371:../../CM4/Core/Src/main.c **** /**
+ 372:../../CM4/Core/Src/main.c ****   * @brief SDMMC1 Initialization Function
+ 373:../../CM4/Core/Src/main.c ****   * @param None
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 8
+
+
+ 374:../../CM4/Core/Src/main.c ****   * @retval None
+ 375:../../CM4/Core/Src/main.c ****   */
+ 376:../../CM4/Core/Src/main.c **** static void MX_SDMMC1_MMC_Init(void)
+ 377:../../CM4/Core/Src/main.c **** {
+ 378:../../CM4/Core/Src/main.c **** 
+ 379:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN SDMMC1_Init 0 */
+ 380:../../CM4/Core/Src/main.c **** 
+ 381:../../CM4/Core/Src/main.c ****   /* USER CODE END SDMMC1_Init 0 */
+ 382:../../CM4/Core/Src/main.c **** 
+ 383:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN SDMMC1_Init 1 */
+ 384:../../CM4/Core/Src/main.c **** 
+ 385:../../CM4/Core/Src/main.c ****   /* USER CODE END SDMMC1_Init 1 */
+ 386:../../CM4/Core/Src/main.c ****   hmmc1.Instance = SDMMC1;
+ 387:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
+ 388:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
+ 389:../../CM4/Core/Src/main.c ****   hmmc1.Init.BusWide = SDMMC_BUS_WIDE_8B;
+ 390:../../CM4/Core/Src/main.c ****   hmmc1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+ 391:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockDiv = 0;
+ 392:../../CM4/Core/Src/main.c ****   if (HAL_MMC_Init(&hmmc1) != HAL_OK)
+ 393:../../CM4/Core/Src/main.c ****   {
+ 394:../../CM4/Core/Src/main.c ****     Error_Handler();
+ 395:../../CM4/Core/Src/main.c ****   }
+ 396:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN SDMMC1_Init 2 */
+ 397:../../CM4/Core/Src/main.c **** 
+ 398:../../CM4/Core/Src/main.c ****   /* USER CODE END SDMMC1_Init 2 */
+ 399:../../CM4/Core/Src/main.c **** 
+ 400:../../CM4/Core/Src/main.c **** }
+ 401:../../CM4/Core/Src/main.c **** 
+ 402:../../CM4/Core/Src/main.c **** /**
+ 403:../../CM4/Core/Src/main.c ****   * @brief USB_OTG_FS Initialization Function
+ 404:../../CM4/Core/Src/main.c ****   * @param None
+ 405:../../CM4/Core/Src/main.c ****   * @retval None
+ 406:../../CM4/Core/Src/main.c ****   */
+ 407:../../CM4/Core/Src/main.c **** static void MX_USB_OTG_FS_PCD_Init(void)
+ 408:../../CM4/Core/Src/main.c **** {
+ 409:../../CM4/Core/Src/main.c **** 
+ 410:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN USB_OTG_FS_Init 0 */
+ 411:../../CM4/Core/Src/main.c **** 
+ 412:../../CM4/Core/Src/main.c ****   /* USER CODE END USB_OTG_FS_Init 0 */
+ 413:../../CM4/Core/Src/main.c **** 
+ 414:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN USB_OTG_FS_Init 1 */
+ 415:../../CM4/Core/Src/main.c **** 
+ 416:../../CM4/Core/Src/main.c ****   /* USER CODE END USB_OTG_FS_Init 1 */
+ 417:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Instance = USB_OTG_FS;
+ 418:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.dev_endpoints = 9;
+ 419:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
+ 420:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.dma_enable = DISABLE;
+ 421:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+ 422:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
+ 423:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
+ 424:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
+ 425:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.battery_charging_enable = ENABLE;
+ 426:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
+ 427:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
+ 428:../../CM4/Core/Src/main.c ****   if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
+ 429:../../CM4/Core/Src/main.c ****   {
+ 430:../../CM4/Core/Src/main.c ****     Error_Handler();
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 9
+
+
+ 431:../../CM4/Core/Src/main.c ****   }
+ 432:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN USB_OTG_FS_Init 2 */
+ 433:../../CM4/Core/Src/main.c **** 
+ 434:../../CM4/Core/Src/main.c ****   /* USER CODE END USB_OTG_FS_Init 2 */
+ 435:../../CM4/Core/Src/main.c **** 
+ 436:../../CM4/Core/Src/main.c **** }
+ 437:../../CM4/Core/Src/main.c **** 
+ 438:../../CM4/Core/Src/main.c **** /**
+ 439:../../CM4/Core/Src/main.c ****   * @brief GPIO Initialization Function
+ 440:../../CM4/Core/Src/main.c ****   * @param None
+ 441:../../CM4/Core/Src/main.c ****   * @retval None
+ 442:../../CM4/Core/Src/main.c ****   */
+ 443:../../CM4/Core/Src/main.c **** static void MX_GPIO_Init(void)
+ 444:../../CM4/Core/Src/main.c **** {
+  28              		.loc 1 444 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 64
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 36
+  35              		.cfi_offset 4, -36
+  36              		.cfi_offset 5, -32
+  37              		.cfi_offset 6, -28
+  38              		.cfi_offset 7, -24
+  39              		.cfi_offset 8, -20
+  40              		.cfi_offset 9, -16
+  41              		.cfi_offset 10, -12
+  42              		.cfi_offset 11, -8
+  43              		.cfi_offset 14, -4
+  44 0004 91B0     		sub	sp, sp, #68
+  45              	.LCFI1:
+  46              		.cfi_def_cfa_offset 104
+ 445:../../CM4/Core/Src/main.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  47              		.loc 1 445 3 view .LVU1
+  48              		.loc 1 445 20 is_stmt 0 view .LVU2
+  49 0006 0024     		movs	r4, #0
+  50 0008 0B94     		str	r4, [sp, #44]
+  51 000a 0C94     		str	r4, [sp, #48]
+  52 000c 0D94     		str	r4, [sp, #52]
+  53 000e 0E94     		str	r4, [sp, #56]
+  54 0010 0F94     		str	r4, [sp, #60]
+ 446:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN MX_GPIO_Init_1 */
+ 447:../../CM4/Core/Src/main.c **** /* USER CODE END MX_GPIO_Init_1 */
+ 448:../../CM4/Core/Src/main.c **** 
+ 449:../../CM4/Core/Src/main.c ****   /* GPIO Ports Clock Enable */
+ 450:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOI_CLK_ENABLE();
+  55              		.loc 1 450 3 is_stmt 1 view .LVU3
+  56              	.LBB4:
+  57              		.loc 1 450 3 view .LVU4
+  58              		.loc 1 450 3 view .LVU5
+  59 0012 8E4B     		ldr	r3, .L3
+  60 0014 D3F8E020 		ldr	r2, [r3, #224]
+  61 0018 42F48072 		orr	r2, r2, #256
+  62 001c C3F8E020 		str	r2, [r3, #224]
+  63              		.loc 1 450 3 view .LVU6
+  64 0020 D3F8E020 		ldr	r2, [r3, #224]
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 10
+
+
+  65 0024 02F48072 		and	r2, r2, #256
+  66 0028 0092     		str	r2, [sp]
+  67              		.loc 1 450 3 view .LVU7
+  68 002a 009A     		ldr	r2, [sp]
+  69              	.LBE4:
+  70              		.loc 1 450 3 view .LVU8
+ 451:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOB_CLK_ENABLE();
+  71              		.loc 1 451 3 view .LVU9
+  72              	.LBB5:
+  73              		.loc 1 451 3 view .LVU10
+  74              		.loc 1 451 3 view .LVU11
+  75 002c D3F8E020 		ldr	r2, [r3, #224]
+  76 0030 42F00202 		orr	r2, r2, #2
+  77 0034 C3F8E020 		str	r2, [r3, #224]
+  78              		.loc 1 451 3 view .LVU12
+  79 0038 D3F8E020 		ldr	r2, [r3, #224]
+  80 003c 02F00202 		and	r2, r2, #2
+  81 0040 0192     		str	r2, [sp, #4]
+  82              		.loc 1 451 3 view .LVU13
+  83 0042 019A     		ldr	r2, [sp, #4]
+  84              	.LBE5:
+  85              		.loc 1 451 3 view .LVU14
+ 452:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOK_CLK_ENABLE();
+  86              		.loc 1 452 3 view .LVU15
+  87              	.LBB6:
+  88              		.loc 1 452 3 view .LVU16
+  89              		.loc 1 452 3 view .LVU17
+  90 0044 D3F8E020 		ldr	r2, [r3, #224]
+  91 0048 42F48062 		orr	r2, r2, #1024
+  92 004c C3F8E020 		str	r2, [r3, #224]
+  93              		.loc 1 452 3 view .LVU18
+  94 0050 D3F8E020 		ldr	r2, [r3, #224]
+  95 0054 02F48062 		and	r2, r2, #1024
+  96 0058 0292     		str	r2, [sp, #8]
+  97              		.loc 1 452 3 view .LVU19
+  98 005a 029A     		ldr	r2, [sp, #8]
+  99              	.LBE6:
+ 100              		.loc 1 452 3 view .LVU20
+ 453:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOG_CLK_ENABLE();
+ 101              		.loc 1 453 3 view .LVU21
+ 102              	.LBB7:
+ 103              		.loc 1 453 3 view .LVU22
+ 104              		.loc 1 453 3 view .LVU23
+ 105 005c D3F8E020 		ldr	r2, [r3, #224]
+ 106 0060 42F04002 		orr	r2, r2, #64
+ 107 0064 C3F8E020 		str	r2, [r3, #224]
+ 108              		.loc 1 453 3 view .LVU24
+ 109 0068 D3F8E020 		ldr	r2, [r3, #224]
+ 110 006c 02F04002 		and	r2, r2, #64
+ 111 0070 0392     		str	r2, [sp, #12]
+ 112              		.loc 1 453 3 view .LVU25
+ 113 0072 039A     		ldr	r2, [sp, #12]
+ 114              	.LBE7:
+ 115              		.loc 1 453 3 view .LVU26
+ 454:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOC_CLK_ENABLE();
+ 116              		.loc 1 454 3 view .LVU27
+ 117              	.LBB8:
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 11
+
+
+ 118              		.loc 1 454 3 view .LVU28
+ 119              		.loc 1 454 3 view .LVU29
+ 120 0074 D3F8E020 		ldr	r2, [r3, #224]
+ 121 0078 42F00402 		orr	r2, r2, #4
+ 122 007c C3F8E020 		str	r2, [r3, #224]
+ 123              		.loc 1 454 3 view .LVU30
+ 124 0080 D3F8E020 		ldr	r2, [r3, #224]
+ 125 0084 02F00402 		and	r2, r2, #4
+ 126 0088 0492     		str	r2, [sp, #16]
+ 127              		.loc 1 454 3 view .LVU31
+ 128 008a 049A     		ldr	r2, [sp, #16]
+ 129              	.LBE8:
+ 130              		.loc 1 454 3 view .LVU32
+ 455:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOE_CLK_ENABLE();
+ 131              		.loc 1 455 3 view .LVU33
+ 132              	.LBB9:
+ 133              		.loc 1 455 3 view .LVU34
+ 134              		.loc 1 455 3 view .LVU35
+ 135 008c D3F8E020 		ldr	r2, [r3, #224]
+ 136 0090 42F01002 		orr	r2, r2, #16
+ 137 0094 C3F8E020 		str	r2, [r3, #224]
+ 138              		.loc 1 455 3 view .LVU36
+ 139 0098 D3F8E020 		ldr	r2, [r3, #224]
+ 140 009c 02F01002 		and	r2, r2, #16
+ 141 00a0 0592     		str	r2, [sp, #20]
+ 142              		.loc 1 455 3 view .LVU37
+ 143 00a2 059A     		ldr	r2, [sp, #20]
+ 144              	.LBE9:
+ 145              		.loc 1 455 3 view .LVU38
+ 456:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOJ_CLK_ENABLE();
+ 146              		.loc 1 456 3 view .LVU39
+ 147              	.LBB10:
+ 148              		.loc 1 456 3 view .LVU40
+ 149              		.loc 1 456 3 view .LVU41
+ 150 00a4 D3F8E020 		ldr	r2, [r3, #224]
+ 151 00a8 42F40072 		orr	r2, r2, #512
+ 152 00ac C3F8E020 		str	r2, [r3, #224]
+ 153              		.loc 1 456 3 view .LVU42
+ 154 00b0 D3F8E020 		ldr	r2, [r3, #224]
+ 155 00b4 02F40072 		and	r2, r2, #512
+ 156 00b8 0692     		str	r2, [sp, #24]
+ 157              		.loc 1 456 3 view .LVU43
+ 158 00ba 069A     		ldr	r2, [sp, #24]
+ 159              	.LBE10:
+ 160              		.loc 1 456 3 view .LVU44
+ 457:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOH_CLK_ENABLE();
+ 161              		.loc 1 457 3 view .LVU45
+ 162              	.LBB11:
+ 163              		.loc 1 457 3 view .LVU46
+ 164              		.loc 1 457 3 view .LVU47
+ 165 00bc D3F8E020 		ldr	r2, [r3, #224]
+ 166 00c0 42F08002 		orr	r2, r2, #128
+ 167 00c4 C3F8E020 		str	r2, [r3, #224]
+ 168              		.loc 1 457 3 view .LVU48
+ 169 00c8 D3F8E020 		ldr	r2, [r3, #224]
+ 170 00cc 02F08002 		and	r2, r2, #128
+ 171 00d0 0792     		str	r2, [sp, #28]
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 12
+
+
+ 172              		.loc 1 457 3 view .LVU49
+ 173 00d2 079A     		ldr	r2, [sp, #28]
+ 174              	.LBE11:
+ 175              		.loc 1 457 3 view .LVU50
+ 458:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOD_CLK_ENABLE();
+ 176              		.loc 1 458 3 view .LVU51
+ 177              	.LBB12:
+ 178              		.loc 1 458 3 view .LVU52
+ 179              		.loc 1 458 3 view .LVU53
+ 180 00d4 D3F8E020 		ldr	r2, [r3, #224]
+ 181 00d8 42F00802 		orr	r2, r2, #8
+ 182 00dc C3F8E020 		str	r2, [r3, #224]
+ 183              		.loc 1 458 3 view .LVU54
+ 184 00e0 D3F8E020 		ldr	r2, [r3, #224]
+ 185 00e4 02F00802 		and	r2, r2, #8
+ 186 00e8 0892     		str	r2, [sp, #32]
+ 187              		.loc 1 458 3 view .LVU55
+ 188 00ea 089A     		ldr	r2, [sp, #32]
+ 189              	.LBE12:
+ 190              		.loc 1 458 3 view .LVU56
+ 459:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+ 191              		.loc 1 459 3 view .LVU57
+ 192              	.LBB13:
+ 193              		.loc 1 459 3 view .LVU58
+ 194              		.loc 1 459 3 view .LVU59
+ 195 00ec D3F8E020 		ldr	r2, [r3, #224]
+ 196 00f0 42F00102 		orr	r2, r2, #1
+ 197 00f4 C3F8E020 		str	r2, [r3, #224]
+ 198              		.loc 1 459 3 view .LVU60
+ 199 00f8 D3F8E020 		ldr	r2, [r3, #224]
+ 200 00fc 02F00102 		and	r2, r2, #1
+ 201 0100 0992     		str	r2, [sp, #36]
+ 202              		.loc 1 459 3 view .LVU61
+ 203 0102 099A     		ldr	r2, [sp, #36]
+ 204              	.LBE13:
+ 205              		.loc 1 459 3 view .LVU62
+ 460:../../CM4/Core/Src/main.c ****   __HAL_RCC_GPIOF_CLK_ENABLE();
+ 206              		.loc 1 460 3 view .LVU63
+ 207              	.LBB14:
+ 208              		.loc 1 460 3 view .LVU64
+ 209              		.loc 1 460 3 view .LVU65
+ 210 0104 D3F8E020 		ldr	r2, [r3, #224]
+ 211 0108 42F02002 		orr	r2, r2, #32
+ 212 010c C3F8E020 		str	r2, [r3, #224]
+ 213              		.loc 1 460 3 view .LVU66
+ 214 0110 D3F8E030 		ldr	r3, [r3, #224]
+ 215 0114 03F02003 		and	r3, r3, #32
+ 216 0118 0A93     		str	r3, [sp, #40]
+ 217              		.loc 1 460 3 view .LVU67
+ 218 011a 0A9B     		ldr	r3, [sp, #40]
+ 219              	.LBE14:
+ 220              		.loc 1 460 3 view .LVU68
+ 461:../../CM4/Core/Src/main.c **** 
+ 462:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PB5 PB13 */
+ 463:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_13;
+ 221              		.loc 1 463 3 view .LVU69
+ 222              		.loc 1 463 23 is_stmt 0 view .LVU70
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 13
+
+
+ 223 011c 42F22003 		movw	r3, #8224
+ 224 0120 0B93     		str	r3, [sp, #44]
+ 464:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 225              		.loc 1 464 3 is_stmt 1 view .LVU71
+ 226              		.loc 1 464 24 is_stmt 0 view .LVU72
+ 227 0122 0225     		movs	r5, #2
+ 228 0124 0C95     		str	r5, [sp, #48]
+ 465:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 229              		.loc 1 465 3 is_stmt 1 view .LVU73
+ 466:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 230              		.loc 1 466 3 view .LVU74
+ 467:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF9_FDCAN2;
+ 231              		.loc 1 467 3 view .LVU75
+ 232              		.loc 1 467 29 is_stmt 0 view .LVU76
+ 233 0126 4FF00908 		mov	r8, #9
+ 234 012a CDF83C80 		str	r8, [sp, #60]
+ 468:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+ 235              		.loc 1 468 3 is_stmt 1 view .LVU77
+ 236 012e DFF828B1 		ldr	fp, .L3+12
+ 237 0132 0BA9     		add	r1, sp, #44
+ 238 0134 5846     		mov	r0, fp
+ 239 0136 FFF7FEFF 		bl	HAL_GPIO_Init
+ 240              	.LVL0:
+ 469:../../CM4/Core/Src/main.c **** 
+ 470:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PE1 PE0 PE10 PE9
+ 471:../../CM4/Core/Src/main.c ****                            PE11 PE12 PE15 PE8
+ 472:../../CM4/Core/Src/main.c ****                            PE13 PE7 PE14 */
+ 473:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_0|GPIO_PIN_10|GPIO_PIN_9
+ 241              		.loc 1 473 3 view .LVU78
+ 242              		.loc 1 473 23 is_stmt 0 view .LVU79
+ 243 013a 4FF68373 		movw	r3, #65411
+ 244 013e 0B93     		str	r3, [sp, #44]
+ 474:../../CM4/Core/Src/main.c ****                           |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_15|GPIO_PIN_8
+ 475:../../CM4/Core/Src/main.c ****                           |GPIO_PIN_13|GPIO_PIN_7|GPIO_PIN_14;
+ 476:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 245              		.loc 1 476 3 is_stmt 1 view .LVU80
+ 246              		.loc 1 476 24 is_stmt 0 view .LVU81
+ 247 0140 0C95     		str	r5, [sp, #48]
+ 477:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 248              		.loc 1 477 3 is_stmt 1 view .LVU82
+ 249              		.loc 1 477 24 is_stmt 0 view .LVU83
+ 250 0142 0D94     		str	r4, [sp, #52]
+ 478:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 251              		.loc 1 478 3 is_stmt 1 view .LVU84
+ 252              		.loc 1 478 25 is_stmt 0 view .LVU85
+ 253 0144 0327     		movs	r7, #3
+ 254 0146 0E97     		str	r7, [sp, #56]
+ 479:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF12_FMC;
+ 255              		.loc 1 479 3 is_stmt 1 view .LVU86
+ 256              		.loc 1 479 29 is_stmt 0 view .LVU87
+ 257 0148 0C26     		movs	r6, #12
+ 258 014a 0F96     		str	r6, [sp, #60]
+ 480:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+ 259              		.loc 1 480 3 is_stmt 1 view .LVU88
+ 260 014c DFF80C91 		ldr	r9, .L3+16
+ 261 0150 0BA9     		add	r1, sp, #44
+ 262 0152 4846     		mov	r0, r9
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 14
+
+
+ 263 0154 FFF7FEFF 		bl	HAL_GPIO_Init
+ 264              	.LVL1:
+ 481:../../CM4/Core/Src/main.c **** 
+ 482:../../CM4/Core/Src/main.c ****   /*Configure GPIO pin : PB6 */
+ 483:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_6;
+ 265              		.loc 1 483 3 view .LVU89
+ 266              		.loc 1 483 23 is_stmt 0 view .LVU90
+ 267 0158 4023     		movs	r3, #64
+ 268 015a 0B93     		str	r3, [sp, #44]
+ 484:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 269              		.loc 1 484 3 is_stmt 1 view .LVU91
+ 270              		.loc 1 484 24 is_stmt 0 view .LVU92
+ 271 015c 0C95     		str	r5, [sp, #48]
+ 485:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 272              		.loc 1 485 3 is_stmt 1 view .LVU93
+ 273              		.loc 1 485 24 is_stmt 0 view .LVU94
+ 274 015e 0D94     		str	r4, [sp, #52]
+ 486:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 275              		.loc 1 486 3 is_stmt 1 view .LVU95
+ 276              		.loc 1 486 25 is_stmt 0 view .LVU96
+ 277 0160 0E94     		str	r4, [sp, #56]
+ 487:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
+ 278              		.loc 1 487 3 is_stmt 1 view .LVU97
+ 279              		.loc 1 487 29 is_stmt 0 view .LVU98
+ 280 0162 4FF00A0A 		mov	r10, #10
+ 281 0166 CDF83CA0 		str	r10, [sp, #60]
+ 488:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+ 282              		.loc 1 488 3 is_stmt 1 view .LVU99
+ 283 016a 0BA9     		add	r1, sp, #44
+ 284 016c 5846     		mov	r0, fp
+ 285 016e FFF7FEFF 		bl	HAL_GPIO_Init
+ 286              	.LVL2:
+ 489:../../CM4/Core/Src/main.c **** 
+ 490:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PH14 PH13 */
+ 491:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_14|GPIO_PIN_13;
+ 287              		.loc 1 491 3 view .LVU100
+ 288              		.loc 1 491 23 is_stmt 0 view .LVU101
+ 289 0172 4FF4C043 		mov	r3, #24576
+ 290 0176 0B93     		str	r3, [sp, #44]
+ 492:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 291              		.loc 1 492 3 is_stmt 1 view .LVU102
+ 292              		.loc 1 492 24 is_stmt 0 view .LVU103
+ 293 0178 0C95     		str	r5, [sp, #48]
+ 493:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 294              		.loc 1 493 3 is_stmt 1 view .LVU104
+ 295              		.loc 1 493 24 is_stmt 0 view .LVU105
+ 296 017a 0D94     		str	r4, [sp, #52]
+ 494:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 297              		.loc 1 494 3 is_stmt 1 view .LVU106
+ 298              		.loc 1 494 25 is_stmt 0 view .LVU107
+ 299 017c 0E94     		str	r4, [sp, #56]
+ 495:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF9_FDCAN1;
+ 300              		.loc 1 495 3 is_stmt 1 view .LVU108
+ 301              		.loc 1 495 29 is_stmt 0 view .LVU109
+ 302 017e CDF83C80 		str	r8, [sp, #60]
+ 496:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
+ 303              		.loc 1 496 3 is_stmt 1 view .LVU110
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 15
+
+
+ 304 0182 0BF5C05B 		add	fp, fp, #6144
+ 305 0186 0BA9     		add	r1, sp, #44
+ 306 0188 5846     		mov	r0, fp
+ 307 018a FFF7FEFF 		bl	HAL_GPIO_Init
+ 308              	.LVL3:
+ 497:../../CM4/Core/Src/main.c **** 
+ 498:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PE5 PE4 */
+ 499:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_4;
+ 309              		.loc 1 499 3 view .LVU111
+ 310              		.loc 1 499 23 is_stmt 0 view .LVU112
+ 311 018e 3023     		movs	r3, #48
+ 312 0190 0B93     		str	r3, [sp, #44]
+ 500:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 313              		.loc 1 500 3 is_stmt 1 view .LVU113
+ 314              		.loc 1 500 24 is_stmt 0 view .LVU114
+ 315 0192 0C95     		str	r5, [sp, #48]
+ 501:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 316              		.loc 1 501 3 is_stmt 1 view .LVU115
+ 317              		.loc 1 501 24 is_stmt 0 view .LVU116
+ 318 0194 0D94     		str	r4, [sp, #52]
+ 502:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 319              		.loc 1 502 3 is_stmt 1 view .LVU117
+ 320              		.loc 1 502 25 is_stmt 0 view .LVU118
+ 321 0196 0E94     		str	r4, [sp, #56]
+ 503:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF10_SAI4;
+ 322              		.loc 1 503 3 is_stmt 1 view .LVU119
+ 323              		.loc 1 503 29 is_stmt 0 view .LVU120
+ 324 0198 CDF83CA0 		str	r10, [sp, #60]
+ 504:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+ 325              		.loc 1 504 3 is_stmt 1 view .LVU121
+ 326 019c 0BA9     		add	r1, sp, #44
+ 327 019e 4846     		mov	r0, r9
+ 328 01a0 FFF7FEFF 		bl	HAL_GPIO_Init
+ 329              	.LVL4:
+ 505:../../CM4/Core/Src/main.c **** 
+ 506:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PG15 PG8 PG5 PG4
+ 507:../../CM4/Core/Src/main.c ****                            PG0 PG1 */
+ 508:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_15|GPIO_PIN_8|GPIO_PIN_5|GPIO_PIN_4
+ 330              		.loc 1 508 3 view .LVU122
+ 331              		.loc 1 508 23 is_stmt 0 view .LVU123
+ 332 01a4 48F23313 		movw	r3, #33075
+ 333 01a8 0B93     		str	r3, [sp, #44]
+ 509:../../CM4/Core/Src/main.c ****                           |GPIO_PIN_0|GPIO_PIN_1;
+ 510:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 334              		.loc 1 510 3 is_stmt 1 view .LVU124
+ 335              		.loc 1 510 24 is_stmt 0 view .LVU125
+ 336 01aa 0C95     		str	r5, [sp, #48]
+ 511:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 337              		.loc 1 511 3 is_stmt 1 view .LVU126
+ 338              		.loc 1 511 24 is_stmt 0 view .LVU127
+ 339 01ac 0D94     		str	r4, [sp, #52]
+ 512:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 340              		.loc 1 512 3 is_stmt 1 view .LVU128
+ 341              		.loc 1 512 25 is_stmt 0 view .LVU129
+ 342 01ae 0E97     		str	r7, [sp, #56]
+ 513:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF12_FMC;
+ 343              		.loc 1 513 3 is_stmt 1 view .LVU130
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 16
+
+
+ 344              		.loc 1 513 29 is_stmt 0 view .LVU131
+ 345 01b0 0F96     		str	r6, [sp, #60]
+ 514:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+ 346              		.loc 1 514 3 is_stmt 1 view .LVU132
+ 347 01b2 0BA9     		add	r1, sp, #44
+ 348 01b4 2648     		ldr	r0, .L3+4
+ 349 01b6 FFF7FEFF 		bl	HAL_GPIO_Init
+ 350              	.LVL5:
+ 515:../../CM4/Core/Src/main.c **** 
+ 516:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PD0 PD1 PD15 PD14
+ 517:../../CM4/Core/Src/main.c ****                            PD10 PD9 PD8 */
+ 518:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_15|GPIO_PIN_14
+ 351              		.loc 1 518 3 view .LVU133
+ 352              		.loc 1 518 23 is_stmt 0 view .LVU134
+ 353 01ba 4CF20373 		movw	r3, #50947
+ 354 01be 0B93     		str	r3, [sp, #44]
+ 519:../../CM4/Core/Src/main.c ****                           |GPIO_PIN_10|GPIO_PIN_9|GPIO_PIN_8;
+ 520:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 355              		.loc 1 520 3 is_stmt 1 view .LVU135
+ 356              		.loc 1 520 24 is_stmt 0 view .LVU136
+ 357 01c0 0C95     		str	r5, [sp, #48]
+ 521:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 358              		.loc 1 521 3 is_stmt 1 view .LVU137
+ 359              		.loc 1 521 24 is_stmt 0 view .LVU138
+ 360 01c2 0D94     		str	r4, [sp, #52]
+ 522:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 361              		.loc 1 522 3 is_stmt 1 view .LVU139
+ 362              		.loc 1 522 25 is_stmt 0 view .LVU140
+ 363 01c4 0E97     		str	r7, [sp, #56]
+ 523:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF12_FMC;
+ 364              		.loc 1 523 3 is_stmt 1 view .LVU141
+ 365              		.loc 1 523 29 is_stmt 0 view .LVU142
+ 366 01c6 0F96     		str	r6, [sp, #60]
+ 524:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ 367              		.loc 1 524 3 is_stmt 1 view .LVU143
+ 368 01c8 0BA9     		add	r1, sp, #44
+ 369 01ca 2248     		ldr	r0, .L3+8
+ 370 01cc FFF7FEFF 		bl	HAL_GPIO_Init
+ 371              	.LVL6:
+ 525:../../CM4/Core/Src/main.c **** 
+ 526:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PF2 PF1 PF0 PF3
+ 527:../../CM4/Core/Src/main.c ****                            PF5 PF4 PF13 PF14
+ 528:../../CM4/Core/Src/main.c ****                            PF12 PF15 PF11 */
+ 529:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_1|GPIO_PIN_0|GPIO_PIN_3
+ 372              		.loc 1 529 3 view .LVU144
+ 373              		.loc 1 529 23 is_stmt 0 view .LVU145
+ 374 01d0 4FF63F03 		movw	r3, #63551
+ 375 01d4 0B93     		str	r3, [sp, #44]
+ 530:../../CM4/Core/Src/main.c ****                           |GPIO_PIN_5|GPIO_PIN_4|GPIO_PIN_13|GPIO_PIN_14
+ 531:../../CM4/Core/Src/main.c ****                           |GPIO_PIN_12|GPIO_PIN_15|GPIO_PIN_11;
+ 532:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 376              		.loc 1 532 3 is_stmt 1 view .LVU146
+ 377              		.loc 1 532 24 is_stmt 0 view .LVU147
+ 378 01d6 0C95     		str	r5, [sp, #48]
+ 533:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 379              		.loc 1 533 3 is_stmt 1 view .LVU148
+ 380              		.loc 1 533 24 is_stmt 0 view .LVU149
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 17
+
+
+ 381 01d8 0D94     		str	r4, [sp, #52]
+ 534:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 382              		.loc 1 534 3 is_stmt 1 view .LVU150
+ 383              		.loc 1 534 25 is_stmt 0 view .LVU151
+ 384 01da 0E97     		str	r7, [sp, #56]
+ 535:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF12_FMC;
+ 385              		.loc 1 535 3 is_stmt 1 view .LVU152
+ 386              		.loc 1 535 29 is_stmt 0 view .LVU153
+ 387 01dc 0F96     		str	r6, [sp, #60]
+ 536:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+ 388              		.loc 1 536 3 is_stmt 1 view .LVU154
+ 389 01de 09F58069 		add	r9, r9, #1024
+ 390 01e2 0BA9     		add	r1, sp, #44
+ 391 01e4 4846     		mov	r0, r9
+ 392 01e6 FFF7FEFF 		bl	HAL_GPIO_Init
+ 393              	.LVL7:
+ 537:../../CM4/Core/Src/main.c **** 
+ 538:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PF6 PF7 PF10 */
+ 539:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_10;
+ 394              		.loc 1 539 3 view .LVU155
+ 395              		.loc 1 539 23 is_stmt 0 view .LVU156
+ 396 01ea 4FF49863 		mov	r3, #1216
+ 397 01ee 0B93     		str	r3, [sp, #44]
+ 540:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 398              		.loc 1 540 3 is_stmt 1 view .LVU157
+ 399              		.loc 1 540 24 is_stmt 0 view .LVU158
+ 400 01f0 0C95     		str	r5, [sp, #48]
+ 541:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 401              		.loc 1 541 3 is_stmt 1 view .LVU159
+ 402              		.loc 1 541 24 is_stmt 0 view .LVU160
+ 403 01f2 0D94     		str	r4, [sp, #52]
+ 542:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 404              		.loc 1 542 3 is_stmt 1 view .LVU161
+ 405              		.loc 1 542 25 is_stmt 0 view .LVU162
+ 406 01f4 0E94     		str	r4, [sp, #56]
+ 543:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
+ 407              		.loc 1 543 3 is_stmt 1 view .LVU163
+ 408              		.loc 1 543 29 is_stmt 0 view .LVU164
+ 409 01f6 CDF83C80 		str	r8, [sp, #60]
+ 544:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+ 410              		.loc 1 544 3 is_stmt 1 view .LVU165
+ 411 01fa 0BA9     		add	r1, sp, #44
+ 412 01fc 4846     		mov	r0, r9
+ 413 01fe FFF7FEFF 		bl	HAL_GPIO_Init
+ 414              	.LVL8:
+ 545:../../CM4/Core/Src/main.c **** 
+ 546:../../CM4/Core/Src/main.c ****   /*Configure GPIO pin : PF9 */
+ 547:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_9;
+ 415              		.loc 1 547 3 view .LVU166
+ 416              		.loc 1 547 23 is_stmt 0 view .LVU167
+ 417 0202 4FF40073 		mov	r3, #512
+ 418 0206 0B93     		str	r3, [sp, #44]
+ 548:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 419              		.loc 1 548 3 is_stmt 1 view .LVU168
+ 420              		.loc 1 548 24 is_stmt 0 view .LVU169
+ 421 0208 0C95     		str	r5, [sp, #48]
+ 549:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 18
+
+
+ 422              		.loc 1 549 3 is_stmt 1 view .LVU170
+ 423              		.loc 1 549 24 is_stmt 0 view .LVU171
+ 424 020a 0D94     		str	r4, [sp, #52]
+ 550:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 425              		.loc 1 550 3 is_stmt 1 view .LVU172
+ 426              		.loc 1 550 25 is_stmt 0 view .LVU173
+ 427 020c 0E94     		str	r4, [sp, #56]
+ 551:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
+ 428              		.loc 1 551 3 is_stmt 1 view .LVU174
+ 429              		.loc 1 551 29 is_stmt 0 view .LVU175
+ 430 020e CDF83CA0 		str	r10, [sp, #60]
+ 552:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+ 431              		.loc 1 552 3 is_stmt 1 view .LVU176
+ 432 0212 0BA9     		add	r1, sp, #44
+ 433 0214 4846     		mov	r0, r9
+ 434 0216 FFF7FEFF 		bl	HAL_GPIO_Init
+ 435              	.LVL9:
+ 553:../../CM4/Core/Src/main.c **** 
+ 554:../../CM4/Core/Src/main.c ****   /*Configure GPIO pins : PH5 PH6 PH7 */
+ 555:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
+ 436              		.loc 1 555 3 view .LVU177
+ 437              		.loc 1 555 23 is_stmt 0 view .LVU178
+ 438 021a E023     		movs	r3, #224
+ 439 021c 0B93     		str	r3, [sp, #44]
+ 556:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 440              		.loc 1 556 3 is_stmt 1 view .LVU179
+ 441              		.loc 1 556 24 is_stmt 0 view .LVU180
+ 442 021e 0C95     		str	r5, [sp, #48]
+ 557:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 443              		.loc 1 557 3 is_stmt 1 view .LVU181
+ 444              		.loc 1 557 24 is_stmt 0 view .LVU182
+ 445 0220 0D94     		str	r4, [sp, #52]
+ 558:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 446              		.loc 1 558 3 is_stmt 1 view .LVU183
+ 447              		.loc 1 558 25 is_stmt 0 view .LVU184
+ 448 0222 0E97     		str	r7, [sp, #56]
+ 559:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF12_FMC;
+ 449              		.loc 1 559 3 is_stmt 1 view .LVU185
+ 450              		.loc 1 559 29 is_stmt 0 view .LVU186
+ 451 0224 0F96     		str	r6, [sp, #60]
+ 560:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
+ 452              		.loc 1 560 3 is_stmt 1 view .LVU187
+ 453 0226 0BA9     		add	r1, sp, #44
+ 454 0228 5846     		mov	r0, fp
+ 455 022a FFF7FEFF 		bl	HAL_GPIO_Init
+ 456              	.LVL10:
+ 561:../../CM4/Core/Src/main.c **** 
+ 562:../../CM4/Core/Src/main.c ****   /*Configure GPIO pin : PD11 */
+ 563:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_11;
+ 457              		.loc 1 563 3 view .LVU188
+ 458              		.loc 1 563 23 is_stmt 0 view .LVU189
+ 459 022e 4FF40063 		mov	r3, #2048
+ 460 0232 0B93     		str	r3, [sp, #44]
+ 564:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 461              		.loc 1 564 3 is_stmt 1 view .LVU190
+ 462              		.loc 1 564 24 is_stmt 0 view .LVU191
+ 463 0234 0C95     		str	r5, [sp, #48]
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 19
+
+
+ 565:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 464              		.loc 1 565 3 is_stmt 1 view .LVU192
+ 465              		.loc 1 565 24 is_stmt 0 view .LVU193
+ 466 0236 0D94     		str	r4, [sp, #52]
+ 566:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 467              		.loc 1 566 3 is_stmt 1 view .LVU194
+ 468              		.loc 1 566 25 is_stmt 0 view .LVU195
+ 469 0238 0E94     		str	r4, [sp, #56]
+ 567:../../CM4/Core/Src/main.c ****   GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
+ 470              		.loc 1 567 3 is_stmt 1 view .LVU196
+ 471              		.loc 1 567 29 is_stmt 0 view .LVU197
+ 472 023a CDF83C80 		str	r8, [sp, #60]
+ 568:../../CM4/Core/Src/main.c ****   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ 473              		.loc 1 568 3 is_stmt 1 view .LVU198
+ 474 023e 0BA9     		add	r1, sp, #44
+ 475 0240 0448     		ldr	r0, .L3+8
+ 476 0242 FFF7FEFF 		bl	HAL_GPIO_Init
+ 477              	.LVL11:
+ 569:../../CM4/Core/Src/main.c **** 
+ 570:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN MX_GPIO_Init_2 */
+ 571:../../CM4/Core/Src/main.c **** /* USER CODE END MX_GPIO_Init_2 */
+ 572:../../CM4/Core/Src/main.c **** }
+ 478              		.loc 1 572 1 is_stmt 0 view .LVU199
+ 479 0246 11B0     		add	sp, sp, #68
+ 480              	.LCFI2:
+ 481              		.cfi_def_cfa_offset 36
+ 482              		@ sp needed
+ 483 0248 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 484              	.L4:
+ 485              		.align	2
+ 486              	.L3:
+ 487 024c 00440258 		.word	1476543488
+ 488 0250 00180258 		.word	1476532224
+ 489 0254 000C0258 		.word	1476529152
+ 490 0258 00040258 		.word	1476527104
+ 491 025c 00100258 		.word	1476530176
+ 492              		.cfi_endproc
+ 493              	.LFE138:
+ 495              		.section	.text.Error_Handler,"ax",%progbits
+ 496              		.align	1
+ 497              		.global	Error_Handler
+ 498              		.syntax unified
+ 499              		.thumb
+ 500              		.thumb_func
+ 502              	Error_Handler:
+ 503              	.LFB139:
+ 573:../../CM4/Core/Src/main.c **** 
+ 574:../../CM4/Core/Src/main.c **** /* USER CODE BEGIN 4 */
+ 575:../../CM4/Core/Src/main.c **** 
+ 576:../../CM4/Core/Src/main.c **** /* USER CODE END 4 */
+ 577:../../CM4/Core/Src/main.c **** 
+ 578:../../CM4/Core/Src/main.c **** /**
+ 579:../../CM4/Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
+ 580:../../CM4/Core/Src/main.c ****   * @retval None
+ 581:../../CM4/Core/Src/main.c ****   */
+ 582:../../CM4/Core/Src/main.c **** void Error_Handler(void)
+ 583:../../CM4/Core/Src/main.c **** {
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 20
+
+
+ 504              		.loc 1 583 1 is_stmt 1 view -0
+ 505              		.cfi_startproc
+ 506              		@ Volatile: function does not return.
+ 507              		@ args = 0, pretend = 0, frame = 0
+ 508              		@ frame_needed = 0, uses_anonymous_args = 0
+ 509              		@ link register save eliminated.
+ 584:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 585:../../CM4/Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
+ 586:../../CM4/Core/Src/main.c ****   __disable_irq();
+ 510              		.loc 1 586 3 view .LVU201
+ 511              	.LBB15:
+ 512              	.LBI15:
+ 513              		.file 2 "../../Drivers/CMSIS/Include/cmsis_gcc.h"
+   1:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
+   2:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
+   3:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
+   4:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * @version  V5.2.0
+   5:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * @date     08. May 2019
+   6:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
+   7:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /*
+   8:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2019 Arm Limited. All rights reserved.
+   9:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  10:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * SPDX-License-Identifier: Apache-2.0
+  11:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  12:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  13:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * not use this file except in compliance with the License.
+  14:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * You may obtain a copy of the License at
+  15:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  16:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * www.apache.org/licenses/LICENSE-2.0
+  17:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  18:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * Unless required by applicable law or agreed to in writing, software
+  19:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  20:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  21:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * See the License for the specific language governing permissions and
+  22:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  * limitations under the License.
+  23:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+  24:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  25:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __CMSIS_GCC_H
+  26:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_H
+  27:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  28:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
+  29:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
+  30:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
+  31:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
+  32:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
+  33:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  34:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /* Fallback for __has_builtin */
+  35:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __has_builtin
+  36:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __has_builtin(x) (0)
+  37:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  38:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  39:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /* CMSIS compiler specific defines */
+  40:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ASM
+  41:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ASM                                  __asm
+  42:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  43:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __INLINE
+  44:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __INLINE                               inline
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 21
+
+
+  45:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  46:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_INLINE
+  47:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_INLINE                        static inline
+  48:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  49:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_FORCEINLINE                 
+  50:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_FORCEINLINE                   __attribute__((always_inline)) static inline
+  51:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif                                           
+  52:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __NO_RETURN
+  53:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __NO_RETURN                            __attribute__((__noreturn__))
+  54:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  55:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __USED
+  56:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __USED                                 __attribute__((used))
+  57:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  58:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __WEAK
+  59:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __WEAK                                 __attribute__((weak))
+  60:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  61:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED
+  62:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED                               __attribute__((packed, aligned(1)))
+  63:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  64:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
+  65:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
+  66:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  67:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_UNION
+  68:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_UNION                         union __attribute__((packed, aligned(1)))
+  69:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  70:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32        /* deprecated */
+  71:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  72:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  73:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  74:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   struct __attribute__((packed)) T_UINT32 { uint32_t v; };
+  75:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  76:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
+  77:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  78:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_WRITE
+  79:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  80:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  81:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  82:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
+  83:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  84:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
+  85:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  86:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
+  87:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  88:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  89:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  90:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_READ { uint16_t v; };
+  91:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  92:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_READ(addr)          (((const struct T_UINT16_READ *)(const void *)(add
+  93:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  94:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_WRITE
+  95:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  96:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  97:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  98:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_WRITE { uint32_t v; };
+  99:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 100:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_WRITE(addr, val)    (void)((((struct T_UINT32_WRITE *)(void *)(addr))-
+ 101:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 22
+
+
+ 102:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_READ
+ 103:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+ 104:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+ 105:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+ 106:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_READ { uint32_t v; };
+ 107:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 108:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(add
+ 109:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 110:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ALIGNED
+ 111:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ALIGNED(x)                           __attribute__((aligned(x)))
+ 112:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 113:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __RESTRICT
+ 114:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __RESTRICT                             __restrict
+ 115:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 116:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __COMPILER_BARRIER
+ 117:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __COMPILER_BARRIER()                   __ASM volatile("":::"memory")
+ 118:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 119:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 120:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /* #########################  Startup and Lowlevel Init  ######################## */
+ 121:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 122:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __PROGRAM_START
+ 123:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 124:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 125:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Initializes data and bss sections
+ 126:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   \details This default implementations initialized all data and additional bss
+ 127:../../Drivers/CMSIS/Include/cmsis_gcc.h ****            sections relying on .copy.table and .zero.table specified properly
+ 128:../../Drivers/CMSIS/Include/cmsis_gcc.h ****            in the used linker script.
+ 129:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   
+ 130:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 131:../../Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE __NO_RETURN void __cmsis_start(void)
+ 132:../../Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 133:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   extern void _start(void) __NO_RETURN;
+ 134:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   
+ 135:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   typedef struct {
+ 136:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     uint32_t const* src;
+ 137:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     uint32_t* dest;
+ 138:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     uint32_t  wlen;
+ 139:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   } __copy_table_t;
+ 140:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   
+ 141:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   typedef struct {
+ 142:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     uint32_t* dest;
+ 143:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     uint32_t  wlen;
+ 144:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   } __zero_table_t;
+ 145:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   
+ 146:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   extern const __copy_table_t __copy_table_start__;
+ 147:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   extern const __copy_table_t __copy_table_end__;
+ 148:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   extern const __zero_table_t __zero_table_start__;
+ 149:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   extern const __zero_table_t __zero_table_end__;
+ 150:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 151:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   for (__copy_table_t const* pTable = &__copy_table_start__; pTable < &__copy_table_end__; ++pTable
+ 152:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     for(uint32_t i=0u; i<pTable->wlen; ++i) {
+ 153:../../Drivers/CMSIS/Include/cmsis_gcc.h ****       pTable->dest[i] = pTable->src[i];
+ 154:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     }
+ 155:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   }
+ 156:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  
+ 157:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   for (__zero_table_t const* pTable = &__zero_table_start__; pTable < &__zero_table_end__; ++pTable
+ 158:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     for(uint32_t i=0u; i<pTable->wlen; ++i) {
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 23
+
+
+ 159:../../Drivers/CMSIS/Include/cmsis_gcc.h ****       pTable->dest[i] = 0u;
+ 160:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     }
+ 161:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   }
+ 162:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  
+ 163:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   _start();
+ 164:../../Drivers/CMSIS/Include/cmsis_gcc.h **** }
+ 165:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   
+ 166:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #define __PROGRAM_START           __cmsis_start
+ 167:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 168:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 169:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __INITIAL_SP
+ 170:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #define __INITIAL_SP              __StackTop
+ 171:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 172:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 173:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __STACK_LIMIT
+ 174:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #define __STACK_LIMIT             __StackLimit
+ 175:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 176:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 177:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __VECTOR_TABLE
+ 178:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #define __VECTOR_TABLE            __Vectors
+ 179:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 180:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 181:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __VECTOR_TABLE_ATTRIBUTE
+ 182:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #define __VECTOR_TABLE_ATTRIBUTE  __attribute((used, section(".vectors")))
+ 183:../../Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 184:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 185:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /* ###########################  Core Function Access  ########################### */
+ 186:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+ 187:../../Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+ 188:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
+ 189:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 190:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 191:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 192:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Enable IRQ Interrupts
+ 193:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 194:../../Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 195:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 196:../../Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __enable_irq(void)
+ 197:../../Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 198:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 199:../../Drivers/CMSIS/Include/cmsis_gcc.h **** }
+ 200:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 201:../../Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 202:../../Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 203:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Disable IRQ Interrupts
+ 204:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+ 205:../../Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 206:../../Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 207:../../Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
+ 514              		.loc 2 207 27 view .LVU202
+ 515              	.LBB16:
+ 208:../../Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 209:../../Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
+ 516              		.loc 2 209 3 view .LVU203
+ 517              		.syntax unified
+ 518              	@ 209 "../../Drivers/CMSIS/Include/cmsis_gcc.h" 1
+ 519 0000 72B6     		cpsid i
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 24
+
+
+ 520              	@ 0 "" 2
+ 521              		.thumb
+ 522              		.syntax unified
+ 523              	.L6:
+ 524              	.LBE16:
+ 525              	.LBE15:
+ 587:../../CM4/Core/Src/main.c ****   while (1)
+ 526              		.loc 1 587 3 discriminator 1 view .LVU204
+ 588:../../CM4/Core/Src/main.c ****   {
+ 589:../../CM4/Core/Src/main.c ****   }
+ 527              		.loc 1 589 3 discriminator 1 view .LVU205
+ 587:../../CM4/Core/Src/main.c ****   while (1)
+ 528              		.loc 1 587 9 discriminator 1 view .LVU206
+ 529 0002 FEE7     		b	.L6
+ 530              		.cfi_endproc
+ 531              	.LFE139:
+ 533              		.section	.text.MX_ETH_Init,"ax",%progbits
+ 534              		.align	1
+ 535              		.syntax unified
+ 536              		.thumb
+ 537              		.thumb_func
+ 539              	MX_ETH_Init:
+ 540              	.LFB133:
+ 165:../../CM4/Core/Src/main.c **** 
+ 541              		.loc 1 165 1 view -0
+ 542              		.cfi_startproc
+ 543              		@ args = 0, pretend = 0, frame = 0
+ 544              		@ frame_needed = 0, uses_anonymous_args = 0
+ 545 0000 10B5     		push	{r4, lr}
+ 546              	.LCFI3:
+ 547              		.cfi_def_cfa_offset 8
+ 548              		.cfi_offset 4, -8
+ 549              		.cfi_offset 14, -4
+ 171:../../CM4/Core/Src/main.c **** 
+ 550              		.loc 1 171 4 view .LVU208
+ 176:../../CM4/Core/Src/main.c ****   MACAddr[0] = 0x00;
+ 551              		.loc 1 176 3 view .LVU209
+ 176:../../CM4/Core/Src/main.c ****   MACAddr[0] = 0x00;
+ 552              		.loc 1 176 17 is_stmt 0 view .LVU210
+ 553 0002 1348     		ldr	r0, .L11
+ 554 0004 134B     		ldr	r3, .L11+4
+ 555 0006 0360     		str	r3, [r0]
+ 177:../../CM4/Core/Src/main.c ****   MACAddr[1] = 0x80;
+ 556              		.loc 1 177 3 is_stmt 1 view .LVU211
+ 177:../../CM4/Core/Src/main.c ****   MACAddr[1] = 0x80;
+ 557              		.loc 1 177 14 is_stmt 0 view .LVU212
+ 558 0008 134B     		ldr	r3, .L11+8
+ 559 000a 0022     		movs	r2, #0
+ 560 000c 1A70     		strb	r2, [r3]
+ 178:../../CM4/Core/Src/main.c ****   MACAddr[2] = 0xE1;
+ 561              		.loc 1 178 3 is_stmt 1 view .LVU213
+ 178:../../CM4/Core/Src/main.c ****   MACAddr[2] = 0xE1;
+ 562              		.loc 1 178 14 is_stmt 0 view .LVU214
+ 563 000e 8021     		movs	r1, #128
+ 564 0010 5970     		strb	r1, [r3, #1]
+ 179:../../CM4/Core/Src/main.c ****   MACAddr[3] = 0x00;
+ 565              		.loc 1 179 3 is_stmt 1 view .LVU215
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 25
+
+
+ 179:../../CM4/Core/Src/main.c ****   MACAddr[3] = 0x00;
+ 566              		.loc 1 179 14 is_stmt 0 view .LVU216
+ 567 0012 E121     		movs	r1, #225
+ 568 0014 9970     		strb	r1, [r3, #2]
+ 180:../../CM4/Core/Src/main.c ****   MACAddr[4] = 0x00;
+ 569              		.loc 1 180 3 is_stmt 1 view .LVU217
+ 180:../../CM4/Core/Src/main.c ****   MACAddr[4] = 0x00;
+ 570              		.loc 1 180 14 is_stmt 0 view .LVU218
+ 571 0016 DA70     		strb	r2, [r3, #3]
+ 181:../../CM4/Core/Src/main.c ****   MACAddr[5] = 0x00;
+ 572              		.loc 1 181 3 is_stmt 1 view .LVU219
+ 181:../../CM4/Core/Src/main.c ****   MACAddr[5] = 0x00;
+ 573              		.loc 1 181 14 is_stmt 0 view .LVU220
+ 574 0018 1A71     		strb	r2, [r3, #4]
+ 182:../../CM4/Core/Src/main.c ****   heth.Init.MACAddr = &MACAddr[0];
+ 575              		.loc 1 182 3 is_stmt 1 view .LVU221
+ 182:../../CM4/Core/Src/main.c ****   heth.Init.MACAddr = &MACAddr[0];
+ 576              		.loc 1 182 14 is_stmt 0 view .LVU222
+ 577 001a 5A71     		strb	r2, [r3, #5]
+ 183:../../CM4/Core/Src/main.c ****   heth.Init.MediaInterface = HAL_ETH_MII_MODE;
+ 578              		.loc 1 183 3 is_stmt 1 view .LVU223
+ 183:../../CM4/Core/Src/main.c ****   heth.Init.MediaInterface = HAL_ETH_MII_MODE;
+ 579              		.loc 1 183 21 is_stmt 0 view .LVU224
+ 580 001c 4360     		str	r3, [r0, #4]
+ 184:../../CM4/Core/Src/main.c ****   heth.Init.TxDesc = DMATxDscrTab;
+ 581              		.loc 1 184 3 is_stmt 1 view .LVU225
+ 184:../../CM4/Core/Src/main.c ****   heth.Init.TxDesc = DMATxDscrTab;
+ 582              		.loc 1 184 28 is_stmt 0 view .LVU226
+ 583 001e 0272     		strb	r2, [r0, #8]
+ 185:../../CM4/Core/Src/main.c ****   heth.Init.RxDesc = DMARxDscrTab;
+ 584              		.loc 1 185 3 is_stmt 1 view .LVU227
+ 185:../../CM4/Core/Src/main.c ****   heth.Init.RxDesc = DMARxDscrTab;
+ 585              		.loc 1 185 20 is_stmt 0 view .LVU228
+ 586 0020 0E4B     		ldr	r3, .L11+12
+ 587 0022 C360     		str	r3, [r0, #12]
+ 186:../../CM4/Core/Src/main.c ****   heth.Init.RxBuffLen = 1524;
+ 588              		.loc 1 186 3 is_stmt 1 view .LVU229
+ 186:../../CM4/Core/Src/main.c ****   heth.Init.RxBuffLen = 1524;
+ 589              		.loc 1 186 20 is_stmt 0 view .LVU230
+ 590 0024 0E4B     		ldr	r3, .L11+16
+ 591 0026 0361     		str	r3, [r0, #16]
+ 187:../../CM4/Core/Src/main.c **** 
+ 592              		.loc 1 187 3 is_stmt 1 view .LVU231
+ 187:../../CM4/Core/Src/main.c **** 
+ 593              		.loc 1 187 23 is_stmt 0 view .LVU232
+ 594 0028 40F2F453 		movw	r3, #1524
+ 595 002c 4361     		str	r3, [r0, #20]
+ 193:../../CM4/Core/Src/main.c ****   {
+ 596              		.loc 1 193 3 is_stmt 1 view .LVU233
+ 193:../../CM4/Core/Src/main.c ****   {
+ 597              		.loc 1 193 7 is_stmt 0 view .LVU234
+ 598 002e FFF7FEFF 		bl	HAL_ETH_Init
+ 599              	.LVL12:
+ 193:../../CM4/Core/Src/main.c ****   {
+ 600              		.loc 1 193 6 view .LVU235
+ 601 0032 58B9     		cbnz	r0, .L10
+ 198:../../CM4/Core/Src/main.c ****   TxConfig.Attributes = ETH_TX_PACKETS_FEATURES_CSUM | ETH_TX_PACKETS_FEATURES_CRCPAD;
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 26
+
+
+ 602              		.loc 1 198 3 is_stmt 1 view .LVU236
+ 603 0034 0B4C     		ldr	r4, .L11+20
+ 604 0036 3822     		movs	r2, #56
+ 605 0038 0021     		movs	r1, #0
+ 606 003a 2046     		mov	r0, r4
+ 607 003c FFF7FEFF 		bl	memset
+ 608              	.LVL13:
+ 199:../../CM4/Core/Src/main.c ****   TxConfig.ChecksumCtrl = ETH_CHECKSUM_IPHDR_PAYLOAD_INSERT_PHDR_CALC;
+ 609              		.loc 1 199 3 view .LVU237
+ 199:../../CM4/Core/Src/main.c ****   TxConfig.ChecksumCtrl = ETH_CHECKSUM_IPHDR_PAYLOAD_INSERT_PHDR_CALC;
+ 610              		.loc 1 199 23 is_stmt 0 view .LVU238
+ 611 0040 2123     		movs	r3, #33
+ 612 0042 2360     		str	r3, [r4]
+ 200:../../CM4/Core/Src/main.c ****   TxConfig.CRCPadCtrl = ETH_CRC_PAD_INSERT;
+ 613              		.loc 1 200 3 is_stmt 1 view .LVU239
+ 200:../../CM4/Core/Src/main.c ****   TxConfig.CRCPadCtrl = ETH_CRC_PAD_INSERT;
+ 614              		.loc 1 200 25 is_stmt 0 view .LVU240
+ 615 0044 4FF44033 		mov	r3, #196608
+ 616 0048 6361     		str	r3, [r4, #20]
+ 201:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN ETH_Init 2 */
+ 617              		.loc 1 201 3 is_stmt 1 view .LVU241
+ 206:../../CM4/Core/Src/main.c **** 
+ 618              		.loc 1 206 1 is_stmt 0 view .LVU242
+ 619 004a 10BD     		pop	{r4, pc}
+ 620              	.L10:
+ 195:../../CM4/Core/Src/main.c ****   }
+ 621              		.loc 1 195 5 is_stmt 1 view .LVU243
+ 622 004c FFF7FEFF 		bl	Error_Handler
+ 623              	.LVL14:
+ 624              	.L12:
+ 625              		.align	2
+ 626              	.L11:
+ 627 0050 00000000 		.word	.LANCHOR0
+ 628 0054 00800240 		.word	1073905664
+ 629 0058 00000000 		.word	.LANCHOR1
+ 630 005c 00000000 		.word	.LANCHOR2
+ 631 0060 00000000 		.word	.LANCHOR3
+ 632 0064 00000000 		.word	.LANCHOR4
+ 633              		.cfi_endproc
+ 634              	.LFE133:
+ 636              		.section	.text.MX_LTDC_Init,"ax",%progbits
+ 637              		.align	1
+ 638              		.syntax unified
+ 639              		.thumb
+ 640              		.thumb_func
+ 642              	MX_LTDC_Init:
+ 643              	.LFB134:
+ 214:../../CM4/Core/Src/main.c **** 
+ 644              		.loc 1 214 1 view -0
+ 645              		.cfi_startproc
+ 646              		@ args = 0, pretend = 0, frame = 104
+ 647              		@ frame_needed = 0, uses_anonymous_args = 0
+ 648 0000 10B5     		push	{r4, lr}
+ 649              	.LCFI4:
+ 650              		.cfi_def_cfa_offset 8
+ 651              		.cfi_offset 4, -8
+ 652              		.cfi_offset 14, -4
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 27
+
+
+ 653 0002 9AB0     		sub	sp, sp, #104
+ 654              	.LCFI5:
+ 655              		.cfi_def_cfa_offset 112
+ 220:../../CM4/Core/Src/main.c ****   LTDC_LayerCfgTypeDef pLayerCfg1 = {0};
+ 656              		.loc 1 220 3 view .LVU245
+ 220:../../CM4/Core/Src/main.c ****   LTDC_LayerCfgTypeDef pLayerCfg1 = {0};
+ 657              		.loc 1 220 24 is_stmt 0 view .LVU246
+ 658 0004 3424     		movs	r4, #52
+ 659 0006 2246     		mov	r2, r4
+ 660 0008 0021     		movs	r1, #0
+ 661 000a 0DEB0400 		add	r0, sp, r4
+ 662 000e FFF7FEFF 		bl	memset
+ 663              	.LVL15:
+ 221:../../CM4/Core/Src/main.c **** 
+ 664              		.loc 1 221 3 is_stmt 1 view .LVU247
+ 221:../../CM4/Core/Src/main.c **** 
+ 665              		.loc 1 221 24 is_stmt 0 view .LVU248
+ 666 0012 2246     		mov	r2, r4
+ 667 0014 0021     		movs	r1, #0
+ 668 0016 6846     		mov	r0, sp
+ 669 0018 FFF7FEFF 		bl	memset
+ 670              	.LVL16:
+ 226:../../CM4/Core/Src/main.c ****   hltdc.Init.HSPolarity = LTDC_HSPOLARITY_AL;
+ 671              		.loc 1 226 3 is_stmt 1 view .LVU249
+ 226:../../CM4/Core/Src/main.c ****   hltdc.Init.HSPolarity = LTDC_HSPOLARITY_AL;
+ 672              		.loc 1 226 18 is_stmt 0 view .LVU250
+ 673 001c 3248     		ldr	r0, .L21
+ 674 001e 334B     		ldr	r3, .L21+4
+ 675 0020 0360     		str	r3, [r0]
+ 227:../../CM4/Core/Src/main.c ****   hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AL;
+ 676              		.loc 1 227 3 is_stmt 1 view .LVU251
+ 227:../../CM4/Core/Src/main.c ****   hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AL;
+ 677              		.loc 1 227 25 is_stmt 0 view .LVU252
+ 678 0022 0023     		movs	r3, #0
+ 679 0024 4360     		str	r3, [r0, #4]
+ 228:../../CM4/Core/Src/main.c ****   hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
+ 680              		.loc 1 228 3 is_stmt 1 view .LVU253
+ 228:../../CM4/Core/Src/main.c ****   hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
+ 681              		.loc 1 228 25 is_stmt 0 view .LVU254
+ 682 0026 8360     		str	r3, [r0, #8]
+ 229:../../CM4/Core/Src/main.c ****   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
+ 683              		.loc 1 229 3 is_stmt 1 view .LVU255
+ 229:../../CM4/Core/Src/main.c ****   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
+ 684              		.loc 1 229 25 is_stmt 0 view .LVU256
+ 685 0028 C360     		str	r3, [r0, #12]
+ 230:../../CM4/Core/Src/main.c ****   hltdc.Init.HorizontalSync = 7;
+ 686              		.loc 1 230 3 is_stmt 1 view .LVU257
+ 230:../../CM4/Core/Src/main.c ****   hltdc.Init.HorizontalSync = 7;
+ 687              		.loc 1 230 25 is_stmt 0 view .LVU258
+ 688 002a 0361     		str	r3, [r0, #16]
+ 231:../../CM4/Core/Src/main.c ****   hltdc.Init.VerticalSync = 3;
+ 689              		.loc 1 231 3 is_stmt 1 view .LVU259
+ 231:../../CM4/Core/Src/main.c ****   hltdc.Init.VerticalSync = 3;
+ 690              		.loc 1 231 29 is_stmt 0 view .LVU260
+ 691 002c 0722     		movs	r2, #7
+ 692 002e 4261     		str	r2, [r0, #20]
+ 232:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedHBP = 14;
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 28
+
+
+ 693              		.loc 1 232 3 is_stmt 1 view .LVU261
+ 232:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedHBP = 14;
+ 694              		.loc 1 232 27 is_stmt 0 view .LVU262
+ 695 0030 0322     		movs	r2, #3
+ 696 0032 8261     		str	r2, [r0, #24]
+ 233:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedVBP = 5;
+ 697              		.loc 1 233 3 is_stmt 1 view .LVU263
+ 233:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedVBP = 5;
+ 698              		.loc 1 233 29 is_stmt 0 view .LVU264
+ 699 0034 0E22     		movs	r2, #14
+ 700 0036 C261     		str	r2, [r0, #28]
+ 234:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedActiveW = 654;
+ 701              		.loc 1 234 3 is_stmt 1 view .LVU265
+ 234:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedActiveW = 654;
+ 702              		.loc 1 234 29 is_stmt 0 view .LVU266
+ 703 0038 0522     		movs	r2, #5
+ 704 003a 0262     		str	r2, [r0, #32]
+ 235:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedActiveH = 485;
+ 705              		.loc 1 235 3 is_stmt 1 view .LVU267
+ 235:../../CM4/Core/Src/main.c ****   hltdc.Init.AccumulatedActiveH = 485;
+ 706              		.loc 1 235 33 is_stmt 0 view .LVU268
+ 707 003c 40F28E22 		movw	r2, #654
+ 708 0040 4262     		str	r2, [r0, #36]
+ 236:../../CM4/Core/Src/main.c ****   hltdc.Init.TotalWidth = 660;
+ 709              		.loc 1 236 3 is_stmt 1 view .LVU269
+ 236:../../CM4/Core/Src/main.c ****   hltdc.Init.TotalWidth = 660;
+ 710              		.loc 1 236 33 is_stmt 0 view .LVU270
+ 711 0042 40F2E512 		movw	r2, #485
+ 712 0046 8262     		str	r2, [r0, #40]
+ 237:../../CM4/Core/Src/main.c ****   hltdc.Init.TotalHeigh = 487;
+ 713              		.loc 1 237 3 is_stmt 1 view .LVU271
+ 237:../../CM4/Core/Src/main.c ****   hltdc.Init.TotalHeigh = 487;
+ 714              		.loc 1 237 25 is_stmt 0 view .LVU272
+ 715 0048 4FF42572 		mov	r2, #660
+ 716 004c C262     		str	r2, [r0, #44]
+ 238:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Blue = 0;
+ 717              		.loc 1 238 3 is_stmt 1 view .LVU273
+ 238:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Blue = 0;
+ 718              		.loc 1 238 25 is_stmt 0 view .LVU274
+ 719 004e 40F2E712 		movw	r2, #487
+ 720 0052 0263     		str	r2, [r0, #48]
+ 239:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Green = 0;
+ 721              		.loc 1 239 3 is_stmt 1 view .LVU275
+ 239:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Green = 0;
+ 722              		.loc 1 239 29 is_stmt 0 view .LVU276
+ 723 0054 80F83430 		strb	r3, [r0, #52]
+ 240:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Red = 0;
+ 724              		.loc 1 240 3 is_stmt 1 view .LVU277
+ 240:../../CM4/Core/Src/main.c ****   hltdc.Init.Backcolor.Red = 0;
+ 725              		.loc 1 240 30 is_stmt 0 view .LVU278
+ 726 0058 80F83530 		strb	r3, [r0, #53]
+ 241:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_Init(&hltdc) != HAL_OK)
+ 727              		.loc 1 241 3 is_stmt 1 view .LVU279
+ 241:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_Init(&hltdc) != HAL_OK)
+ 728              		.loc 1 241 28 is_stmt 0 view .LVU280
+ 729 005c 80F83630 		strb	r3, [r0, #54]
+ 242:../../CM4/Core/Src/main.c ****   {
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 29
+
+
+ 730              		.loc 1 242 3 is_stmt 1 view .LVU281
+ 242:../../CM4/Core/Src/main.c ****   {
+ 731              		.loc 1 242 7 is_stmt 0 view .LVU282
+ 732 0060 FFF7FEFF 		bl	HAL_LTDC_Init
+ 733              	.LVL17:
+ 242:../../CM4/Core/Src/main.c ****   {
+ 734              		.loc 1 242 6 view .LVU283
+ 735 0064 0028     		cmp	r0, #0
+ 736 0066 38D1     		bne	.L18
+ 246:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowX1 = 0;
+ 737              		.loc 1 246 3 is_stmt 1 view .LVU284
+ 246:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowX1 = 0;
+ 738              		.loc 1 246 22 is_stmt 0 view .LVU285
+ 739 0068 0022     		movs	r2, #0
+ 740 006a 0D92     		str	r2, [sp, #52]
+ 247:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowY0 = 0;
+ 741              		.loc 1 247 3 is_stmt 1 view .LVU286
+ 247:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowY0 = 0;
+ 742              		.loc 1 247 22 is_stmt 0 view .LVU287
+ 743 006c 0E92     		str	r2, [sp, #56]
+ 248:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowY1 = 0;
+ 744              		.loc 1 248 3 is_stmt 1 view .LVU288
+ 248:../../CM4/Core/Src/main.c ****   pLayerCfg.WindowY1 = 0;
+ 745              		.loc 1 248 22 is_stmt 0 view .LVU289
+ 746 006e 0F92     		str	r2, [sp, #60]
+ 249:../../CM4/Core/Src/main.c ****   pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+ 747              		.loc 1 249 3 is_stmt 1 view .LVU290
+ 249:../../CM4/Core/Src/main.c ****   pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+ 748              		.loc 1 249 22 is_stmt 0 view .LVU291
+ 749 0070 1092     		str	r2, [sp, #64]
+ 250:../../CM4/Core/Src/main.c ****   pLayerCfg.Alpha = 0;
+ 750              		.loc 1 250 3 is_stmt 1 view .LVU292
+ 250:../../CM4/Core/Src/main.c ****   pLayerCfg.Alpha = 0;
+ 751              		.loc 1 250 25 is_stmt 0 view .LVU293
+ 752 0072 1192     		str	r2, [sp, #68]
+ 251:../../CM4/Core/Src/main.c ****   pLayerCfg.Alpha0 = 0;
+ 753              		.loc 1 251 3 is_stmt 1 view .LVU294
+ 251:../../CM4/Core/Src/main.c ****   pLayerCfg.Alpha0 = 0;
+ 754              		.loc 1 251 19 is_stmt 0 view .LVU295
+ 755 0074 1292     		str	r2, [sp, #72]
+ 252:../../CM4/Core/Src/main.c ****   pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
+ 756              		.loc 1 252 3 is_stmt 1 view .LVU296
+ 252:../../CM4/Core/Src/main.c ****   pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
+ 757              		.loc 1 252 20 is_stmt 0 view .LVU297
+ 758 0076 1392     		str	r2, [sp, #76]
+ 253:../../CM4/Core/Src/main.c ****   pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
+ 759              		.loc 1 253 3 is_stmt 1 view .LVU298
+ 253:../../CM4/Core/Src/main.c ****   pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
+ 760              		.loc 1 253 29 is_stmt 0 view .LVU299
+ 761 0078 4FF48063 		mov	r3, #1024
+ 762 007c 1493     		str	r3, [sp, #80]
+ 254:../../CM4/Core/Src/main.c ****   pLayerCfg.FBStartAdress = 0;
+ 763              		.loc 1 254 3 is_stmt 1 view .LVU300
+ 254:../../CM4/Core/Src/main.c ****   pLayerCfg.FBStartAdress = 0;
+ 764              		.loc 1 254 29 is_stmt 0 view .LVU301
+ 765 007e 0523     		movs	r3, #5
+ 766 0080 1593     		str	r3, [sp, #84]
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 30
+
+
+ 255:../../CM4/Core/Src/main.c ****   pLayerCfg.ImageWidth = 0;
+ 767              		.loc 1 255 3 is_stmt 1 view .LVU302
+ 255:../../CM4/Core/Src/main.c ****   pLayerCfg.ImageWidth = 0;
+ 768              		.loc 1 255 27 is_stmt 0 view .LVU303
+ 769 0082 1692     		str	r2, [sp, #88]
+ 256:../../CM4/Core/Src/main.c ****   pLayerCfg.ImageHeight = 0;
+ 770              		.loc 1 256 3 is_stmt 1 view .LVU304
+ 256:../../CM4/Core/Src/main.c ****   pLayerCfg.ImageHeight = 0;
+ 771              		.loc 1 256 24 is_stmt 0 view .LVU305
+ 772 0084 1792     		str	r2, [sp, #92]
+ 257:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Blue = 0;
+ 773              		.loc 1 257 3 is_stmt 1 view .LVU306
+ 257:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Blue = 0;
+ 774              		.loc 1 257 25 is_stmt 0 view .LVU307
+ 775 0086 1892     		str	r2, [sp, #96]
+ 258:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Green = 0;
+ 776              		.loc 1 258 3 is_stmt 1 view .LVU308
+ 258:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Green = 0;
+ 777              		.loc 1 258 28 is_stmt 0 view .LVU309
+ 778 0088 8DF86420 		strb	r2, [sp, #100]
+ 259:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Red = 0;
+ 779              		.loc 1 259 3 is_stmt 1 view .LVU310
+ 259:../../CM4/Core/Src/main.c ****   pLayerCfg.Backcolor.Red = 0;
+ 780              		.loc 1 259 29 is_stmt 0 view .LVU311
+ 781 008c 8DF86520 		strb	r2, [sp, #101]
+ 260:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
+ 782              		.loc 1 260 3 is_stmt 1 view .LVU312
+ 260:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
+ 783              		.loc 1 260 27 is_stmt 0 view .LVU313
+ 784 0090 8DF86620 		strb	r2, [sp, #102]
+ 261:../../CM4/Core/Src/main.c ****   {
+ 785              		.loc 1 261 3 is_stmt 1 view .LVU314
+ 261:../../CM4/Core/Src/main.c ****   {
+ 786              		.loc 1 261 7 is_stmt 0 view .LVU315
+ 787 0094 0DA9     		add	r1, sp, #52
+ 788 0096 1448     		ldr	r0, .L21
+ 789 0098 FFF7FEFF 		bl	HAL_LTDC_ConfigLayer
+ 790              	.LVL18:
+ 261:../../CM4/Core/Src/main.c ****   {
+ 791              		.loc 1 261 6 view .LVU316
+ 792 009c F8B9     		cbnz	r0, .L19
+ 265:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowX1 = 0;
+ 793              		.loc 1 265 3 is_stmt 1 view .LVU317
+ 265:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowX1 = 0;
+ 794              		.loc 1 265 23 is_stmt 0 view .LVU318
+ 795 009e 0023     		movs	r3, #0
+ 796 00a0 0093     		str	r3, [sp]
+ 266:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowY0 = 0;
+ 797              		.loc 1 266 3 is_stmt 1 view .LVU319
+ 266:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowY0 = 0;
+ 798              		.loc 1 266 23 is_stmt 0 view .LVU320
+ 799 00a2 0193     		str	r3, [sp, #4]
+ 267:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowY1 = 0;
+ 800              		.loc 1 267 3 is_stmt 1 view .LVU321
+ 267:../../CM4/Core/Src/main.c ****   pLayerCfg1.WindowY1 = 0;
+ 801              		.loc 1 267 23 is_stmt 0 view .LVU322
+ 802 00a4 0293     		str	r3, [sp, #8]
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 31
+
+
+ 268:../../CM4/Core/Src/main.c ****   pLayerCfg1.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+ 803              		.loc 1 268 3 is_stmt 1 view .LVU323
+ 268:../../CM4/Core/Src/main.c ****   pLayerCfg1.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+ 804              		.loc 1 268 23 is_stmt 0 view .LVU324
+ 805 00a6 0393     		str	r3, [sp, #12]
+ 269:../../CM4/Core/Src/main.c ****   pLayerCfg1.Alpha = 0;
+ 806              		.loc 1 269 3 is_stmt 1 view .LVU325
+ 269:../../CM4/Core/Src/main.c ****   pLayerCfg1.Alpha = 0;
+ 807              		.loc 1 269 26 is_stmt 0 view .LVU326
+ 808 00a8 0493     		str	r3, [sp, #16]
+ 270:../../CM4/Core/Src/main.c ****   pLayerCfg1.Alpha0 = 0;
+ 809              		.loc 1 270 3 is_stmt 1 view .LVU327
+ 270:../../CM4/Core/Src/main.c ****   pLayerCfg1.Alpha0 = 0;
+ 810              		.loc 1 270 20 is_stmt 0 view .LVU328
+ 811 00aa 0593     		str	r3, [sp, #20]
+ 271:../../CM4/Core/Src/main.c ****   pLayerCfg1.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
+ 812              		.loc 1 271 3 is_stmt 1 view .LVU329
+ 271:../../CM4/Core/Src/main.c ****   pLayerCfg1.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
+ 813              		.loc 1 271 21 is_stmt 0 view .LVU330
+ 814 00ac 0693     		str	r3, [sp, #24]
+ 272:../../CM4/Core/Src/main.c ****   pLayerCfg1.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
+ 815              		.loc 1 272 3 is_stmt 1 view .LVU331
+ 272:../../CM4/Core/Src/main.c ****   pLayerCfg1.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
+ 816              		.loc 1 272 30 is_stmt 0 view .LVU332
+ 817 00ae 4FF48062 		mov	r2, #1024
+ 818 00b2 0792     		str	r2, [sp, #28]
+ 273:../../CM4/Core/Src/main.c ****   pLayerCfg1.FBStartAdress = 0;
+ 819              		.loc 1 273 3 is_stmt 1 view .LVU333
+ 273:../../CM4/Core/Src/main.c ****   pLayerCfg1.FBStartAdress = 0;
+ 820              		.loc 1 273 30 is_stmt 0 view .LVU334
+ 821 00b4 0522     		movs	r2, #5
+ 822 00b6 0892     		str	r2, [sp, #32]
+ 274:../../CM4/Core/Src/main.c ****   pLayerCfg1.ImageWidth = 0;
+ 823              		.loc 1 274 3 is_stmt 1 view .LVU335
+ 274:../../CM4/Core/Src/main.c ****   pLayerCfg1.ImageWidth = 0;
+ 824              		.loc 1 274 28 is_stmt 0 view .LVU336
+ 825 00b8 0993     		str	r3, [sp, #36]
+ 275:../../CM4/Core/Src/main.c ****   pLayerCfg1.ImageHeight = 0;
+ 826              		.loc 1 275 3 is_stmt 1 view .LVU337
+ 275:../../CM4/Core/Src/main.c ****   pLayerCfg1.ImageHeight = 0;
+ 827              		.loc 1 275 25 is_stmt 0 view .LVU338
+ 828 00ba 0A93     		str	r3, [sp, #40]
+ 276:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Blue = 0;
+ 829              		.loc 1 276 3 is_stmt 1 view .LVU339
+ 276:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Blue = 0;
+ 830              		.loc 1 276 26 is_stmt 0 view .LVU340
+ 831 00bc 0B93     		str	r3, [sp, #44]
+ 277:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Green = 0;
+ 832              		.loc 1 277 3 is_stmt 1 view .LVU341
+ 277:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Green = 0;
+ 833              		.loc 1 277 29 is_stmt 0 view .LVU342
+ 834 00be 8DF83030 		strb	r3, [sp, #48]
+ 278:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Red = 0;
+ 835              		.loc 1 278 3 is_stmt 1 view .LVU343
+ 278:../../CM4/Core/Src/main.c ****   pLayerCfg1.Backcolor.Red = 0;
+ 836              		.loc 1 278 30 is_stmt 0 view .LVU344
+ 837 00c2 8DF83130 		strb	r3, [sp, #49]
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 32
+
+
+ 279:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg1, 1) != HAL_OK)
+ 838              		.loc 1 279 3 is_stmt 1 view .LVU345
+ 279:../../CM4/Core/Src/main.c ****   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg1, 1) != HAL_OK)
+ 839              		.loc 1 279 28 is_stmt 0 view .LVU346
+ 840 00c6 8DF83230 		strb	r3, [sp, #50]
+ 280:../../CM4/Core/Src/main.c ****   {
+ 841              		.loc 1 280 3 is_stmt 1 view .LVU347
+ 280:../../CM4/Core/Src/main.c ****   {
+ 842              		.loc 1 280 7 is_stmt 0 view .LVU348
+ 843 00ca 0122     		movs	r2, #1
+ 844 00cc 6946     		mov	r1, sp
+ 845 00ce 0648     		ldr	r0, .L21
+ 846 00d0 FFF7FEFF 		bl	HAL_LTDC_ConfigLayer
+ 847              	.LVL19:
+ 280:../../CM4/Core/Src/main.c ****   {
+ 848              		.loc 1 280 6 view .LVU349
+ 849 00d4 28B9     		cbnz	r0, .L20
+ 288:../../CM4/Core/Src/main.c **** 
+ 850              		.loc 1 288 1 view .LVU350
+ 851 00d6 1AB0     		add	sp, sp, #104
+ 852              	.LCFI6:
+ 853              		.cfi_remember_state
+ 854              		.cfi_def_cfa_offset 8
+ 855              		@ sp needed
+ 856 00d8 10BD     		pop	{r4, pc}
+ 857              	.L18:
+ 858              	.LCFI7:
+ 859              		.cfi_restore_state
+ 244:../../CM4/Core/Src/main.c ****   }
+ 860              		.loc 1 244 5 is_stmt 1 view .LVU351
+ 861 00da FFF7FEFF 		bl	Error_Handler
+ 862              	.LVL20:
+ 863              	.L19:
+ 263:../../CM4/Core/Src/main.c ****   }
+ 864              		.loc 1 263 5 view .LVU352
+ 865 00de FFF7FEFF 		bl	Error_Handler
+ 866              	.LVL21:
+ 867              	.L20:
+ 282:../../CM4/Core/Src/main.c ****   }
+ 868              		.loc 1 282 5 view .LVU353
+ 869 00e2 FFF7FEFF 		bl	Error_Handler
+ 870              	.LVL22:
+ 871              	.L22:
+ 872 00e6 00BF     		.align	2
+ 873              	.L21:
+ 874 00e8 00000000 		.word	.LANCHOR5
+ 875 00ec 00100050 		.word	1342181376
+ 876              		.cfi_endproc
+ 877              	.LFE134:
+ 879              		.section	.text.MX_SAI2_Init,"ax",%progbits
+ 880              		.align	1
+ 881              		.syntax unified
+ 882              		.thumb
+ 883              		.thumb_func
+ 885              	MX_SAI2_Init:
+ 886              	.LFB135:
+ 296:../../CM4/Core/Src/main.c **** 
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 33
+
+
+ 887              		.loc 1 296 1 view -0
+ 888              		.cfi_startproc
+ 889              		@ args = 0, pretend = 0, frame = 0
+ 890              		@ frame_needed = 0, uses_anonymous_args = 0
+ 891 0000 08B5     		push	{r3, lr}
+ 892              	.LCFI8:
+ 893              		.cfi_def_cfa_offset 8
+ 894              		.cfi_offset 3, -8
+ 895              		.cfi_offset 14, -4
+ 305:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.Protocol = SAI_FREE_PROTOCOL;
+ 896              		.loc 1 305 3 view .LVU355
+ 305:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.Protocol = SAI_FREE_PROTOCOL;
+ 897              		.loc 1 305 25 is_stmt 0 view .LVU356
+ 898 0002 2A48     		ldr	r0, .L29
+ 899 0004 2A4B     		ldr	r3, .L29+4
+ 900 0006 0360     		str	r3, [r0]
+ 306:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.AudioMode = SAI_MODEMASTER_TX;
+ 901              		.loc 1 306 3 is_stmt 1 view .LVU357
+ 306:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.AudioMode = SAI_MODEMASTER_TX;
+ 902              		.loc 1 306 30 is_stmt 0 view .LVU358
+ 903 0008 0023     		movs	r3, #0
+ 904 000a 4364     		str	r3, [r0, #68]
+ 307:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.DataSize = SAI_DATASIZE_8;
+ 905              		.loc 1 307 3 is_stmt 1 view .LVU359
+ 307:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.DataSize = SAI_DATASIZE_8;
+ 906              		.loc 1 307 31 is_stmt 0 view .LVU360
+ 907 000c 4360     		str	r3, [r0, #4]
+ 308:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.FirstBit = SAI_FIRSTBIT_MSB;
+ 908              		.loc 1 308 3 is_stmt 1 view .LVU361
+ 308:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.FirstBit = SAI_FIRSTBIT_MSB;
+ 909              		.loc 1 308 30 is_stmt 0 view .LVU362
+ 910 000e 4022     		movs	r2, #64
+ 911 0010 8264     		str	r2, [r0, #72]
+ 309:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.ClockStrobing = SAI_CLOCKSTROBING_FALLINGEDGE;
+ 912              		.loc 1 309 3 is_stmt 1 view .LVU363
+ 309:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.ClockStrobing = SAI_CLOCKSTROBING_FALLINGEDGE;
+ 913              		.loc 1 309 30 is_stmt 0 view .LVU364
+ 914 0012 C364     		str	r3, [r0, #76]
+ 310:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.Synchro = SAI_ASYNCHRONOUS;
+ 915              		.loc 1 310 3 is_stmt 1 view .LVU365
+ 310:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.Synchro = SAI_ASYNCHRONOUS;
+ 916              		.loc 1 310 35 is_stmt 0 view .LVU366
+ 917 0014 0365     		str	r3, [r0, #80]
+ 311:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+ 918              		.loc 1 311 3 is_stmt 1 view .LVU367
+ 311:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+ 919              		.loc 1 311 29 is_stmt 0 view .LVU368
+ 920 0016 8360     		str	r3, [r0, #8]
+ 312:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+ 921              		.loc 1 312 3 is_stmt 1 view .LVU369
+ 312:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+ 922              		.loc 1 312 33 is_stmt 0 view .LVU370
+ 923 0018 4361     		str	r3, [r0, #20]
+ 313:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+ 924              		.loc 1 313 3 is_stmt 1 view .LVU371
+ 313:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+ 925              		.loc 1 313 31 is_stmt 0 view .LVU372
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 34
+
+
+ 926 001a 8361     		str	r3, [r0, #24]
+ 314:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_192K;
+ 927              		.loc 1 314 3 is_stmt 1 view .LVU373
+ 314:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_192K;
+ 928              		.loc 1 314 35 is_stmt 0 view .LVU374
+ 929 001c C361     		str	r3, [r0, #28]
+ 315:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+ 930              		.loc 1 315 3 is_stmt 1 view .LVU375
+ 315:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+ 931              		.loc 1 315 36 is_stmt 0 view .LVU376
+ 932 001e 254A     		ldr	r2, .L29+8
+ 933 0020 0262     		str	r2, [r0, #32]
+ 316:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.MonoStereoMode = SAI_STEREOMODE;
+ 934              		.loc 1 316 3 is_stmt 1 view .LVU377
+ 316:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.MonoStereoMode = SAI_STEREOMODE;
+ 935              		.loc 1 316 32 is_stmt 0 view .LVU378
+ 936 0022 C360     		str	r3, [r0, #12]
+ 317:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.CompandingMode = SAI_NOCOMPANDING;
+ 937              		.loc 1 317 3 is_stmt 1 view .LVU379
+ 317:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.CompandingMode = SAI_NOCOMPANDING;
+ 938              		.loc 1 317 36 is_stmt 0 view .LVU380
+ 939 0024 C362     		str	r3, [r0, #44]
+ 318:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+ 940              		.loc 1 318 3 is_stmt 1 view .LVU381
+ 318:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+ 941              		.loc 1 318 36 is_stmt 0 view .LVU382
+ 942 0026 0363     		str	r3, [r0, #48]
+ 319:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.Activation = DISABLE;
+ 943              		.loc 1 319 3 is_stmt 1 view .LVU383
+ 319:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.Activation = DISABLE;
+ 944              		.loc 1 319 30 is_stmt 0 view .LVU384
+ 945 0028 4363     		str	r3, [r0, #52]
+ 320:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.MicPairsNbr = 1;
+ 946              		.loc 1 320 3 is_stmt 1 view .LVU385
+ 320:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.MicPairsNbr = 1;
+ 947              		.loc 1 320 40 is_stmt 0 view .LVU386
+ 948 002a 80F83830 		strb	r3, [r0, #56]
+ 321:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.ClockEnable = SAI_PDM_CLOCK1_ENABLE;
+ 949              		.loc 1 321 3 is_stmt 1 view .LVU387
+ 321:../../CM4/Core/Src/main.c ****   hsai_BlockA2.Init.PdmInit.ClockEnable = SAI_PDM_CLOCK1_ENABLE;
+ 950              		.loc 1 321 41 is_stmt 0 view .LVU388
+ 951 002e 0122     		movs	r2, #1
+ 952 0030 C263     		str	r2, [r0, #60]
+ 322:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FrameLength = 8;
+ 953              		.loc 1 322 3 is_stmt 1 view .LVU389
+ 322:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FrameLength = 8;
+ 954              		.loc 1 322 41 is_stmt 0 view .LVU390
+ 955 0032 4FF48071 		mov	r1, #256
+ 956 0036 0164     		str	r1, [r0, #64]
+ 323:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.ActiveFrameLength = 1;
+ 957              		.loc 1 323 3 is_stmt 1 view .LVU391
+ 323:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.ActiveFrameLength = 1;
+ 958              		.loc 1 323 38 is_stmt 0 view .LVU392
+ 959 0038 0821     		movs	r1, #8
+ 960 003a 4165     		str	r1, [r0, #84]
+ 324:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSDefinition = SAI_FS_STARTFRAME;
+ 961              		.loc 1 324 3 is_stmt 1 view .LVU393
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 35
+
+
+ 324:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSDefinition = SAI_FS_STARTFRAME;
+ 962              		.loc 1 324 44 is_stmt 0 view .LVU394
+ 963 003c 8265     		str	r2, [r0, #88]
+ 325:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSPolarity = SAI_FS_ACTIVE_LOW;
+ 964              		.loc 1 325 3 is_stmt 1 view .LVU395
+ 325:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSPolarity = SAI_FS_ACTIVE_LOW;
+ 965              		.loc 1 325 39 is_stmt 0 view .LVU396
+ 966 003e C365     		str	r3, [r0, #92]
+ 326:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSOffset = SAI_FS_FIRSTBIT;
+ 967              		.loc 1 326 3 is_stmt 1 view .LVU397
+ 326:../../CM4/Core/Src/main.c ****   hsai_BlockA2.FrameInit.FSOffset = SAI_FS_FIRSTBIT;
+ 968              		.loc 1 326 37 is_stmt 0 view .LVU398
+ 969 0040 0366     		str	r3, [r0, #96]
+ 327:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.FirstBitOffset = 0;
+ 970              		.loc 1 327 3 is_stmt 1 view .LVU399
+ 327:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.FirstBitOffset = 0;
+ 971              		.loc 1 327 35 is_stmt 0 view .LVU400
+ 972 0042 4366     		str	r3, [r0, #100]
+ 328:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotSize = SAI_SLOTSIZE_DATASIZE;
+ 973              		.loc 1 328 3 is_stmt 1 view .LVU401
+ 328:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotSize = SAI_SLOTSIZE_DATASIZE;
+ 974              		.loc 1 328 40 is_stmt 0 view .LVU402
+ 975 0044 8366     		str	r3, [r0, #104]
+ 329:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotNumber = 1;
+ 976              		.loc 1 329 3 is_stmt 1 view .LVU403
+ 329:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotNumber = 1;
+ 977              		.loc 1 329 34 is_stmt 0 view .LVU404
+ 978 0046 C366     		str	r3, [r0, #108]
+ 330:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotActive = 0x00000000;
+ 979              		.loc 1 330 3 is_stmt 1 view .LVU405
+ 330:../../CM4/Core/Src/main.c ****   hsai_BlockA2.SlotInit.SlotActive = 0x00000000;
+ 980              		.loc 1 330 36 is_stmt 0 view .LVU406
+ 981 0048 0267     		str	r2, [r0, #112]
+ 331:../../CM4/Core/Src/main.c ****   if (HAL_SAI_Init(&hsai_BlockA2) != HAL_OK)
+ 982              		.loc 1 331 3 is_stmt 1 view .LVU407
+ 331:../../CM4/Core/Src/main.c ****   if (HAL_SAI_Init(&hsai_BlockA2) != HAL_OK)
+ 983              		.loc 1 331 36 is_stmt 0 view .LVU408
+ 984 004a 4367     		str	r3, [r0, #116]
+ 332:../../CM4/Core/Src/main.c ****   {
+ 985              		.loc 1 332 3 is_stmt 1 view .LVU409
+ 332:../../CM4/Core/Src/main.c ****   {
+ 986              		.loc 1 332 7 is_stmt 0 view .LVU410
+ 987 004c FFF7FEFF 		bl	HAL_SAI_Init
+ 988              	.LVL23:
+ 332:../../CM4/Core/Src/main.c ****   {
+ 989              		.loc 1 332 6 view .LVU411
+ 990 0050 0028     		cmp	r0, #0
+ 991 0052 26D1     		bne	.L27
+ 336:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.Protocol = SAI_FREE_PROTOCOL;
+ 992              		.loc 1 336 3 is_stmt 1 view .LVU412
+ 336:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.Protocol = SAI_FREE_PROTOCOL;
+ 993              		.loc 1 336 25 is_stmt 0 view .LVU413
+ 994 0054 1848     		ldr	r0, .L29+12
+ 995 0056 194B     		ldr	r3, .L29+16
+ 996 0058 0360     		str	r3, [r0]
+ 337:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.AudioMode = SAI_MODESLAVE_RX;
+ 997              		.loc 1 337 3 is_stmt 1 view .LVU414
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 36
+
+
+ 337:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.AudioMode = SAI_MODESLAVE_RX;
+ 998              		.loc 1 337 30 is_stmt 0 view .LVU415
+ 999 005a 0023     		movs	r3, #0
+ 1000 005c 4364     		str	r3, [r0, #68]
+ 338:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.DataSize = SAI_DATASIZE_8;
+ 1001              		.loc 1 338 3 is_stmt 1 view .LVU416
+ 338:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.DataSize = SAI_DATASIZE_8;
+ 1002              		.loc 1 338 31 is_stmt 0 view .LVU417
+ 1003 005e 0322     		movs	r2, #3
+ 1004 0060 4260     		str	r2, [r0, #4]
+ 339:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.FirstBit = SAI_FIRSTBIT_MSB;
+ 1005              		.loc 1 339 3 is_stmt 1 view .LVU418
+ 339:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.FirstBit = SAI_FIRSTBIT_MSB;
+ 1006              		.loc 1 339 30 is_stmt 0 view .LVU419
+ 1007 0062 4022     		movs	r2, #64
+ 1008 0064 8264     		str	r2, [r0, #72]
+ 340:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.ClockStrobing = SAI_CLOCKSTROBING_FALLINGEDGE;
+ 1009              		.loc 1 340 3 is_stmt 1 view .LVU420
+ 340:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.ClockStrobing = SAI_CLOCKSTROBING_FALLINGEDGE;
+ 1010              		.loc 1 340 30 is_stmt 0 view .LVU421
+ 1011 0066 C364     		str	r3, [r0, #76]
+ 341:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.Synchro = SAI_SYNCHRONOUS;
+ 1012              		.loc 1 341 3 is_stmt 1 view .LVU422
+ 341:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.Synchro = SAI_SYNCHRONOUS;
+ 1013              		.loc 1 341 35 is_stmt 0 view .LVU423
+ 1014 0068 0365     		str	r3, [r0, #80]
+ 342:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+ 1015              		.loc 1 342 3 is_stmt 1 view .LVU424
+ 342:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+ 1016              		.loc 1 342 29 is_stmt 0 view .LVU425
+ 1017 006a 0122     		movs	r2, #1
+ 1018 006c 8260     		str	r2, [r0, #8]
+ 343:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+ 1019              		.loc 1 343 3 is_stmt 1 view .LVU426
+ 343:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+ 1020              		.loc 1 343 33 is_stmt 0 view .LVU427
+ 1021 006e 4361     		str	r3, [r0, #20]
+ 344:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+ 1022              		.loc 1 344 3 is_stmt 1 view .LVU428
+ 344:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+ 1023              		.loc 1 344 35 is_stmt 0 view .LVU429
+ 1024 0070 C361     		str	r3, [r0, #28]
+ 345:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.MonoStereoMode = SAI_STEREOMODE;
+ 1025              		.loc 1 345 3 is_stmt 1 view .LVU430
+ 345:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.MonoStereoMode = SAI_STEREOMODE;
+ 1026              		.loc 1 345 32 is_stmt 0 view .LVU431
+ 1027 0072 C360     		str	r3, [r0, #12]
+ 346:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.CompandingMode = SAI_NOCOMPANDING;
+ 1028              		.loc 1 346 3 is_stmt 1 view .LVU432
+ 346:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.CompandingMode = SAI_NOCOMPANDING;
+ 1029              		.loc 1 346 36 is_stmt 0 view .LVU433
+ 1030 0074 C362     		str	r3, [r0, #44]
+ 347:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+ 1031              		.loc 1 347 3 is_stmt 1 view .LVU434
+ 347:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+ 1032              		.loc 1 347 36 is_stmt 0 view .LVU435
+ 1033 0076 0363     		str	r3, [r0, #48]
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 37
+
+
+ 348:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.Activation = DISABLE;
+ 1034              		.loc 1 348 3 is_stmt 1 view .LVU436
+ 348:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.Activation = DISABLE;
+ 1035              		.loc 1 348 30 is_stmt 0 view .LVU437
+ 1036 0078 4363     		str	r3, [r0, #52]
+ 349:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.MicPairsNbr = 1;
+ 1037              		.loc 1 349 3 is_stmt 1 view .LVU438
+ 349:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.MicPairsNbr = 1;
+ 1038              		.loc 1 349 40 is_stmt 0 view .LVU439
+ 1039 007a 80F83830 		strb	r3, [r0, #56]
+ 350:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.ClockEnable = SAI_PDM_CLOCK1_ENABLE;
+ 1040              		.loc 1 350 3 is_stmt 1 view .LVU440
+ 350:../../CM4/Core/Src/main.c ****   hsai_BlockB2.Init.PdmInit.ClockEnable = SAI_PDM_CLOCK1_ENABLE;
+ 1041              		.loc 1 350 41 is_stmt 0 view .LVU441
+ 1042 007e C263     		str	r2, [r0, #60]
+ 351:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FrameLength = 8;
+ 1043              		.loc 1 351 3 is_stmt 1 view .LVU442
+ 351:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FrameLength = 8;
+ 1044              		.loc 1 351 41 is_stmt 0 view .LVU443
+ 1045 0080 4FF48071 		mov	r1, #256
+ 1046 0084 0164     		str	r1, [r0, #64]
+ 352:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.ActiveFrameLength = 1;
+ 1047              		.loc 1 352 3 is_stmt 1 view .LVU444
+ 352:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.ActiveFrameLength = 1;
+ 1048              		.loc 1 352 38 is_stmt 0 view .LVU445
+ 1049 0086 0821     		movs	r1, #8
+ 1050 0088 4165     		str	r1, [r0, #84]
+ 353:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSDefinition = SAI_FS_STARTFRAME;
+ 1051              		.loc 1 353 3 is_stmt 1 view .LVU446
+ 353:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSDefinition = SAI_FS_STARTFRAME;
+ 1052              		.loc 1 353 44 is_stmt 0 view .LVU447
+ 1053 008a 8265     		str	r2, [r0, #88]
+ 354:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSPolarity = SAI_FS_ACTIVE_LOW;
+ 1054              		.loc 1 354 3 is_stmt 1 view .LVU448
+ 354:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSPolarity = SAI_FS_ACTIVE_LOW;
+ 1055              		.loc 1 354 39 is_stmt 0 view .LVU449
+ 1056 008c C365     		str	r3, [r0, #92]
+ 355:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSOffset = SAI_FS_FIRSTBIT;
+ 1057              		.loc 1 355 3 is_stmt 1 view .LVU450
+ 355:../../CM4/Core/Src/main.c ****   hsai_BlockB2.FrameInit.FSOffset = SAI_FS_FIRSTBIT;
+ 1058              		.loc 1 355 37 is_stmt 0 view .LVU451
+ 1059 008e 0366     		str	r3, [r0, #96]
+ 356:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.FirstBitOffset = 0;
+ 1060              		.loc 1 356 3 is_stmt 1 view .LVU452
+ 356:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.FirstBitOffset = 0;
+ 1061              		.loc 1 356 35 is_stmt 0 view .LVU453
+ 1062 0090 4366     		str	r3, [r0, #100]
+ 357:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotSize = SAI_SLOTSIZE_DATASIZE;
+ 1063              		.loc 1 357 3 is_stmt 1 view .LVU454
+ 357:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotSize = SAI_SLOTSIZE_DATASIZE;
+ 1064              		.loc 1 357 40 is_stmt 0 view .LVU455
+ 1065 0092 8366     		str	r3, [r0, #104]
+ 358:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotNumber = 1;
+ 1066              		.loc 1 358 3 is_stmt 1 view .LVU456
+ 358:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotNumber = 1;
+ 1067              		.loc 1 358 34 is_stmt 0 view .LVU457
+ 1068 0094 C366     		str	r3, [r0, #108]
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 38
+
+
+ 359:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotActive = 0x00000000;
+ 1069              		.loc 1 359 3 is_stmt 1 view .LVU458
+ 359:../../CM4/Core/Src/main.c ****   hsai_BlockB2.SlotInit.SlotActive = 0x00000000;
+ 1070              		.loc 1 359 36 is_stmt 0 view .LVU459
+ 1071 0096 0267     		str	r2, [r0, #112]
+ 360:../../CM4/Core/Src/main.c ****   if (HAL_SAI_Init(&hsai_BlockB2) != HAL_OK)
+ 1072              		.loc 1 360 3 is_stmt 1 view .LVU460
+ 360:../../CM4/Core/Src/main.c ****   if (HAL_SAI_Init(&hsai_BlockB2) != HAL_OK)
+ 1073              		.loc 1 360 36 is_stmt 0 view .LVU461
+ 1074 0098 4367     		str	r3, [r0, #116]
+ 361:../../CM4/Core/Src/main.c ****   {
+ 1075              		.loc 1 361 3 is_stmt 1 view .LVU462
+ 361:../../CM4/Core/Src/main.c ****   {
+ 1076              		.loc 1 361 7 is_stmt 0 view .LVU463
+ 1077 009a FFF7FEFF 		bl	HAL_SAI_Init
+ 1078              	.LVL24:
+ 361:../../CM4/Core/Src/main.c ****   {
+ 1079              		.loc 1 361 6 view .LVU464
+ 1080 009e 10B9     		cbnz	r0, .L28
+ 369:../../CM4/Core/Src/main.c **** 
+ 1081              		.loc 1 369 1 view .LVU465
+ 1082 00a0 08BD     		pop	{r3, pc}
+ 1083              	.L27:
+ 334:../../CM4/Core/Src/main.c ****   }
+ 1084              		.loc 1 334 5 is_stmt 1 view .LVU466
+ 1085 00a2 FFF7FEFF 		bl	Error_Handler
+ 1086              	.LVL25:
+ 1087              	.L28:
+ 363:../../CM4/Core/Src/main.c ****   }
+ 1088              		.loc 1 363 5 view .LVU467
+ 1089 00a6 FFF7FEFF 		bl	Error_Handler
+ 1090              	.LVL26:
+ 1091              	.L30:
+ 1092 00aa 00BF     		.align	2
+ 1093              	.L29:
+ 1094 00ac 00000000 		.word	.LANCHOR6
+ 1095 00b0 045C0140 		.word	1073830916
+ 1096 00b4 00EE0200 		.word	192000
+ 1097 00b8 00000000 		.word	.LANCHOR7
+ 1098 00bc 245C0140 		.word	1073830948
+ 1099              		.cfi_endproc
+ 1100              	.LFE135:
+ 1102              		.section	.text.MX_SDMMC1_MMC_Init,"ax",%progbits
+ 1103              		.align	1
+ 1104              		.syntax unified
+ 1105              		.thumb
+ 1106              		.thumb_func
+ 1108              	MX_SDMMC1_MMC_Init:
+ 1109              	.LFB136:
+ 377:../../CM4/Core/Src/main.c **** 
+ 1110              		.loc 1 377 1 view -0
+ 1111              		.cfi_startproc
+ 1112              		@ args = 0, pretend = 0, frame = 0
+ 1113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1114 0000 08B5     		push	{r3, lr}
+ 1115              	.LCFI9:
+ 1116              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 39
+
+
+ 1117              		.cfi_offset 3, -8
+ 1118              		.cfi_offset 14, -4
+ 386:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
+ 1119              		.loc 1 386 3 view .LVU469
+ 386:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
+ 1120              		.loc 1 386 18 is_stmt 0 view .LVU470
+ 1121 0002 0848     		ldr	r0, .L35
+ 1122 0004 084B     		ldr	r3, .L35+4
+ 1123 0006 0360     		str	r3, [r0]
+ 387:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
+ 1124              		.loc 1 387 3 is_stmt 1 view .LVU471
+ 387:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
+ 1125              		.loc 1 387 24 is_stmt 0 view .LVU472
+ 1126 0008 0023     		movs	r3, #0
+ 1127 000a 4360     		str	r3, [r0, #4]
+ 388:../../CM4/Core/Src/main.c ****   hmmc1.Init.BusWide = SDMMC_BUS_WIDE_8B;
+ 1128              		.loc 1 388 3 is_stmt 1 view .LVU473
+ 388:../../CM4/Core/Src/main.c ****   hmmc1.Init.BusWide = SDMMC_BUS_WIDE_8B;
+ 1129              		.loc 1 388 29 is_stmt 0 view .LVU474
+ 1130 000c 8360     		str	r3, [r0, #8]
+ 389:../../CM4/Core/Src/main.c ****   hmmc1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+ 1131              		.loc 1 389 3 is_stmt 1 view .LVU475
+ 389:../../CM4/Core/Src/main.c ****   hmmc1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+ 1132              		.loc 1 389 22 is_stmt 0 view .LVU476
+ 1133 000e 4FF40042 		mov	r2, #32768
+ 1134 0012 C260     		str	r2, [r0, #12]
+ 390:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockDiv = 0;
+ 1135              		.loc 1 390 3 is_stmt 1 view .LVU477
+ 390:../../CM4/Core/Src/main.c ****   hmmc1.Init.ClockDiv = 0;
+ 1136              		.loc 1 390 34 is_stmt 0 view .LVU478
+ 1137 0014 0361     		str	r3, [r0, #16]
+ 391:../../CM4/Core/Src/main.c ****   if (HAL_MMC_Init(&hmmc1) != HAL_OK)
+ 1138              		.loc 1 391 3 is_stmt 1 view .LVU479
+ 391:../../CM4/Core/Src/main.c ****   if (HAL_MMC_Init(&hmmc1) != HAL_OK)
+ 1139              		.loc 1 391 23 is_stmt 0 view .LVU480
+ 1140 0016 4361     		str	r3, [r0, #20]
+ 392:../../CM4/Core/Src/main.c ****   {
+ 1141              		.loc 1 392 3 is_stmt 1 view .LVU481
+ 392:../../CM4/Core/Src/main.c ****   {
+ 1142              		.loc 1 392 7 is_stmt 0 view .LVU482
+ 1143 0018 FFF7FEFF 		bl	HAL_MMC_Init
+ 1144              	.LVL27:
+ 392:../../CM4/Core/Src/main.c ****   {
+ 1145              		.loc 1 392 6 view .LVU483
+ 1146 001c 00B9     		cbnz	r0, .L34
+ 400:../../CM4/Core/Src/main.c **** 
+ 1147              		.loc 1 400 1 view .LVU484
+ 1148 001e 08BD     		pop	{r3, pc}
+ 1149              	.L34:
+ 394:../../CM4/Core/Src/main.c ****   }
+ 1150              		.loc 1 394 5 is_stmt 1 view .LVU485
+ 1151 0020 FFF7FEFF 		bl	Error_Handler
+ 1152              	.LVL28:
+ 1153              	.L36:
+ 1154              		.align	2
+ 1155              	.L35:
+ 1156 0024 00000000 		.word	.LANCHOR8
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 40
+
+
+ 1157 0028 00700052 		.word	1375760384
+ 1158              		.cfi_endproc
+ 1159              	.LFE136:
+ 1161              		.section	.text.MX_USB_OTG_FS_PCD_Init,"ax",%progbits
+ 1162              		.align	1
+ 1163              		.syntax unified
+ 1164              		.thumb
+ 1165              		.thumb_func
+ 1167              	MX_USB_OTG_FS_PCD_Init:
+ 1168              	.LFB137:
+ 408:../../CM4/Core/Src/main.c **** 
+ 1169              		.loc 1 408 1 view -0
+ 1170              		.cfi_startproc
+ 1171              		@ args = 0, pretend = 0, frame = 0
+ 1172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1173 0000 08B5     		push	{r3, lr}
+ 1174              	.LCFI10:
+ 1175              		.cfi_def_cfa_offset 8
+ 1176              		.cfi_offset 3, -8
+ 1177              		.cfi_offset 14, -4
+ 417:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.dev_endpoints = 9;
+ 1178              		.loc 1 417 3 view .LVU487
+ 417:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.dev_endpoints = 9;
+ 1179              		.loc 1 417 28 is_stmt 0 view .LVU488
+ 1180 0002 0B48     		ldr	r0, .L41
+ 1181 0004 0B4B     		ldr	r3, .L41+4
+ 1182 0006 0360     		str	r3, [r0]
+ 418:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
+ 1183              		.loc 1 418 3 is_stmt 1 view .LVU489
+ 418:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
+ 1184              		.loc 1 418 38 is_stmt 0 view .LVU490
+ 1185 0008 0923     		movs	r3, #9
+ 1186 000a 0371     		strb	r3, [r0, #4]
+ 419:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.dma_enable = DISABLE;
+ 1187              		.loc 1 419 3 is_stmt 1 view .LVU491
+ 419:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.dma_enable = DISABLE;
+ 1188              		.loc 1 419 30 is_stmt 0 view .LVU492
+ 1189 000c 0222     		movs	r2, #2
+ 1190 000e C271     		strb	r2, [r0, #7]
+ 420:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+ 1191              		.loc 1 420 3 is_stmt 1 view .LVU493
+ 420:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+ 1192              		.loc 1 420 35 is_stmt 0 view .LVU494
+ 1193 0010 0023     		movs	r3, #0
+ 1194 0012 8371     		strb	r3, [r0, #6]
+ 421:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
+ 1195              		.loc 1 421 3 is_stmt 1 view .LVU495
+ 421:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
+ 1196              		.loc 1 421 35 is_stmt 0 view .LVU496
+ 1197 0014 4272     		strb	r2, [r0, #9]
+ 422:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
+ 1198              		.loc 1 422 3 is_stmt 1 view .LVU497
+ 422:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
+ 1199              		.loc 1 422 35 is_stmt 0 view .LVU498
+ 1200 0016 8372     		strb	r3, [r0, #10]
+ 423:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
+ 1201              		.loc 1 423 3 is_stmt 1 view .LVU499
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 41
+
+
+ 423:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
+ 1202              		.loc 1 423 41 is_stmt 0 view .LVU500
+ 1203 0018 C372     		strb	r3, [r0, #11]
+ 424:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.battery_charging_enable = ENABLE;
+ 1204              		.loc 1 424 3 is_stmt 1 view .LVU501
+ 424:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.battery_charging_enable = ENABLE;
+ 1205              		.loc 1 424 35 is_stmt 0 view .LVU502
+ 1206 001a 0373     		strb	r3, [r0, #12]
+ 425:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
+ 1207              		.loc 1 425 3 is_stmt 1 view .LVU503
+ 425:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
+ 1208              		.loc 1 425 48 is_stmt 0 view .LVU504
+ 1209 001c 0122     		movs	r2, #1
+ 1210 001e 4273     		strb	r2, [r0, #13]
+ 426:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
+ 1211              		.loc 1 426 3 is_stmt 1 view .LVU505
+ 426:../../CM4/Core/Src/main.c ****   hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
+ 1212              		.loc 1 426 44 is_stmt 0 view .LVU506
+ 1213 0020 8273     		strb	r2, [r0, #14]
+ 427:../../CM4/Core/Src/main.c ****   if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
+ 1214              		.loc 1 427 3 is_stmt 1 view .LVU507
+ 427:../../CM4/Core/Src/main.c ****   if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
+ 1215              		.loc 1 427 42 is_stmt 0 view .LVU508
+ 1216 0022 C373     		strb	r3, [r0, #15]
+ 428:../../CM4/Core/Src/main.c ****   {
+ 1217              		.loc 1 428 3 is_stmt 1 view .LVU509
+ 428:../../CM4/Core/Src/main.c ****   {
+ 1218              		.loc 1 428 7 is_stmt 0 view .LVU510
+ 1219 0024 FFF7FEFF 		bl	HAL_PCD_Init
+ 1220              	.LVL29:
+ 428:../../CM4/Core/Src/main.c ****   {
+ 1221              		.loc 1 428 6 view .LVU511
+ 1222 0028 00B9     		cbnz	r0, .L40
+ 436:../../CM4/Core/Src/main.c **** 
+ 1223              		.loc 1 436 1 view .LVU512
+ 1224 002a 08BD     		pop	{r3, pc}
+ 1225              	.L40:
+ 430:../../CM4/Core/Src/main.c ****   }
+ 1226              		.loc 1 430 5 is_stmt 1 view .LVU513
+ 1227 002c FFF7FEFF 		bl	Error_Handler
+ 1228              	.LVL30:
+ 1229              	.L42:
+ 1230              		.align	2
+ 1231              	.L41:
+ 1232 0030 00000000 		.word	.LANCHOR9
+ 1233 0034 00000840 		.word	1074266112
+ 1234              		.cfi_endproc
+ 1235              	.LFE137:
+ 1237              		.section	.text.main,"ax",%progbits
+ 1238              		.align	1
+ 1239              		.global	main
+ 1240              		.syntax unified
+ 1241              		.thumb
+ 1242              		.thumb_func
+ 1244              	main:
+ 1245              	.LFB132:
+ 103:../../CM4/Core/Src/main.c **** 
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 42
+
+
+ 1246              		.loc 1 103 1 view -0
+ 1247              		.cfi_startproc
+ 1248              		@ Volatile: function does not return.
+ 1249              		@ args = 0, pretend = 0, frame = 8
+ 1250              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1251 0000 00B5     		push	{lr}
+ 1252              	.LCFI11:
+ 1253              		.cfi_def_cfa_offset 4
+ 1254              		.cfi_offset 14, -4
+ 1255 0002 83B0     		sub	sp, sp, #12
+ 1256              	.LCFI12:
+ 1257              		.cfi_def_cfa_offset 16
+ 111:../../CM4/Core/Src/main.c ****   /* Activate HSEM notification for Cortex-M4*/
+ 1258              		.loc 1 111 3 view .LVU515
+ 1259              	.LBB17:
+ 111:../../CM4/Core/Src/main.c ****   /* Activate HSEM notification for Cortex-M4*/
+ 1260              		.loc 1 111 3 view .LVU516
+ 111:../../CM4/Core/Src/main.c ****   /* Activate HSEM notification for Cortex-M4*/
+ 1261              		.loc 1 111 3 view .LVU517
+ 1262 0004 1D4B     		ldr	r3, .L49
+ 1263 0006 D3F8E020 		ldr	r2, [r3, #224]
+ 1264 000a 42F00072 		orr	r2, r2, #33554432
+ 1265 000e C3F8E020 		str	r2, [r3, #224]
+ 111:../../CM4/Core/Src/main.c ****   /* Activate HSEM notification for Cortex-M4*/
+ 1266              		.loc 1 111 3 view .LVU518
+ 1267 0012 D3F8E030 		ldr	r3, [r3, #224]
+ 1268 0016 03F00073 		and	r3, r3, #33554432
+ 1269 001a 0193     		str	r3, [sp, #4]
+ 111:../../CM4/Core/Src/main.c ****   /* Activate HSEM notification for Cortex-M4*/
+ 1270              		.loc 1 111 3 view .LVU519
+ 1271 001c 019B     		ldr	r3, [sp, #4]
+ 1272              	.LBE17:
+ 111:../../CM4/Core/Src/main.c ****   /* Activate HSEM notification for Cortex-M4*/
+ 1273              		.loc 1 111 3 view .LVU520
+ 113:../../CM4/Core/Src/main.c ****   /*
+ 1274              		.loc 1 113 3 view .LVU521
+ 1275 001e 0120     		movs	r0, #1
+ 1276 0020 FFF7FEFF 		bl	HAL_HSEM_ActivateNotification
+ 1277              	.LVL31:
+ 118:../../CM4/Core/Src/main.c ****   HAL_PWREx_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFE, PWR_D2_DOMAIN);
+ 1278              		.loc 1 118 3 view .LVU522
+ 1279 0024 FFF7FEFF 		bl	HAL_PWREx_ClearPendingEvent
+ 1280              	.LVL32:
+ 119:../../CM4/Core/Src/main.c ****   /* Clear HSEM flag */
+ 1281              		.loc 1 119 3 view .LVU523
+ 1282 0028 0122     		movs	r2, #1
+ 1283 002a 0221     		movs	r1, #2
+ 1284 002c 0020     		movs	r0, #0
+ 1285 002e FFF7FEFF 		bl	HAL_PWREx_EnterSTOPMode
+ 1286              	.LVL33:
+ 121:../../CM4/Core/Src/main.c **** 
+ 1287              		.loc 1 121 3 view .LVU524
+ 1288 0032 134B     		ldr	r3, .L49+4
+ 1289 0034 1B68     		ldr	r3, [r3]
+ 1290 0036 C3F30313 		ubfx	r3, r3, #4, #4
+ 1291 003a 072B     		cmp	r3, #7
+ 1292 003c 15D0     		beq	.L48
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 43
+
+
+ 121:../../CM4/Core/Src/main.c **** 
+ 1293              		.loc 1 121 3 is_stmt 0 discriminator 2 view .LVU525
+ 1294 003e 114A     		ldr	r2, .L49+8
+ 1295 0040 D2F81431 		ldr	r3, [r2, #276]
+ 1296 0044 43F00103 		orr	r3, r3, #1
+ 1297 0048 C2F81431 		str	r3, [r2, #276]
+ 1298              	.L45:
+ 127:../../CM4/Core/Src/main.c **** 
+ 1299              		.loc 1 127 3 is_stmt 1 view .LVU526
+ 1300 004c FFF7FEFF 		bl	HAL_Init
+ 1301              	.LVL34:
+ 138:../../CM4/Core/Src/main.c ****   MX_ETH_Init();
+ 1302              		.loc 1 138 3 view .LVU527
+ 1303 0050 FFF7FEFF 		bl	MX_GPIO_Init
+ 1304              	.LVL35:
+ 139:../../CM4/Core/Src/main.c ****   MX_LTDC_Init();
+ 1305              		.loc 1 139 3 view .LVU528
+ 1306 0054 FFF7FEFF 		bl	MX_ETH_Init
+ 1307              	.LVL36:
+ 140:../../CM4/Core/Src/main.c ****   MX_SAI2_Init();
+ 1308              		.loc 1 140 3 view .LVU529
+ 1309 0058 FFF7FEFF 		bl	MX_LTDC_Init
+ 1310              	.LVL37:
+ 141:../../CM4/Core/Src/main.c ****   MX_SDMMC1_MMC_Init();
+ 1311              		.loc 1 141 3 view .LVU530
+ 1312 005c FFF7FEFF 		bl	MX_SAI2_Init
+ 1313              	.LVL38:
+ 142:../../CM4/Core/Src/main.c ****   MX_USB_OTG_FS_PCD_Init();
+ 1314              		.loc 1 142 3 view .LVU531
+ 1315 0060 FFF7FEFF 		bl	MX_SDMMC1_MMC_Init
+ 1316              	.LVL39:
+ 143:../../CM4/Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 1317              		.loc 1 143 3 view .LVU532
+ 1318 0064 FFF7FEFF 		bl	MX_USB_OTG_FS_PCD_Init
+ 1319              	.LVL40:
+ 1320              	.L46:
+ 150:../../CM4/Core/Src/main.c ****   {
+ 1321              		.loc 1 150 3 discriminator 1 view .LVU533
+ 155:../../CM4/Core/Src/main.c ****   /* USER CODE END 3 */
+ 1322              		.loc 1 155 3 discriminator 1 view .LVU534
+ 150:../../CM4/Core/Src/main.c ****   {
+ 1323              		.loc 1 150 9 discriminator 1 view .LVU535
+ 1324 0068 FEE7     		b	.L46
+ 1325              	.L48:
+ 121:../../CM4/Core/Src/main.c **** 
+ 1326              		.loc 1 121 3 is_stmt 0 discriminator 1 view .LVU536
+ 1327 006a 064A     		ldr	r2, .L49+8
+ 1328 006c D2F80431 		ldr	r3, [r2, #260]
+ 1329 0070 43F00103 		orr	r3, r3, #1
+ 1330 0074 C2F80431 		str	r3, [r2, #260]
+ 1331 0078 E8E7     		b	.L45
+ 1332              	.L50:
+ 1333 007a 00BF     		.align	2
+ 1334              	.L49:
+ 1335 007c 00440258 		.word	1476543488
+ 1336 0080 00ED00E0 		.word	-536810240
+ 1337 0084 00640258 		.word	1476551680
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 44
+
+
+ 1338              		.cfi_endproc
+ 1339              	.LFE132:
+ 1341              		.global	hpcd_USB_OTG_FS
+ 1342              		.global	hmmc1
+ 1343              		.global	hsai_BlockB2
+ 1344              		.global	hsai_BlockA2
+ 1345              		.global	hltdc
+ 1346              		.global	heth
+ 1347              		.global	TxConfig
+ 1348              		.global	DMATxDscrTab
+ 1349              		.global	DMARxDscrTab
+ 1350              		.section	.RxDecripSection,"aw"
+ 1351              		.align	2
+ 1352              		.set	.LANCHOR3,. + 0
+ 1355              	DMARxDscrTab:
+ 1356 0000 00000000 		.space	96
+ 1356      00000000 
+ 1356      00000000 
+ 1356      00000000 
+ 1356      00000000 
+ 1357              		.section	.TxDecripSection,"aw"
+ 1358              		.align	2
+ 1359              		.set	.LANCHOR2,. + 0
+ 1362              	DMATxDscrTab:
+ 1363 0000 00000000 		.space	96
+ 1363      00000000 
+ 1363      00000000 
+ 1363      00000000 
+ 1363      00000000 
+ 1364              		.section	.bss.MACAddr.0,"aw",%nobits
+ 1365              		.align	2
+ 1366              		.set	.LANCHOR1,. + 0
+ 1369              	MACAddr.0:
+ 1370 0000 00000000 		.space	6
+ 1370      0000
+ 1371              		.section	.bss.TxConfig,"aw",%nobits
+ 1372              		.align	2
+ 1373              		.set	.LANCHOR4,. + 0
+ 1376              	TxConfig:
+ 1377 0000 00000000 		.space	56
+ 1377      00000000 
+ 1377      00000000 
+ 1377      00000000 
+ 1377      00000000 
+ 1378              		.section	.bss.heth,"aw",%nobits
+ 1379              		.align	2
+ 1380              		.set	.LANCHOR0,. + 0
+ 1383              	heth:
+ 1384 0000 00000000 		.space	176
+ 1384      00000000 
+ 1384      00000000 
+ 1384      00000000 
+ 1384      00000000 
+ 1385              		.section	.bss.hltdc,"aw",%nobits
+ 1386              		.align	2
+ 1387              		.set	.LANCHOR5,. + 0
+ 1390              	hltdc:
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 45
+
+
+ 1391 0000 00000000 		.space	168
+ 1391      00000000 
+ 1391      00000000 
+ 1391      00000000 
+ 1391      00000000 
+ 1392              		.section	.bss.hmmc1,"aw",%nobits
+ 1393              		.align	2
+ 1394              		.set	.LANCHOR8,. + 0
+ 1397              	hmmc1:
+ 1398 0000 00000000 		.space	628
+ 1398      00000000 
+ 1398      00000000 
+ 1398      00000000 
+ 1398      00000000 
+ 1399              		.section	.bss.hpcd_USB_OTG_FS,"aw",%nobits
+ 1400              		.align	2
+ 1401              		.set	.LANCHOR9,. + 0
+ 1404              	hpcd_USB_OTG_FS:
+ 1405 0000 00000000 		.space	1252
+ 1405      00000000 
+ 1405      00000000 
+ 1405      00000000 
+ 1405      00000000 
+ 1406              		.section	.bss.hsai_BlockA2,"aw",%nobits
+ 1407              		.align	2
+ 1408              		.set	.LANCHOR6,. + 0
+ 1411              	hsai_BlockA2:
+ 1412 0000 00000000 		.space	152
+ 1412      00000000 
+ 1412      00000000 
+ 1412      00000000 
+ 1412      00000000 
+ 1413              		.section	.bss.hsai_BlockB2,"aw",%nobits
+ 1414              		.align	2
+ 1415              		.set	.LANCHOR7,. + 0
+ 1418              	hsai_BlockB2:
+ 1419 0000 00000000 		.space	152
+ 1419      00000000 
+ 1419      00000000 
+ 1419      00000000 
+ 1419      00000000 
+ 1420              		.text
+ 1421              	.Letext0:
+ 1422              		.file 3 "c:\\projects\\rtos_projects\\tools\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\includ
+ 1423              		.file 4 "c:\\projects\\rtos_projects\\tools\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\includ
+ 1424              		.file 5 "../../Drivers/CMSIS/Include/core_cm4.h"
+ 1425              		.file 6 "../../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h745xx.h"
+ 1426              		.file 7 "../../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h"
+ 1427              		.file 8 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 1428              		.file 9 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 1429              		.file 10 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
+ 1430              		.file 11 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_eth.h"
+ 1431              		.file 12 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_sdmmc.h"
+ 1432              		.file 13 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mmc.h"
+ 1433              		.file 14 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_ltdc.h"
+ 1434              		.file 15 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sai.h"
+ 1435              		.file 16 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h"
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 46
+
+
+ 1436              		.file 17 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h"
+ 1437              		.file 18 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_hsem.h"
+ 1438              		.file 19 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h"
+ 1439              		.file 20 "../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
+ 1440              		.file 21 "<built-in>"
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 47
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:20     .text.MX_GPIO_Init:00000000 $t
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:25     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:487    .text.MX_GPIO_Init:0000024c $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:496    .text.Error_Handler:00000000 $t
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:502    .text.Error_Handler:00000000 Error_Handler
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:534    .text.MX_ETH_Init:00000000 $t
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:539    .text.MX_ETH_Init:00000000 MX_ETH_Init
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:627    .text.MX_ETH_Init:00000050 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:637    .text.MX_LTDC_Init:00000000 $t
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:642    .text.MX_LTDC_Init:00000000 MX_LTDC_Init
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:874    .text.MX_LTDC_Init:000000e8 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:880    .text.MX_SAI2_Init:00000000 $t
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:885    .text.MX_SAI2_Init:00000000 MX_SAI2_Init
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1094   .text.MX_SAI2_Init:000000ac $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1103   .text.MX_SDMMC1_MMC_Init:00000000 $t
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1108   .text.MX_SDMMC1_MMC_Init:00000000 MX_SDMMC1_MMC_Init
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1156   .text.MX_SDMMC1_MMC_Init:00000024 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1162   .text.MX_USB_OTG_FS_PCD_Init:00000000 $t
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1167   .text.MX_USB_OTG_FS_PCD_Init:00000000 MX_USB_OTG_FS_PCD_Init
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1232   .text.MX_USB_OTG_FS_PCD_Init:00000030 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1238   .text.main:00000000 $t
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1244   .text.main:00000000 main
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1335   .text.main:0000007c $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1404   .bss.hpcd_USB_OTG_FS:00000000 hpcd_USB_OTG_FS
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1397   .bss.hmmc1:00000000 hmmc1
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1418   .bss.hsai_BlockB2:00000000 hsai_BlockB2
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1411   .bss.hsai_BlockA2:00000000 hsai_BlockA2
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1390   .bss.hltdc:00000000 hltdc
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1383   .bss.heth:00000000 heth
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1376   .bss.TxConfig:00000000 TxConfig
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1362   .TxDecripSection:00000000 DMATxDscrTab
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1355   .RxDecripSection:00000000 DMARxDscrTab
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1351   .RxDecripSection:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1358   .TxDecripSection:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1365   .bss.MACAddr.0:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1369   .bss.MACAddr.0:00000000 MACAddr.0
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1372   .bss.TxConfig:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1379   .bss.heth:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1386   .bss.hltdc:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1393   .bss.hmmc1:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1400   .bss.hpcd_USB_OTG_FS:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1407   .bss.hsai_BlockA2:00000000 $d
+C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s:1414   .bss.hsai_BlockB2:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_Init
+HAL_ETH_Init
+memset
+HAL_LTDC_Init
+HAL_LTDC_ConfigLayer
+HAL_SAI_Init
+HAL_MMC_Init
+HAL_PCD_Init
+HAL_HSEM_ActivateNotification
+HAL_PWREx_ClearPendingEvent
+ARM GAS  C:\Users\sheld\AppData\Local\Temp\cc7nJ3Ik.s 			page 48
+
+
+HAL_PWREx_EnterSTOPMode
+HAL_Init
