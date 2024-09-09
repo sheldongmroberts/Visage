@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2024 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -42,7 +42,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define ITM_Port32(n)  (*((volatile unsigned long *)(0xE0000000+4*n)))
+#define ITM_Port32(n) (*((volatile unsigned long *)(0xE0000000 + 4 * n)))
 
 /* USER CODE END PM */
 
@@ -76,7 +76,7 @@ uint16_t Data = 0;
 
 int _write(int file, char *ptr, int len)
 {
-	HAL_UART_Transmit(&huart3, (uint8_t *) ptr, len, 10);
+	HAL_UART_Transmit(&huart3, (uint8_t *)ptr, len, 10);
 	return len;
 }
 /* USER CODE END 0 */
@@ -92,17 +92,17 @@ int main(void)
 
   /* USER CODE END 1 */
 /* USER CODE BEGIN Boot_Mode_Sequence_0 */
-  int32_t timeout;
+	int32_t timeout;
 /* USER CODE END Boot_Mode_Sequence_0 */
 
 /* USER CODE BEGIN Boot_Mode_Sequence_1 */
-  /* Wait until CPU2 boots and enters in stop mode or timeout*/
-//  timeout = 0xFFFF;
-//  while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0));
-//  if ( timeout < 0 )
-//  {
-//  Error_Handler();
-//  }
+	/* Wait until CPU2 boots and enters in stop mode or timeout*/
+	//  timeout = 0xFFFF;
+	//  while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0));
+	//  if ( timeout < 0 )
+	//  {
+	//  Error_Handler();
+	//  }
 /* USER CODE END Boot_Mode_Sequence_1 */
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -116,49 +116,50 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 /* USER CODE BEGIN Boot_Mode_Sequence_2 */
-/* When system initialization is finished, Cortex-M7 will release Cortex-M4 by means of
-HSEM notification */
-/*HW semaphore Clock enable*/
-//__HAL_RCC_HSEM_CLK_ENABLE();
-/*Take HSEM */
-//HAL_HSEM_FastTake(HSEM_ID_0);
-/*Release HSEM in order to notify the CPU2(CM4)*/
-//HAL_HSEM_Release(HSEM_ID_0,0);
-/* wait until CPU2 wakes up from stop mode */
-timeout = 0xFFFF;
-while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) == RESET) && (timeout-- > 0));
-if ( timeout < 0 )
-{
-Error_Handler();
-}
+	/* When system initialization is finished, Cortex-M7 will release Cortex-M4 by means of
+	HSEM notification */
+	/*HW semaphore Clock enable*/
+	//__HAL_RCC_HSEM_CLK_ENABLE();
+	/*Take HSEM */
+	// HAL_HSEM_FastTake(HSEM_ID_0);
+	/*Release HSEM in order to notify the CPU2(CM4)*/
+	// HAL_HSEM_Release(HSEM_ID_0,0);
+	/* wait until CPU2 wakes up from stop mode */
+	timeout = 0xFFFF;
+	while ((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) == RESET) && (timeout-- > 0))
+		;
+	if (timeout < 0)
+	{
+		Error_Handler();
+	}
 /* USER CODE END Boot_Mode_Sequence_2 */
 
   /* USER CODE BEGIN SysInit */
-//  ITM_Port32(31) = 1;
+	//  ITM_Port32(31) = 1;
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  printf("GPIO Init Done \r\n");
-//  ITM_Port32(31) = 2;
+	printf("GPIO Init Done \r\n");
+	//  ITM_Port32(31) = 2;
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
+	/* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
+	/* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
+	/* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
+	/* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -175,7 +176,7 @@ Error_Handler();
   task2Handle = osThreadCreate(osThread(task2), (void*) 1);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+	/* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -185,27 +186,27 @@ Error_Handler();
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1)
+	{
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	printf("I'm in the main loop!\n\r");
-//	HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_15);
-//	osDelay(50);
-//	HAL_Delay(500);
-//	Loop++;
-////	Data++;
-//	if(Loop > 100)
-//	{
-//		Loop = 0;
-//	}
+		printf("I'm in the main loop!\n\r");
+		//	HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_15);
+		//	osDelay(50);
+		//	HAL_Delay(500);
+		//	Loop++;
+		////	Data++;
+		//	if(Loop > 100)
+		//	{
+		//		Loop = 0;
+		//	}
 
-//	if(Data > 100)
-//	{
-//		Data = 0;
-//	}
-  }
+		//	if(Data > 100)
+		//	{
+		//		Data = 0;
+		//	}
+	}
   /* USER CODE END 3 */
 }
 
@@ -334,9 +335,19 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOI_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOJ_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(USER1_GPIO_Port, USER1_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(USER2_GPIO_Port, USER2_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : B1_Pin */
+  GPIO_InitStruct.Pin = B1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : USER1_Pin */
   GPIO_InitStruct.Pin = USER1_Pin;
@@ -345,79 +356,92 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(USER1_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : USER2_Pin */
+  GPIO_InitStruct.Pin = USER2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(USER2_GPIO_Port, &GPIO_InitStruct);
+
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
-//int _write(int file, char *ptr, int len)
+// int _write(int file, char *ptr, int len)
 //{
-//  int DataIdx;
-//  for (DataIdx=0; DataIdx<len; DataIdx++)
-//  {
-//    ITM_SendChar(*ptr++);
-//  }
-//  return len;
-//}
+//   int DataIdx;
+//   for (DataIdx=0; DataIdx<len; DataIdx++)
+//   {
+//     ITM_SendChar(*ptr++);
+//   }
+//   return len;
+// }
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
 /**
-  * @brief  Function implementing the defaultTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
+ * @brief  Function implementing the defaultTask thread.
+ * @param  argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-//    osDelay(1);
-  }
+	/* Infinite loop */
+	for (;;)
+	{
+		//    osDelay(1);
+	}
   /* USER CODE END 5 */
 }
 
 /* USER CODE BEGIN Header_StartTask1 */
 /**
-* @brief Function implementing the task1 thread.
-* @param argument: Not used
-* @retval None
-*/
+ * @brief Function implementing the task1 thread.
+ * @param argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_StartTask1 */
 void StartTask1(void const * argument)
 {
   /* USER CODE BEGIN StartTask1 */
-  /* Infinite loop */
-  for(;;)
-  {
-    printf("Task 1\n\r");
-	HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
-	Loop++;
-	HAL_Delay(500);
-//    osDelay(1000);
-  }
+	/* Infinite loop */
+	char* message = "Hello World!\r\n";
+	for (;;)
+	{
+		printf("Task 1\n\r");
+		HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
+		HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
+		Loop++;
+		HAL_Delay(500);
+
+		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_RESET) {
+			HAL_UART_Transmit(&huart3, (uint8_t *)message, strlen(message), 100);
+		}
+		//    osDelay(1000);
+	}
   /* USER CODE END StartTask1 */
 }
 
 /* USER CODE BEGIN Header_StartTask2 */
 /**
-* @brief Function implementing the task2 thread.
-* @param argument: Not used
-* @retval None
-*/
+ * @brief Function implementing the task2 thread.
+ * @param argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_StartTask2 */
 void StartTask2(void const * argument)
 {
   /* USER CODE BEGIN StartTask2 */
-  /* Infinite loop */
-  for(;;)
-  {
-	Data++;
-	printf("Task 2\n\r");
-//    HAL_Delay(50);
-  }
+	/* Infinite loop */
+	for (;;)
+	{
+		Data++;
+		printf("Task 2\n\r");
+		//    HAL_Delay(50);
+	}
   /* USER CODE END StartTask2 */
 }
 
@@ -449,16 +473,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-	  Data++;
-	  if (Data > 100)
-	  {
-		  Data = 0;
-	  }
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1)
+	{
+		Data++;
+		if (Data > 100)
+		{
+			Data = 0;
+		}
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -473,8 +497,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+	/* User can add his own implementation to report the file name and line number,
+	   ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

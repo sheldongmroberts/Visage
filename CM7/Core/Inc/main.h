@@ -28,6 +28,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
+#include "string.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -61,6 +62,8 @@ void Error_Handler(void);
 #define OSC32_OUT_GPIO_Port GPIOC
 #define OSC32_IN_Pin GPIO_PIN_14
 #define OSC32_IN_GPIO_Port GPIOC
+#define B1_Pin GPIO_PIN_13
+#define B1_GPIO_Port GPIOC
 #define USER1_Pin GPIO_PIN_13
 #define USER1_GPIO_Port GPIOI
 #define OSC_OUT_Pin GPIO_PIN_1
@@ -71,6 +74,8 @@ void Error_Handler(void);
 #define VCP_TX_GPIO_Port GPIOB
 #define VCP_RX_Pin GPIO_PIN_11
 #define VCP_RX_GPIO_Port GPIOB
+#define USER2_Pin GPIO_PIN_2
+#define USER2_GPIO_Port GPIOJ
 
 /* USER CODE BEGIN Private defines */
 
