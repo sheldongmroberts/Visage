@@ -107,12 +107,22 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     /* Peripheral clock enable */
     __HAL_RCC_USART3_CLK_ENABLE();
 
+    __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**USART3 GPIO Configuration
+    PC12     ------> USART3_CK
     PB10     ------> USART3_TX
     PB11     ------> USART3_RX
+    PB13     ------> USART3_CTS
     */
-    GPIO_InitStruct.Pin = VCP_TX_Pin|VCP_RX_Pin;
+    GPIO_InitStruct.Pin = GPIO_PIN_12;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = VCP_TX_Pin|VCP_RX_Pin|GPIO_PIN_13;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -144,10 +154,14 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
     __HAL_RCC_USART3_CLK_DISABLE();
 
     /**USART3 GPIO Configuration
+    PC12     ------> USART3_CK
     PB10     ------> USART3_TX
     PB11     ------> USART3_RX
+    PB13     ------> USART3_CTS
     */
-    HAL_GPIO_DeInit(GPIOB, VCP_TX_Pin|VCP_RX_Pin);
+    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_12);
+
+    HAL_GPIO_DeInit(GPIOB, VCP_TX_Pin|VCP_RX_Pin|GPIO_PIN_13);
 
   /* USER CODE BEGIN USART3_MspDeInit 1 */
 

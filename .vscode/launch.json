@@ -12,7 +12,8 @@
             "configFiles": [
                 "interface/stlink.cfg",
                 "target/stm32h7x.cfg"
-            ]
+            ],
+            "svdFile": "./resources/stm/STM32H745_CM7.svd"
         }
     ]
 }

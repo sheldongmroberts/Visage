@@ -57,14 +57,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define SDIO1_D2_Pin GPIO_PIN_10
-#define SDIO1_D2_GPIO_Port GPIOC
 #define MII_TX_EN_Pin GPIO_PIN_11
 #define MII_TX_EN_GPIO_Port GPIOG
 #define LCD_DISP_Pin GPIO_PIN_15
 #define LCD_DISP_GPIO_Port GPIOJ
-#define SDIO1_D3_Pin GPIO_PIN_11
-#define SDIO1_D3_GPIO_Port GPIOC
 #define OSC32_OUT_Pin GPIO_PIN_15
 #define OSC32_OUT_GPIO_Port GPIOC
 #define OSC32_IN_Pin GPIO_PIN_14
@@ -73,32 +69,16 @@ void Error_Handler(void);
 #define MII_TXD3_GPIO_Port GPIOE
 #define MII_TXD1_Pin GPIO_PIN_12
 #define MII_TXD1_GPIO_Port GPIOG
-#define SDIO1_CK_Pin GPIO_PIN_12
-#define SDIO1_CK_GPIO_Port GPIOC
-#define SDIO1_D5_Pin GPIO_PIN_9
-#define SDIO1_D5_GPIO_Port GPIOB
-#define SDIO1_D4_Pin GPIO_PIN_8
-#define SDIO1_D4_GPIO_Port GPIOB
 #define MII_TXD0_Pin GPIO_PIN_13
 #define MII_TXD0_GPIO_Port GPIOG
-#define SDIO1_CMD_Pin GPIO_PIN_2
-#define SDIO1_CMD_GPIO_Port GPIOD
 #define VBUS_FS2_Pin GPIO_PIN_9
 #define VBUS_FS2_GPIO_Port GPIOA
-#define SDIO1_D0_Pin GPIO_PIN_8
-#define SDIO1_D0_GPIO_Port GPIOC
-#define SDIO1_D1_Pin GPIO_PIN_9
-#define SDIO1_D1_GPIO_Port GPIOC
 #define USB_OTG_FS2_P_Pin GPIO_PIN_12
 #define USB_OTG_FS2_P_GPIO_Port GPIOA
 #define USB_OTG_FS2_N_Pin GPIO_PIN_11
 #define USB_OTG_FS2_N_GPIO_Port GPIOA
 #define MII_RX_ER_Pin GPIO_PIN_10
 #define MII_RX_ER_GPIO_Port GPIOI
-#define SDIO1_D7_Pin GPIO_PIN_7
-#define SDIO1_D7_GPIO_Port GPIOC
-#define SDIO1_D6_Pin GPIO_PIN_6
-#define SDIO1_D6_GPIO_Port GPIOC
 #define OSC_OUT_Pin GPIO_PIN_1
 #define OSC_OUT_GPIO_Port GPIOH
 #define OSC_IN_Pin GPIO_PIN_0

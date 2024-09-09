@@ -74,6 +74,12 @@ void StartTask2(void const * argument);
 uint16_t Loop = 0;
 uint16_t Data = 0;
 
+int fputc(int ch, FILE *f)
+{
+    HAL_UART_Transmit(&huart3, (unsigned char *)&ch, 1, 100);
+    return ch;
+}
+
 int _write(int file, char *ptr, int len)
 {
 	HAL_UART_Transmit(&huart3, (uint8_t *)ptr, len, 10);
@@ -408,17 +414,17 @@ void StartTask1(void const * argument)
 {
   /* USER CODE BEGIN StartTask1 */
 	/* Infinite loop */
-	char* message = "Hello World!\r\n";
 	for (;;)
 	{
-		printf("Task 1\n\r");
-		HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
-		HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
+		// HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
+		// HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
 		Loop++;
 		HAL_Delay(500);
 
-		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_RESET) {
-			HAL_UART_Transmit(&huart3, (uint8_t *)message, strlen(message), 100);
+		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
+		{
+			printf("Hello World\n\r");
+			HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
 		}
 		//    osDelay(1000);
 	}
