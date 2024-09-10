@@ -23,6 +23,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include <string>
+#include <iostream>
 
 /* USER CODE END Includes */
 
@@ -84,6 +86,12 @@ int _write(int file, char *ptr, int len)
 {
 	HAL_UART_Transmit(&huart3, (uint8_t *)ptr, len, 10);
 	return len;
+}
+
+int printv(std::string str)
+{
+	HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t*>(str.c_str()), str.length(), 100);
+	return str.length();
 }
 /* USER CODE END 0 */
 
@@ -413,6 +421,9 @@ void StartDefaultTask(void const * argument)
 void StartTask1(void const * argument)
 {
   /* USER CODE BEGIN StartTask1 */
+
+	std::string tempString = "test";
+
 	/* Infinite loop */
 	for (;;)
 	{
@@ -421,13 +432,14 @@ void StartTask1(void const * argument)
 		Loop++;
 		HAL_Delay(500);
 
+		std::cout << "Where is the output stream? No seriously, where is it?" << std::endl;
+
 		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
 		{
-			printf("Hello World\n\r");
+			printv("Pushing the blue button!");
 			// HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
 			HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
 		}
-		//    osDelay(1000);
 	}
   /* USER CODE END StartTask1 */
 }
