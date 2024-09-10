@@ -424,7 +424,8 @@ void StartTask1(void const * argument)
 		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
 		{
 			printf("Hello World\n\r");
-			HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
+			// HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
+			HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
 		}
 		//    osDelay(1000);
 	}
