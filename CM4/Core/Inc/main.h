@@ -59,8 +59,6 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define MII_TX_EN_Pin GPIO_PIN_11
 #define MII_TX_EN_GPIO_Port GPIOG
-#define LCD_DISP_Pin GPIO_PIN_15
-#define LCD_DISP_GPIO_Port GPIOJ
 #define OSC32_OUT_Pin GPIO_PIN_15
 #define OSC32_OUT_GPIO_Port GPIOC
 #define OSC32_IN_Pin GPIO_PIN_14

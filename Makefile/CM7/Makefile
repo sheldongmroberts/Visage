@@ -63,6 +63,8 @@ C_SOURCES =  \
 ../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c \
 ../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c \
 ../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c \
+../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_ltdc.c \
+../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_ltdc_ex.c \
 ../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c \
 ../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c \
 ../../Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.c \
