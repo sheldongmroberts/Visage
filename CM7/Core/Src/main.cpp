@@ -22,12 +22,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
 #include <string>
 #include <iostream>
 #include "resources.hpp"
-#include "stm32h7xx_hal_ltdc.h"
-#include "stm32h7xx_hal_ltdc_ex.h"
+#include "radio.hpp"
 
 /* USER CODE END Includes */
 
@@ -59,7 +57,9 @@ LTDC_HandleTypeDef hltdc;
 osThreadId defaultTaskHandle;
 osThreadId task1Handle;
 osThreadId task2Handle;
+osThreadId radioTaskHandle;
 /* USER CODE BEGIN PV */
+char MESSAGE_BUFFER[256];
 
 /* USER CODE END PV */
 
@@ -71,6 +71,7 @@ static void MX_LTDC_Init(void);
 void StartDefaultTask(void const *argument);
 void StartTask1(void const *argument);
 void StartTask2(void const *argument);
+void StartRadioTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -201,6 +202,10 @@ int main(void)
 	/* definition and creation of task2 */
 	osThreadDef(task2, StartTask2, osPriorityNormal, 0, 128);
 	task2Handle = osThreadCreate(osThread(task2), (void *)1);
+	
+	/* definition and creation of radioTask */
+	osThreadDef(radioTask, StartRadioTask, osPriorityRealtime, 0, 128);
+	radioTaskHandle = osThreadCreate(osThread(radioTask), NULL);
 
 	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
@@ -218,7 +223,7 @@ int main(void)
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		printf("I'm in the main loop!\n\r");
+		printv("I'm in the main loop!\n\r");
 		//	HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_15);
 		//	osDelay(50);
 		//	HAL_Delay(500);
@@ -516,11 +521,6 @@ void StartTask1(void const *argument)
 {
 	/* USER CODE BEGIN StartTask1 */
 
-	std::string tempString = "test";
-	std::vector<int> vec;
-	int counter = 0;
-	int sum = 0;
-
 	/* Infinite loop */
 	for (;;)
 	{
@@ -533,29 +533,12 @@ void StartTask1(void const *argument)
 
 		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
 		{
-			vec.push_back(counter);
-			counter++;
 			// printv("Pushing the blue button!\n\r");
 			// HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
 			HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
-			
-			sum = 0;
-			for (int i = 0; i < vec.size(); i++) {
-				sum += vec[i];
-			}
-			printv(sum);
+			printv("Holding down the button\n\r");
+			HAL_Delay(500);
 		}
-
-		vec.push_back(counter);
-		counter++;
-		printv(counter);
-
-		// sum = 0;
-		// for (int i = 0; i < vec.size(); i++) {
-		// 	sum += vec[i];
-		// }
-		// printv(sum);
-
 	}
 	/* USER CODE END StartTask1 */
 }
@@ -576,6 +559,27 @@ void StartTask2(void const *argument)
 		//    HAL_Delay(50);
 	}
 	/* USER CODE END StartTask2 */
+}
+
+/* USER CODE BEGIN Header_StartRadioTask */
+/**
+* @brief Function implementing the radioTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartRadioTask */
+void StartRadioTask(void const * argument)
+{
+	/* USER CODE BEGIN StartRadioTask */
+
+	// Construct the radio class
+	Radio radio();
+	/* Infinite loop */
+	for(;;)
+	{
+		HAL_Delay(500);
+	}
+	/* USER CODE END StartRadioTask */
 }
 
 /**

@@ -1,8 +1,8 @@
 /* USER CODE BEGIN Includes */
 /**
  ******************************************************************************
- * @file           : resources.hpp
- * @brief          : Include file!
+ * @file           : radio.hpp
+ * @brief          : Definition of the Radio object.
  ******************************************************************************
  * @attention
  *
@@ -17,21 +17,38 @@
  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __RESOURCES_HPP
-#define __RESOURCES_HPP
+#ifndef __RADIO_HPP
+#define __RADIO_HPP
+
+#include <cstddef>
+#include "resources.hpp"
 
 /* USER CODE END Includes */
 
-enum VErrorStatus
+class Radio
 {
-    V_NO_ERROR = 0,
-    V_ERROR = 1
+   public:
+    Radio();
+    
+    
+    Radio(uint16_t id);
+
+
+    ~Radio() = default;
+
+   private:
+    // Member Functions
+    VErrorStatus sendMessage(const BasicMessage& message);
+
+
+    VErrorStatus messageReceivedCallback();
+
+
+    VErrorStatus flushBuffer();
+
+    // Member Variables
+    uint16_t id_ = 0;
 };
 
 
-struct BasicMessage
-{
-    char messageBuffer[128];
-};
-
-#endif /* __RESOURCES_HPP */
+#endif /* __RADIO_HPP */
