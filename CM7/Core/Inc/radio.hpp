@@ -17,13 +17,14 @@
  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __RADIO_HPP
-#define __RADIO_HPP
+#ifndef RADIO_HPP
+#define RADIO_HPP
 
 #include <cstddef>
+#include <cstdint>
+#include <cstring>
 #include "resources.hpp"
-
-/* USER CODE END Includes */
+#include <string>
 
 class Radio
 {
@@ -36,9 +37,9 @@ class Radio
 
     ~Radio() = default;
 
+    VErrorStatus sendMessage(const BasicMessage& message);
    private:
     // Member Functions
-    VErrorStatus sendMessage(const BasicMessage& message);
 
 
     VErrorStatus messageReceivedCallback();
@@ -51,4 +52,5 @@ class Radio
 };
 
 
-#endif /* __RADIO_HPP */
+/* USER CODE END Includes */
+#endif /* RADIO_HPP */

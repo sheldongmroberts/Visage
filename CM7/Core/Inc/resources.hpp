@@ -17,10 +17,12 @@
  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __RESOURCES_HPP
-#define __RESOURCES_HPP
+#ifndef RESOURCES_HPP
+#define RESOURCES_HPP
 
-/* USER CODE END Includes */
+
+// char MESSAGE_BUFFER[256];
+// char* MESSAGE_BUFFER;
 
 enum VErrorStatus
 {
@@ -28,10 +30,14 @@ enum VErrorStatus
     V_ERROR = 1
 };
 
-
+#pragma pack(push, 1)
 struct BasicMessage
 {
     char messageBuffer[128];
 };
+#pragma pack(pop)
 
-#endif /* __RESOURCES_HPP */
+
+/* USER CODE END Includes */
+
+#endif /* RESOURCES_HPP */

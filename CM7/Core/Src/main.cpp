@@ -17,15 +17,18 @@
  */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
-#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <string>
+extern "C"
+{
+#include "main.h"
+}
+
 #include <iostream>
-#include "resources.hpp"
+#include <string>
 #include "radio.hpp"
+#include "resources.hpp"
 
 /* USER CODE END Includes */
 
@@ -59,7 +62,6 @@ osThreadId task1Handle;
 osThreadId task2Handle;
 osThreadId radioTaskHandle;
 /* USER CODE BEGIN PV */
-char MESSAGE_BUFFER[256];
 
 /* USER CODE END PV */
 
@@ -529,7 +531,7 @@ void StartTask1(void const *argument)
 		Loop++;
 		// HAL_Delay(500);
 
-		std::cout << "Where is the output stream? No seriously, where is it?" << std::endl;
+		// std::cout << "Where is the output stream? No seriously, where is it?" << std::endl;
 
 		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
 		{
@@ -573,10 +575,17 @@ void StartRadioTask(void const * argument)
 	/* USER CODE BEGIN StartRadioTask */
 
 	// Construct the radio class
-	Radio radio();
+	Radio groundRadio = Radio(0);
+	uint16_t counter = 0;
+	BasicMessage message;
+	char MESSAGE_BUFFER[256];
+	std::string tempString = "";
 	/* Infinite loop */
 	for(;;)
 	{
+		groundRadio.sendMessage(message);
+		counter++;
+		printv(MESSAGE_BUFFER);
 		HAL_Delay(500);
 	}
 	/* USER CODE END StartRadioTask */

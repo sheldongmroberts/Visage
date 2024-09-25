@@ -46,6 +46,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "resources.hpp": "c",
-        "radio.hpp": "c"
+        "radio.hpp": "c",
+        "cstring": "cpp",
+        "cmsis_os.h": "c"
     }
 }

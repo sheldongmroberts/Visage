@@ -37,7 +37,8 @@ BUILD_DIR = build
 
 # C++ sources
 CXX_SOURCES = \
-../../CM7/Core/Src/main.cpp
+../../CM7/Core/Src/main.cpp \
+../../CM7/Core/Src/radio.cpp
 
 # C sources
 C_SOURCES =  \
@@ -158,7 +159,7 @@ ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffuncti
 
 CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -fpermissive
 
-CXXFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -std=c++11
+CXXFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
