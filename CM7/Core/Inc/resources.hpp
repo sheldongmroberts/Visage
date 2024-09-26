@@ -20,9 +20,11 @@
 #ifndef RESOURCES_HPP
 #define RESOURCES_HPP
 
-
-// char MESSAGE_BUFFER[256];
-// char* MESSAGE_BUFFER;
+extern "C"
+{
+#include "FreeRTOS.h"
+#include "message_buffer.h"
+}
 
 enum VErrorStatus
 {
@@ -33,9 +35,11 @@ enum VErrorStatus
 #pragma pack(push, 1)
 struct BasicMessage
 {
-    char messageBuffer[128];
+    char messageBuffer[256];
 };
 #pragma pack(pop)
+
+extern MessageBufferHandle_t xMessageBuffer;
 
 
 /* USER CODE END Includes */

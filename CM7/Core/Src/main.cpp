@@ -63,6 +63,8 @@ osThreadId task2Handle;
 osThreadId radioTaskHandle;
 /* USER CODE BEGIN PV */
 
+MessageBufferHandle_t xMessageBuffer;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -220,6 +222,7 @@ int main(void)
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
+
 	while (1)
 	{
 		/* USER CODE END WHILE */
@@ -578,14 +581,13 @@ void StartRadioTask(void const * argument)
 	Radio groundRadio = Radio(0);
 	uint16_t counter = 0;
 	BasicMessage message;
-	char MESSAGE_BUFFER[256];
-	std::string tempString = "";
+
 	/* Infinite loop */
 	for(;;)
 	{
 		groundRadio.sendMessage(message);
 		counter++;
-		printv(MESSAGE_BUFFER);
+		// printv(MESSAGE_BUFFER);
 		HAL_Delay(500);
 	}
 	/* USER CODE END StartRadioTask */

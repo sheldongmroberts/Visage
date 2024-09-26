@@ -33,6 +33,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include "cmsis_os.h"
+#include "message_buffer.h"
 
 /* USER CODE END Includes */
 
