@@ -37,18 +37,21 @@ class Radio
 
     ~Radio() = default;
 
-    VErrorStatus sendMessage(const BasicMessage& message);
+
+    size_t sendMessage(const BasicMessage& message);
+
+
+    size_t messageReceivedCallback();
+
+    char _radioBuffer[256];
+
    private:
     // Member Functions
-
-
-    VErrorStatus messageReceivedCallback();
-
-
     VErrorStatus flushBuffer();
 
     // Member Variables
     uint16_t id_ = 0;
+
 };
 
 

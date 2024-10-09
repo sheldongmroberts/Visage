@@ -61,9 +61,10 @@ osThreadId defaultTaskHandle;
 osThreadId task1Handle;
 osThreadId task2Handle;
 osThreadId radioTaskHandle;
+osThreadId radioReceiveHandle;
 /* USER CODE BEGIN PV */
 
-MessageBufferHandle_t xMessageBuffer;
+MessageBufferHandle_t xMessageBuffer = xMessageBufferCreate(256);
 
 /* USER CODE END PV */
 
@@ -75,7 +76,8 @@ static void MX_LTDC_Init(void);
 void StartDefaultTask(void const *argument);
 void StartTask1(void const *argument);
 void StartTask2(void const *argument);
-void StartRadioTask(void const * argument);
+void StartRadioTask(void const *argument);
+void StartRadioReceive(void const *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -206,13 +208,19 @@ int main(void)
 	/* definition and creation of task2 */
 	osThreadDef(task2, StartTask2, osPriorityNormal, 0, 128);
 	task2Handle = osThreadCreate(osThread(task2), (void *)1);
-	
+
 	/* definition and creation of radioTask */
 	osThreadDef(radioTask, StartRadioTask, osPriorityRealtime, 0, 128);
 	radioTaskHandle = osThreadCreate(osThread(radioTask), NULL);
 
+	/* definition and creation of radioReceive */
+	osThreadDef(radioReceive, StartRadioReceive, osPriorityRealtime, 0, 128);
+	radioReceiveHandle = osThreadCreate(osThread(radioReceive), NULL);
+
 	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
+
+	printv("starting kernel\n\r");
 	/* USER CODE END RTOS_THREADS */
 
 	/* Start scheduler */
@@ -568,29 +576,55 @@ void StartTask2(void const *argument)
 
 /* USER CODE BEGIN Header_StartRadioTask */
 /**
-* @brief Function implementing the radioTask thread.
-* @param argument: Not used
-* @retval None
-*/
+ * @brief Function implementing the radioTask thread.
+ * @param argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_StartRadioTask */
-void StartRadioTask(void const * argument)
+void StartRadioTask(void const *argument)
 {
 	/* USER CODE BEGIN StartRadioTask */
 
 	// Construct the radio class
-	Radio groundRadio = Radio(0);
-	uint16_t counter = 0;
-	BasicMessage message;
+	Radio flightRadio = Radio(0);
+	BasicMessage message = {"testMessage haha"};
 
 	/* Infinite loop */
-	for(;;)
+	for (;;)
 	{
-		groundRadio.sendMessage(message);
-		counter++;
-		// printv(MESSAGE_BUFFER);
-		HAL_Delay(500);
+		size_t temp = flightRadio.sendMessage(message);
+		printv((int)temp);
+		HAL_Delay(2000);
 	}
 	/* USER CODE END StartRadioTask */
+}
+
+/* USER CODE BEGIN Header_StartRadioReceive */
+/**
+ * @brief Function implementing the radioReceive thread.
+ * @param argument: Not used
+ * @retval None
+ */
+/* USER CODE END Header_StartRadioReceive */
+void StartRadioReceive(void const *argument)
+{
+	/* USER CODE BEGIN StartRadioReceive */
+
+	// Construct the radio class
+	Radio groundRadio = Radio(1);
+	size_t res = 0;
+
+	/* Infinite loop */
+	for (;;)
+	{
+		res = groundRadio.messageReceivedCallback();
+		// printv("read result: " + std::to_string(res) + "/n/r");
+		printv("reading: ");
+		// printv(groundRadio._radioBuffer);
+		HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(groundRadio._radioBuffer), 256, 100);
+		printv("\n\r");
+	}
+	/* USER CODE END StartRadioReceive */
 }
 
 /**
