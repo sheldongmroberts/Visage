@@ -69,12 +69,6 @@ void Error_Handler(void);
 #define MII_TXD1_GPIO_Port GPIOG
 #define MII_TXD0_Pin GPIO_PIN_13
 #define MII_TXD0_GPIO_Port GPIOG
-#define VBUS_FS2_Pin GPIO_PIN_9
-#define VBUS_FS2_GPIO_Port GPIOA
-#define USB_OTG_FS2_P_Pin GPIO_PIN_12
-#define USB_OTG_FS2_P_GPIO_Port GPIOA
-#define USB_OTG_FS2_N_Pin GPIO_PIN_11
-#define USB_OTG_FS2_N_GPIO_Port GPIOA
 #define MII_RX_ER_Pin GPIO_PIN_10
 #define MII_RX_ER_GPIO_Port GPIOI
 #define OSC_OUT_Pin GPIO_PIN_1

@@ -108,7 +108,7 @@ int printv(std::string str)
 
 int printv(int num)
 {
-	std::string numString = std::to_string(num);
+	std::string numString = std::to_string(num) + "\n\r";
 	HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(numString.c_str()), numString.length(), 100);
 	return numString.length();
 }
@@ -593,9 +593,8 @@ void StartRadioTask(void const *argument)
 	for (;;)
 	{
 		size_t temp = flightRadio.sendMessage(message);
-		printv(temp);
-		printv("\n\r");
-		HAL_Delay(1);
+		printv((int)temp);
+		HAL_Delay(2000);
 	}
 	/* USER CODE END StartRadioTask */
 }
@@ -620,14 +619,10 @@ void StartRadioReceive(void const *argument)
 	{
 		res = groundRadio.messageReceivedCallback();
 		// printv("read result: " + std::to_string(res) + "/n/r");
-		printv("res: ");
-		printv(res);
-		printv("\n\r");
-		printv("reading\n\r");
+		printv("reading: ");
 		// printv(groundRadio._radioBuffer);
-		// HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(groundRadio._radioBuffer), 256, 100);
+		HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(groundRadio._radioBuffer), 256, 100);
 		printv("\n\r");
-		HAL_Delay(1);
 	}
 	/* USER CODE END StartRadioReceive */
 }

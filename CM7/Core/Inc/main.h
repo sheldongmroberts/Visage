@@ -31,9 +31,6 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
-#include "cmsis_os.h"
-#include "message_buffer.h"
 
 /* USER CODE END Includes */
 
@@ -66,10 +63,6 @@ void Error_Handler(void);
 #define OSC32_OUT_GPIO_Port GPIOC
 #define OSC32_IN_Pin GPIO_PIN_14
 #define OSC32_IN_GPIO_Port GPIOC
-#define B1_Pin GPIO_PIN_13
-#define B1_GPIO_Port GPIOC
-#define USER1_Pin GPIO_PIN_13
-#define USER1_GPIO_Port GPIOI
 #define OSC_OUT_Pin GPIO_PIN_1
 #define OSC_OUT_GPIO_Port GPIOH
 #define OSC_IN_Pin GPIO_PIN_0
@@ -80,6 +73,8 @@ void Error_Handler(void);
 #define VCP_RX_GPIO_Port GPIOB
 #define USER2_Pin GPIO_PIN_2
 #define USER2_GPIO_Port GPIOJ
+#define LCD_RST_Pin GPIO_PIN_12
+#define LCD_RST_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
