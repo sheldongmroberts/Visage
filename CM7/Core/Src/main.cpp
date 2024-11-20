@@ -23,12 +23,15 @@
 extern "C"
 {
 #include "main.h"
+#include "uartRingBuffer.h"
+#include "NMEA.h"
 }
 
 #include <iostream>
 #include <string>
 #include "radio.hpp"
 #include "resources.hpp"
+#include <fstream>
 
 /* USER CODE END Includes */
 
@@ -91,6 +94,11 @@ void StartRadioReceive(void const *argument);
 /* USER CODE BEGIN 0 */
 uint16_t Loop = 0;
 uint16_t Data = 0;
+
+char GGA[100];
+char RMC[100];
+
+GPSSTRUCT gpsData;
 
 int fputc(int ch, FILE *f)
 {
@@ -209,29 +217,34 @@ int main(void)
 	// defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
 	/* definition and creation of task1 */
-	osThreadDef(task1, StartTask1, osPriorityRealtime, 0, 128);
-	task1Handle = osThreadCreate(osThread(task1), (void *)0);
+	// osThreadDef(task1, StartTask1, osPriorityNormal, 0, 128);
+	// task1Handle = osThreadCreate(osThread(task1), NULL);
 
 	/* definition and creation of task2 */
 	osThreadDef(task2, StartTask2, osPriorityNormal, 0, 128);
-	task2Handle = osThreadCreate(osThread(task2), (void *)1);
+	task2Handle = osThreadCreate(osThread(task2), NULL);
 
 	/* definition and creation of radioTask */
-	osThreadDef(radioTask, StartRadioTask, osPriorityRealtime, 0, 128);
-	radioTaskHandle = osThreadCreate(osThread(radioTask), NULL);
+	// osThreadDef(radioTask, StartRadioTask, osPriorityNormal, 0, 128);
+	// radioTaskHandle = osThreadCreate(osThread(radioTask), NULL);
 
 	/* definition and creation of radioReceive */
-	osThreadDef(radioReceive, StartRadioReceive, osPriorityRealtime, 0, 128);
-	radioReceiveHandle = osThreadCreate(osThread(radioReceive), NULL);
+	// osThreadDef(radioReceive, StartRadioReceive, osPriorityNormal, 0, 128);
+	// radioReceiveHandle = osThreadCreate(osThread(radioReceive), NULL);
 
 	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
+
+	Ringbuf_init();
+	// HAL_Delay(100);
 
 	printv("starting kernel\n\r");
 	/* USER CODE END RTOS_THREADS */
 
 	/* Start scheduler */
 	osKernelStart();
+	
+	// HAL_Delay(500);
 
 	/* We should never get here as control is now taken by the scheduler */
 
@@ -244,20 +257,6 @@ int main(void)
 
 		/* USER CODE BEGIN 3 */
 		printv("I'm in the main loop!\n\r");
-		//	HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_15);
-		//	osDelay(50);
-		//	HAL_Delay(500);
-		//	Loop++;
-		////	Data++;
-		//	if(Loop > 100)
-		//	{
-		//		Loop = 0;
-		//	}
-
-		//	if(Data > 100)
-		//	{
-		//		Data = 0;
-		//	}
 	}
 	/* USER CODE END 3 */
 }
@@ -459,14 +458,14 @@ static void MX_USART1_UART_Init(void)
 {
 
 	/* USER CODE BEGIN USART1_Init 0 */
-
+	printv("USART1 INIT\n\r");
 	/* USER CODE END USART1_Init 0 */
 
 	/* USER CODE BEGIN USART1_Init 1 */
 
 	/* USER CODE END USART1_Init 1 */
 	huart1.Instance = USART1;
-	huart1.Init.BaudRate = 115200;
+	huart1.Init.BaudRate = 9600;
 	huart1.Init.WordLength = UART_WORDLENGTH_8B;
 	huart1.Init.StopBits = UART_STOPBITS_1;
 	huart1.Init.Parity = UART_PARITY_NONE;
@@ -513,7 +512,7 @@ static void MX_USART3_UART_Init(void)
 
 	/* USER CODE END USART3_Init 1 */
 	huart3.Instance = USART3;
-	huart3.Init.BaudRate = 115200;
+	huart3.Init.BaudRate = 9600;
 	huart3.Init.WordLength = UART_WORDLENGTH_8B;
 	huart3.Init.StopBits = UART_STOPBITS_1;
 	huart3.Init.Parity = UART_PARITY_NONE;
@@ -616,9 +615,13 @@ static void MX_GPIO_Init(void)
 void StartDefaultTask(void const *argument)
 {
 	/* USER CODE BEGIN 5 */
+	printv("StartDefaultTask kicked off\n\r");
+
 	/* Infinite loop */
 	for (;;)
 	{
+		// printv("StartDefaultTask loop\n\r");
+		HAL_Delay(500);
 		//    osDelay(1);
 	}
 	/* USER CODE END 5 */
@@ -634,21 +637,18 @@ void StartDefaultTask(void const *argument)
 void StartTask1(void const *argument)
 {
 	/* USER CODE BEGIN StartTask1 */
+	printv("StartTask1 kicked off\n\r");
 
 	/* Infinite loop */
 	for (;;)
 	{
-		// HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
-		// HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
-		Loop++;
-		// HAL_Delay(500);
+		printv("StartTask1 loop\n\r");
+		HAL_Delay(500);
 
 		// std::cout << "Where is the output stream? No seriously, where is it?" << std::endl;
 
 		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
 		{
-			// printv("Pushing the blue button!\n\r");
-			// HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
 			HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
 			printv("Holding down the button\n\r");
 			HAL_Delay(500);
@@ -667,10 +667,32 @@ void StartTask1(void const *argument)
 void StartTask2(void const *argument)
 {
 	/* USER CODE BEGIN StartTask2 */
+	printv("StartTask2 kicked off\n\r");
+
 	/* Infinite loop */
 	for (;;)
 	{
-		//    HAL_Delay(50);
+		printv("StartTask2 loop\n\r");
+
+		if (Wait_for("GGA") == 1) {
+			Copy_upto("*", GGA);
+			decodeGGA(GGA, &gpsData.ggastruct);
+			if (gpsData.ggastruct.numofsat > 0) {
+				printv("ONE OR MORE SATS\n\n\n\n\n\n\r");
+
+				if (gpsData.ggastruct.numofsat > 0) {
+					printv("we did it!\n\r");
+				}
+			}
+
+			// HAL_Delay(5);
+		}
+
+		if (Wait_for("RMC") == 1) {
+			Copy_upto("*", RMC);
+			decodeRMC(RMC, &gpsData.rmcstruct);
+			// HAL_Delay(500);
+		}
 	}
 	/* USER CODE END StartTask2 */
 }
@@ -685,17 +707,21 @@ void StartTask2(void const *argument)
 void StartRadioTask(void const *argument)
 {
 	/* USER CODE BEGIN StartRadioTask */
+	printv("StartRadioTask kicked off\n\r");
 
 	// Construct the radio class
-	Radio flightRadio = Radio(0);
-	BasicMessage message = {"testMessage haha"};
+	// Radio flightRadio = Radio(0);
+	// BasicMessage message = {"testMessage haha"};
 
 	/* Infinite loop */
 	for (;;)
 	{
-		size_t temp = flightRadio.sendMessage(message);
-		printv((int)temp);
-		HAL_Delay(2000);
+		// printv("StartRadioTask loop\n\r");
+		HAL_Delay(500);
+
+		// size_t temp = flightRadio.sendMessage(message);
+		// printv((int)temp);
+		// HAL_Delay(2000);
 	}
 	/* USER CODE END StartRadioTask */
 }
@@ -710,20 +736,23 @@ void StartRadioTask(void const *argument)
 void StartRadioReceive(void const *argument)
 {
 	/* USER CODE BEGIN StartRadioReceive */
+	printv("StartRadioReceive kicked off\n\r");
 
 	// Construct the radio class
-	Radio groundRadio = Radio(1);
-	size_t res = 0;
+	// Radio groundRadio = Radio(1);
+	// size_t res = 0;
 
 	/* Infinite loop */
 	for (;;)
 	{
-		res = groundRadio.messageReceivedCallback();
+		// printv("StartRadioReceive loop\n\r");
+		HAL_Delay(500);
+		// res = groundRadio.messageReceivedCallback();
 		// printv("read result: " + std::to_string(res) + "/n/r");
-		printv("reading: ");
+		// printv("reading: ");
 		// printv(groundRadio._radioBuffer);
-		HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(groundRadio._radioBuffer), 256, 100);
-		printv("\n\r");
+		// HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(groundRadio._radioBuffer), 256, 100);
+		// printv("\n\r");
 	}
 	/* USER CODE END StartRadioReceive */
 }

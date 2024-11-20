@@ -80,7 +80,9 @@ C_SOURCES =  \
 ../../Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
 ../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c \
 ../../CM7/Core/Src/sysmem.c \
-../../CM7/Core/Src/syscalls.c
+../../CM7/Core/Src/syscalls.c \
+../../CM7/Core/Src/NMEA.c \
+../../CM7/Core/Src/uartRingBuffer.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -157,9 +159,9 @@ C_INCLUDES =  \
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
-CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -fpermissive
+CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -fpermissive -O0
 
-CXXFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+CXXFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -O0
 
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2

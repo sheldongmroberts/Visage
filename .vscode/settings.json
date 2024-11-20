@@ -50,6 +50,10 @@
         "cstring": "cpp",
         "cmsis_os.h": "c",
         "croutine.h": "c",
-        "list.h": "c"
-    }
+        "list.h": "c",
+        "uartringbuffer.h": "c",
+        "stm32h7xx_hal.h": "c",
+        "fstream": "cpp"
+    },
+    "cortex-debug.variableUseNaturalFormat": true
 }
