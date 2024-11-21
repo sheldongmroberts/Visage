@@ -236,15 +236,13 @@ int main(void)
 	/* add threads, ... */
 
 	Ringbuf_init();
-	// HAL_Delay(100);
+	HAL_Delay (500);
 
 	printv("starting kernel\n\r");
 	/* USER CODE END RTOS_THREADS */
 
 	/* Start scheduler */
 	osKernelStart();
-	
-	// HAL_Delay(500);
 
 	/* We should never get here as control is now taken by the scheduler */
 
@@ -680,18 +678,15 @@ void StartTask2(void const *argument)
 			if (gpsData.ggastruct.numofsat > 0) {
 				printv("ONE OR MORE SATS\n\n\n\n\n\n\r");
 
-				if (gpsData.ggastruct.numofsat > 0) {
-					printv("we did it!\n\r");
-				}
+				// if (gpsData.ggastruct.numofsat > 0) {
+				// 	printv("we did it!\n\r");
+				// }
 			}
-
-			// HAL_Delay(5);
 		}
 
 		if (Wait_for("RMC") == 1) {
 			Copy_upto("*", RMC);
 			decodeRMC(RMC, &gpsData.rmcstruct);
-			// HAL_Delay(500);
 		}
 	}
 	/* USER CODE END StartTask2 */
