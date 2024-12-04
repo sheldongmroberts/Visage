@@ -7,7 +7,11 @@
             "executable": "./Makefile/CM7/build/Visage_CM7.elf",
             "request": "launch",
             "type": "cortex-debug",
-            "servertype": "openocd",
+            "servertype": "stlink",
+            "liveWatch": {
+                    "enabled": true,
+                    "samplesPerSecond": 4
+                },
             "device": "STM32H7xx",
             "configFiles": [
                 "interface/stlink.cfg",

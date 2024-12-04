@@ -32,6 +32,8 @@ extern "C"
 #include "radio.hpp"
 #include "resources.hpp"
 #include <fstream>
+#include <sstream>
+#include <stdio.h>
 
 /* USER CODE END Includes */
 
@@ -67,8 +69,8 @@ osThreadId task1Handle;
 osThreadId task2Handle;
 osThreadId radioTaskHandle;
 osThreadId radioReceiveHandle;
-/* USER CODE BEGIN PV */
 
+/* USER CODE BEGIN PV */
 MessageBufferHandle_t xMessageBuffer = xMessageBufferCreate(256);
 
 /* USER CODE END PV */
@@ -120,10 +122,22 @@ int printv(std::string str)
 
 int printv(int num)
 {
-	std::string numString = std::to_string(num) + "\n\r";
+	std::string numString = std::to_string(num);
 	HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(numString.c_str()), numString.length(), 100);
 	return numString.length();
 }
+
+int printv(float num)
+{
+	size_t len = 10;
+	char buffer[len] = {0};
+	snprintf(buffer, len, "%f", num);
+
+	HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(buffer), len, 100);
+
+	return 0;
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -181,8 +195,27 @@ int main(void)
 
 	/* USER CODE BEGIN SysInit */
 	//  ITM_Port32(31) = 1;
-	/* USER CODE END SysInit */
 
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXNE);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXFNE);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXFF);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_TXFE);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXFT);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_TXFT);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_WUF);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_CM);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_CTS);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_LBD);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_TXE);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_TXFNF);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_TC);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_RTO);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_IDLE);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_PE);
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_ERR);
+
+	/* USER CODE END SysInit */
+	
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
 	MX_USART3_UART_Init();
@@ -221,7 +254,7 @@ int main(void)
 	// task1Handle = osThreadCreate(osThread(task1), NULL);
 
 	/* definition and creation of task2 */
-	osThreadDef(task2, StartTask2, osPriorityNormal, 0, 128);
+	osThreadDef(task2, StartTask2, osPriorityNormal, 0, 4096);
 	task2Handle = osThreadCreate(osThread(task2), NULL);
 
 	/* definition and creation of radioTask */
@@ -234,9 +267,6 @@ int main(void)
 
 	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
-
-	Ringbuf_init();
-	HAL_Delay (500);
 
 	printv("starting kernel\n\r");
 	/* USER CODE END RTOS_THREADS */
@@ -667,27 +697,38 @@ void StartTask2(void const *argument)
 	/* USER CODE BEGIN StartTask2 */
 	printv("StartTask2 kicked off\n\r");
 
+	Ringbuf_init();
+
 	/* Infinite loop */
 	for (;;)
 	{
-		printv("StartTask2 loop\n\r");
+		// printv("StartTask2 loop\n\r");
 
 		if (Wait_for("GGA") == 1) {
 			Copy_upto("*", GGA);
-			decodeGGA(GGA, &gpsData.ggastruct);
-			if (gpsData.ggastruct.numofsat > 0) {
-				printv("ONE OR MORE SATS\n\n\n\n\n\n\r");
 
-				// if (gpsData.ggastruct.numofsat > 0) {
-				// 	printv("we did it!\n\r");
-				// }
+			decodeGGA(GGA, &gpsData.ggastruct);
+
+			if (gpsData.ggastruct.isfixValid > 0) {
+				printv("Quality=");
+				printv(gpsData.ggastruct.isfixValid);
+				printv("\n");
+				printv("Lat=");
+				printv(gpsData.ggastruct.lcation.latitude);
+				printv(", Lat Dir=");
+				printv(gpsData.ggastruct.lcation.NS);
+				printv(", Lon=");
+				printv(gpsData.ggastruct.lcation.longitude);
+				printv(", Lon Dir=");
+				printv(gpsData.ggastruct.lcation.EW);
+				printv("\n\n");
 			}
 		}
 
-		if (Wait_for("RMC") == 1) {
-			Copy_upto("*", RMC);
-			decodeRMC(RMC, &gpsData.rmcstruct);
-		}
+		// if (Wait_for("RMC") == 1) {
+		// 	Copy_upto("*", RMC);
+		// 	decodeRMC(RMC, &gpsData.rmcstruct);
+		// }
 	}
 	/* USER CODE END StartTask2 */
 }

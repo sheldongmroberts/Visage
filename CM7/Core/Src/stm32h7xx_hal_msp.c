@@ -206,7 +206,6 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* hltdc)
     PK3     ------> LTDC_B4
     PK7     ------> LTDC_DE
     PJ14     ------> LTDC_B2
-    PJ12     ------> LTDC_B0
     PI9     ------> LTDC_VSYNC
     PJ13     ------> LTDC_B1
     PI12     ------> LTDC_HSYNC
@@ -217,7 +216,6 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* hltdc)
     PJ9     ------> LTDC_G2
     PJ0     ------> LTDC_R1
     PJ8     ------> LTDC_G1
-    PJ7     ------> LTDC_G0
     PJ6     ------> LTDC_R7
     PI15     ------> LTDC_R0
     PJ1     ------> LTDC_R2
@@ -242,10 +240,10 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* hltdc)
     GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
     HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = LCD_DISP_Pin|GPIO_PIN_14|GPIO_PIN_12|GPIO_PIN_13
-                          |GPIO_PIN_11|GPIO_PIN_10|GPIO_PIN_9|GPIO_PIN_0
-                          |GPIO_PIN_8|GPIO_PIN_7|GPIO_PIN_6|GPIO_PIN_1
-                          |GPIO_PIN_5|GPIO_PIN_3|GPIO_PIN_4;
+    GPIO_InitStruct.Pin = LCD_DISP_Pin|GPIO_PIN_14|GPIO_PIN_13|GPIO_PIN_11
+                          |GPIO_PIN_10|GPIO_PIN_9|GPIO_PIN_0|GPIO_PIN_8
+                          |GPIO_PIN_6|GPIO_PIN_1|GPIO_PIN_5|GPIO_PIN_3
+                          |GPIO_PIN_4;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -293,7 +291,6 @@ void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* hltdc)
     PK3     ------> LTDC_B4
     PK7     ------> LTDC_DE
     PJ14     ------> LTDC_B2
-    PJ12     ------> LTDC_B0
     PI9     ------> LTDC_VSYNC
     PJ13     ------> LTDC_B1
     PI12     ------> LTDC_HSYNC
@@ -304,7 +301,6 @@ void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* hltdc)
     PJ9     ------> LTDC_G2
     PJ0     ------> LTDC_R1
     PJ8     ------> LTDC_G1
-    PJ7     ------> LTDC_G0
     PJ6     ------> LTDC_R7
     PI15     ------> LTDC_R0
     PJ1     ------> LTDC_R2
@@ -319,10 +315,10 @@ void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* hltdc)
     HAL_GPIO_DeInit(GPIOI, GPIO_PIN_1|GPIO_PIN_0|GPIO_PIN_9|GPIO_PIN_12
                           |GPIO_PIN_14|GPIO_PIN_15);
 
-    HAL_GPIO_DeInit(GPIOJ, LCD_DISP_Pin|GPIO_PIN_14|GPIO_PIN_12|GPIO_PIN_13
-                          |GPIO_PIN_11|GPIO_PIN_10|GPIO_PIN_9|GPIO_PIN_0
-                          |GPIO_PIN_8|GPIO_PIN_7|GPIO_PIN_6|GPIO_PIN_1
-                          |GPIO_PIN_5|GPIO_PIN_3|GPIO_PIN_4);
+    HAL_GPIO_DeInit(GPIOJ, LCD_DISP_Pin|GPIO_PIN_14|GPIO_PIN_13|GPIO_PIN_11
+                          |GPIO_PIN_10|GPIO_PIN_9|GPIO_PIN_0|GPIO_PIN_8
+                          |GPIO_PIN_6|GPIO_PIN_1|GPIO_PIN_5|GPIO_PIN_3
+                          |GPIO_PIN_4);
 
     HAL_GPIO_DeInit(GPIOH, GPIO_PIN_9);
 
