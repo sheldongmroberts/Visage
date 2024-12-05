@@ -120,6 +120,11 @@ int printv(std::string str)
 	return str.length();
 }
 
+void printv(char c)
+{
+	HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(&c), sizeof(char), 100);
+}
+
 int printv(int num)
 {
 	std::string numString = std::to_string(num);
@@ -127,15 +132,29 @@ int printv(int num)
 	return numString.length();
 }
 
-int printv(float num)
+void printv(float num)
 {
 	size_t len = 10;
 	char buffer[len] = {0};
 	snprintf(buffer, len, "%f", num);
 
 	HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>(buffer), len, 100);
+}
 
-	return 0;
+void printSimpleGpsData()
+{
+	printv("Quality=");
+	printv(gpsData.ggastruct.isfixValid);
+	printv("\n");
+	printv("Lat=");
+	printv(gpsData.ggastruct.lcation.latitude);
+	printv(", Lat Dir=");
+	printv(gpsData.ggastruct.lcation.NS);
+	printv(", Lon=");
+	printv(gpsData.ggastruct.lcation.longitude);
+	printv(", Lon Dir=");
+	printv(gpsData.ggastruct.lcation.EW);
+	printv("\n\n");
 }
 
 /* USER CODE END 0 */
@@ -673,8 +692,6 @@ void StartTask1(void const *argument)
 		printv("StartTask1 loop\n\r");
 		HAL_Delay(500);
 
-		// std::cout << "Where is the output stream? No seriously, where is it?" << std::endl;
-
 		if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
 		{
 			HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
@@ -698,6 +715,8 @@ void StartTask2(void const *argument)
 	printv("StartTask2 kicked off\n\r");
 
 	Ringbuf_init();
+	char getAfterBuffer[2] = {0};
+	// size_t sentenceLength = 0;
 
 	/* Infinite loop */
 	for (;;)
@@ -705,23 +724,18 @@ void StartTask2(void const *argument)
 		// printv("StartTask2 loop\n\r");
 
 		if (Wait_for("GGA") == 1) {
+			memset(GGA, 0, sizeof(GGA));
 			Copy_upto("*", GGA);
+			Get_after("*", 2, getAfterBuffer);
 
 			decodeGGA(GGA, &gpsData.ggastruct);
 
 			if (gpsData.ggastruct.isfixValid > 0) {
-				printv("Quality=");
-				printv(gpsData.ggastruct.isfixValid);
-				printv("\n");
-				printv("Lat=");
-				printv(gpsData.ggastruct.lcation.latitude);
-				printv(", Lat Dir=");
-				printv(gpsData.ggastruct.lcation.NS);
-				printv(", Lon=");
-				printv(gpsData.ggastruct.lcation.longitude);
-				printv(", Lon Dir=");
-				printv(gpsData.ggastruct.lcation.EW);
-				printv("\n\n");
+				printv("$GPGGA");
+				printv(GGA);
+				printv(getAfterBuffer[0]);
+				printv(getAfterBuffer[1]);
+				printv("\n\n\r");
 			}
 		}
 
