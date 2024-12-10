@@ -273,12 +273,12 @@ int main(void)
 	// task1Handle = osThreadCreate(osThread(task1), NULL);
 
 	/* definition and creation of task2 */
-	osThreadDef(task2, StartTask2, osPriorityNormal, 0, 4096);
+	osThreadDef(task2, StartTask2, osPriorityNormal, 0, 2048);
 	task2Handle = osThreadCreate(osThread(task2), NULL);
 
 	/* definition and creation of radioTask */
-	// osThreadDef(radioTask, StartRadioTask, osPriorityNormal, 0, 128);
-	// radioTaskHandle = osThreadCreate(osThread(radioTask), NULL);
+	osThreadDef(radioTask, StartRadioTask, osPriorityNormal, 0, 1024);
+	radioTaskHandle = osThreadCreate(osThread(radioTask), NULL);
 
 	/* definition and creation of radioReceive */
 	// osThreadDef(radioReceive, StartRadioReceive, osPriorityNormal, 0, 128);
@@ -713,10 +713,10 @@ void StartTask2(void const *argument)
 {
 	/* USER CODE BEGIN StartTask2 */
 	printv("StartTask2 kicked off\n\r");
+	// osDelay(1000);
 
 	Ringbuf_init();
 	char getAfterBuffer[2] = {0};
-	// size_t sentenceLength = 0;
 
 	/* Infinite loop */
 	for (;;)
@@ -758,6 +758,7 @@ void StartRadioTask(void const *argument)
 {
 	/* USER CODE BEGIN StartRadioTask */
 	printv("StartRadioTask kicked off\n\r");
+	// osDelay(1000);
 
 	// Construct the radio class
 	// Radio flightRadio = Radio(0);
@@ -766,8 +767,8 @@ void StartRadioTask(void const *argument)
 	/* Infinite loop */
 	for (;;)
 	{
-		// printv("StartRadioTask loop\n\r");
-		HAL_Delay(500);
+		printv("StartRadioTask loop\n\r");
+		osDelay(2000);
 
 		// size_t temp = flightRadio.sendMessage(message);
 		// printv((int)temp);
